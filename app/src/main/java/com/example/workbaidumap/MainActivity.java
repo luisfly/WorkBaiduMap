@@ -16,6 +16,12 @@ import com.baidu.mapapi.map.MapView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 2019.9.10 出现问题时绘制百度地图时，地图绘制失败，先是使用旧项目中的 LBS压缩文件以及jniLibs文件
+ * 后改为重新在百度官网上下载基础包后，重新测试，地图绘制成功
+ *
+ *
+ */
 public class MainActivity extends AppCompatActivity {
 
     /* 地图控件 */
