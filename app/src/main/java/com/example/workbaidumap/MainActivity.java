@@ -3,10 +3,19 @@ package com.example.workbaidumap;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.Manifest;
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.baidu.location.BDAbstractLocationListener;
@@ -20,6 +29,9 @@ import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.Polyline;
+import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.trace.LBSTraceClient;
 import com.baidu.trace.Trace;
@@ -27,25 +39,44 @@ import com.baidu.trace.model.OnTraceListener;
 import com.baidu.trace.model.PushMessage;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
- * 2019.9.10 (1)出现问题时绘制百度地图时，地图绘制失败，先是使用旧项目中的 LBS压缩文件以及jniLibs文件
- *              后改为重新在百度官网上下载基础包后，重新测试，地图绘制成功
- *      9.12 (1)暂时不使用百度鹰眼路程绘制，由于鹰眼存在使用次数限制，现改手动编程在地图上绘制实现
- *           (2)现在存在问题，在模拟器上测试时，无法获得定位，即使使用网络定位，在真机上测试时，
- *              获取了定位权限之后，gps无法自动打开，还是必须要用户手动，开启定位
+ * 2019.9.10 (1) 出现问题时绘制百度地图时，地图绘制失败，先是使用旧项目中的 LBS压缩文件以及jniLibs文件
+ *               后改为重新在百度官网上下载基础包后，重新测试，地图绘制成功
+ *      9.12 (1) 暂时不使用百度鹰眼路程绘制，由于鹰眼存在使用次数限制，现改手动编程在地图上绘制实现
+ *           (2) 现在存在问题，在模拟器上测试时，无法获得定位，即使使用网络定位，在真机上测试时，
+ *               获取了定位权限之后，gps无法自动打开，还是必须要用户手动，开启定位
+ *      9.16 (1) 完成路线绘制功能，但是实测时发现app退到后台后，定位停止获取
+ *      9.17 (1) 完成后台自动定位功能
+ *
  */
 public class MainActivity extends AppCompatActivity {
 
+    /* 最外层布局获取 */
+    private DrawerLayout drawerLayout = null;
     /* 地图控件 */
     private MapView mMapView = null;
     /* 百度地图的实体 */
     private BaiduMap mBaiduMap = null;
+    /* 侧滑菜单打开按钮 */
+    private Button slipMenu = null;
+    /* 地图上线段绘制控制 */
+    private Polyline mPolyline = null;
+    /* 今日行程绘制 */
+    private Button tRoad = null;
+    /* 后台定位 */
+    private NotificationUtils mNotificationUtils;
+    private Notification notification;
     /* 权限获取 */
-    List<String> permissionList = new ArrayList<>();
+    private List<String> permissionList = new ArrayList<>();
     /* 地图初始化的时候，判定是否为初次定位，是否需要移动地图 */
     private boolean isFirstLocate = true;
+    private int count = 0;
+
+    /* 当前位置记录 */
+    private List<LatLng> nowLoc = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +90,20 @@ public class MainActivity extends AppCompatActivity {
         // 获取地图控件引用
         mMapView = (MapView) findViewById(R.id.bmpView);
         mBaiduMap = mMapView.getMap();
+        // 侧滑主动打开按钮
+        slipMenu = (Button) findViewById(R.id.button);
+        // 布局获取
+        drawerLayout = (DrawerLayout) findViewById(R.id.home);
+        // 路径绘制
+        tRoad = (Button) findViewById(R.id.tRoad);
 
         // 显示普通地图
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         // 开启定位绘制功能
         mBaiduMap.setMyLocationEnabled(true);
+
+        //状态栏自动隐藏,或者使用状态栏透明
+        getWindow().getDecorView().setSystemUiVisibility(View.INVISIBLE);
 
         // 权限询问
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.
@@ -86,56 +126,40 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(MainActivity.this, permissions, 1);
         }
 
+        // 侧滑界面使用按钮打开完成
+        slipMenu.setOnClickListener((View v)->{
+            drawerLayout.openDrawer(GravityCompat.START);
+        });
 
-        // 当前位置绘制启动,连续定位
-        // 9.11 判断其位置错误，不应该在创建时执行，应该在整个app稳定之后去执行，即在onresume中实行
-        //initLocationOption();
+        tRoad.setOnClickListener((View v)->{
+            drawRoad();
+        });
 
-        // 9.11 鹰眼路径绘制功能测试，测试失败
-        // 轨迹服务ID
-        long serviceId = 0;
-        // 设备标识
-        String entityName = "myTrace";
-        // 是否需要对象存储服务，默认为：false，关闭对象存储服务。注：鹰眼 Android SDK v3.0以上版本支持随轨迹上传图像等对象数据，若需使用此功能，该参数需设为 true，且需导入bos-android-sdk-1.0.2.jar。
-        boolean isNeedObjectStorage = false;
-        // 初始化轨迹服务
-        Trace mTrace = new Trace(serviceId, entityName, isNeedObjectStorage);
-        // 初始化轨迹服务客户端
-        LBSTraceClient mTraceClient = new LBSTraceClient(getApplicationContext());
-        // 定位周期(单位:秒)
-        int gatherInterval = 5;
-        // 打包回传周期(单位:秒)
-        int packInterval = 10;
-        // 设置定位和打包周期
-        mTraceClient.setInterval(gatherInterval, packInterval);
-        // 初始化轨迹服务监听器
-        OnTraceListener mTraceListener = new OnTraceListener() {
-            @Override
-            public void onBindServiceCallback(int i, String s) {}
 
-            // 开启服务回调
-            @Override
-            public void onStartTraceCallback(int status, String message) {}
-            // 停止服务回调
-            @Override
-            public void onStopTraceCallback(int status, String message) {}
-            // 开启采集回调
-            @Override
-            public void onStartGatherCallback(int status, String message) {}
-            // 停止采集回调
-            @Override
-            public void onStopGatherCallback(int status, String message) {}
-            // 推送回调
-            @Override
-            public void onPushCallback(byte messageNo, PushMessage message) {}
+        // 7.0测试成功
+        //设置后台定位
+        //android8.0及以上使用NotificationUtils
+        if (Build.VERSION.SDK_INT >= 26) {
+            mNotificationUtils = new NotificationUtils(this);
+            Notification.Builder builder2 = mNotificationUtils.getAndroidChannelNotification
+                    ("适配android 8限制后台定位功能", "正在后台定位");
+            notification = builder2.build();
+        } else {
+            //获取一个Notification构造器
+            Notification.Builder builder = new Notification.Builder(MainActivity.this);
+            Intent nfIntent = new Intent(MainActivity.this, MainActivity.class);
 
-            @Override
-            public void onInitBOSCallback(int i, String s) {}
-        };
-        // 开启服务
-        mTraceClient.startTrace(mTrace, mTraceListener);
-        // 开启采集
-        mTraceClient.startGather(mTraceListener);
+            builder.setContentIntent(PendingIntent.
+                    getActivity(MainActivity.this, 0, nfIntent, 0)) // 设置PendingIntent
+                    .setContentTitle("适配android 8限制后台定位功能") // 设置下拉列表里的标题
+                    .setSmallIcon(R.mipmap.ic_launcher) // 设置状态栏内的小图标
+                    .setContentText("正在后台定位") // 设置上下文内容
+                    .setWhen(System.currentTimeMillis()); // 设置该通知发生的时间
+
+            notification = builder.build(); // 获取构建好的Notification
+        }
+        // 地图上绘制线测试
+        //drawRoad();
     }
 
     @Override
@@ -182,8 +206,14 @@ public class MainActivity extends AppCompatActivity {
             int errorCode = location.getLocType();
 
             // System.out.println("纬度：" + latitude + " 经度：" + longitude + " 错误码：" + errorCode);
+
             // 调用绘制方法
             drawThePosition(latitude, longitude);
+
+            // 将当前位置存储在数组中,当点过多时必定会出现内存溢出情况
+            // 必须要有去除无用点的机制
+            LatLng now = new LatLng(latitude, longitude);
+            nowLoc.add(now);
         }
     }
 
@@ -207,7 +237,8 @@ public class MainActivity extends AppCompatActivity {
             isFirstLocate = false;
         }
 
-        //Toast.makeText(this, "纬度：" + latitude + " 经度：" + longitude, Toast.LENGTH_SHORT).show();
+        count++;
+        Toast.makeText(this, "纬度：" + latitude + " 经度：" + longitude + " 计数： " + count, Toast.LENGTH_SHORT).show();
         /* 当前位置显示构造器 */
         MyLocationData.Builder locationBuilder = new MyLocationData.Builder();
         /* 设置当前位置 */
@@ -216,6 +247,31 @@ public class MainActivity extends AppCompatActivity {
         /* 将当前位置更新到地图上 */
         MyLocationData locationData = locationBuilder.build();
         mBaiduMap.setMyLocationData(locationData);
+    }
+
+    /**
+     * 9.16 地图上路线绘制测试,测试成功，确实能在百度地图上绘制线段
+     *      进行修改，改为可以自行绘制行走路路线
+     */
+    private void drawRoad() {
+        /*
+        //构建折线点坐标
+        LatLng p1 = new LatLng(39.97923, 116.357428);
+        LatLng p2 = new LatLng(39.94923, 116.397428);
+        LatLng p3 = new LatLng(39.97923, 116.437428);
+        List<LatLng> points = new ArrayList<LatLng>();
+        points.add(p1);
+        points.add(p2);
+        points.add(p3);
+        //dottedLine是否为虚线
+        OverlayOptions ooPolyline = new PolylineOptions().width(5).color(0xAAFF0000).dottedLine(true).points(points);
+        //添加在地图中
+        mPolyline = (Polyline) mBaiduMap.addOverlay(ooPolyline);*/
+
+        // 线的属性定义
+        OverlayOptions ooPolyline = new PolylineOptions().width(5).color(0xAAFF0000).dottedLine(false).points(nowLoc);
+        // 添加在地图中
+        mPolyline = (Polyline) mBaiduMap.addOverlay(ooPolyline);
     }
 
     /**
@@ -235,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
         //可选，默认gcj02，设置返回的定位结果坐标系，如果配合百度地图使用，建议设置为bd09ll;
         locationOption.setCoorType("bd09ll");
         //可选，默认0，即仅定位一次，设置发起连续定位请求的间隔需要大于等于1000ms才是有效的
-        locationOption.setScanSpan(5000);
+        locationOption.setScanSpan(8000);
         //可选，设置是否需要地址信息，默认不需要
         locationOption.setIsNeedAddress(true);
         //可选，设置是否需要地址描述
@@ -259,15 +315,19 @@ public class MainActivity extends AppCompatActivity {
 
         /* 9.11 标注开启下面的自动回调模式之后定时扫描位置功能关闭，只有当位置发生变化是才会执行listener中的回调函数 */
         //设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者，该模式下开发者无需再关心定位间隔是多少，定位SDK本身发现位置变化就会及时回调给开发者
-        locationOption.setOpenAutoNotifyMode();
+        //locationOption.setOpenAutoNotifyMode();
         //设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者
-        locationOption.setOpenAutoNotifyMode(3000,1, LocationClientOption.LOC_SENSITIVITY_HIGHT);
+        //locationOption.setOpenAutoNotifyMode(3000,3, LocationClientOption.LOC_SENSITIVITY_HIGHT);
 
 
         //需将配置好的LocationClientOption对象，通过setLocOption方法传递给LocationClient对象使用
         locationClient.setLocOption(locationOption);
         //开始定位
         locationClient.start();
+    }
+
+    private void buttonInit() {
+
     }
 
 }
