@@ -41,6 +41,16 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
+                <!-- 10.08 测试使用网页端打开app -->
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="127.0.0.1:9090"
+                    android:scheme="m" />
             </intent-filter>
         </activity>
     </application>
