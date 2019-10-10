@@ -43,13 +43,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
 
                 <!-- 10.08 测试使用网页端打开app -->
+                <!-- 模拟器无法打开本地电脑网络localhost,无法测试 -->
+                <!-- 测试成功，host不用添加端口即可 -->
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="127.0.0.1:9090"
+                    android:host="127.0.0.1"
                     android:scheme="m" />
             </intent-filter>
         </activity>

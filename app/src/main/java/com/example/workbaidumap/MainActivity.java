@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -38,9 +39,16 @@ import com.baidu.trace.Trace;
 import com.baidu.trace.model.OnTraceListener;
 import com.baidu.trace.model.PushMessage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * 2019.9.10 (1) 出现问题时绘制百度地图时，地图绘制失败，先是使用旧项目中的 LBS压缩文件以及jniLibs文件
@@ -66,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
     private Polyline mPolyline = null;
     /* 今日行程绘制 */
     private Button tRoad = null;
+    /* 发送数据 */
+    private Button post = null;
     /* 后台定位 */
     private NotificationUtils mNotificationUtils;
     private Notification notification;
@@ -96,6 +106,8 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.home);
         // 路径绘制
         tRoad = (Button) findViewById(R.id.tRoad);
+        // okhttp发送数据
+        post = (Button) findViewById(R.id.post) ;
 
         // 显示普通地图
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
@@ -135,6 +147,17 @@ public class MainActivity extends AppCompatActivity {
             drawRoad();
         });
 
+        // 数据发送按钮
+        post.setOnClickListener((View v)->{
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    okhttpSend();
+                }
+            });
+            thread.start();
+            Toast.makeText(this, "you have click thread!",Toast.LENGTH_SHORT).show();
+        });
 
         // 7.0测试成功
         //设置后台定位
@@ -158,8 +181,18 @@ public class MainActivity extends AppCompatActivity {
 
             notification = builder.build(); // 获取构建好的Notification
         }
+
+
         // 地图上绘制线测试
         //drawRoad();
+
+        // okhttp数据发送测试,因为android不允许ui线程执行数据发送操作,需要自行写线程执行
+        //Thread thread = new Thread(new Runnable() {
+        //    @Override
+        //    public void run() {
+        //        okhttpSend();
+        //    }
+        //});
     }
 
     @Override
@@ -214,6 +247,7 @@ public class MainActivity extends AppCompatActivity {
             // 必须要有去除无用点的机制
             LatLng now = new LatLng(latitude, longitude);
             nowLoc.add(now);
+
         }
     }
 
@@ -238,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         count++;
-        Toast.makeText(this, "纬度：" + latitude + " 经度：" + longitude + " 计数： " + count, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "纬度：" + latitude + " 经度：" + longitude + " 计数： " + count, Toast.LENGTH_SHORT).show();
         /* 当前位置显示构造器 */
         MyLocationData.Builder locationBuilder = new MyLocationData.Builder();
         /* 设置当前位置 */
@@ -315,9 +349,9 @@ public class MainActivity extends AppCompatActivity {
 
         /* 9.11 标注开启下面的自动回调模式之后定时扫描位置功能关闭，只有当位置发生变化是才会执行listener中的回调函数 */
         //设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者，该模式下开发者无需再关心定位间隔是多少，定位SDK本身发现位置变化就会及时回调给开发者
-        //locationOption.setOpenAutoNotifyMode();
+        locationOption.setOpenAutoNotifyMode();
         //设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者
-        //locationOption.setOpenAutoNotifyMode(3000,3, LocationClientOption.LOC_SENSITIVITY_HIGHT);
+        locationOption.setOpenAutoNotifyMode(3000,3, LocationClientOption.LOC_SENSITIVITY_HIGHT);
 
 
         //需将配置好的LocationClientOption对象，通过setLocOption方法传递给LocationClient对象使用
@@ -330,4 +364,27 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * OKHttp post发送数据测试,测试未成功，因为公司电脑的android模拟器无法访问本机localhost
+     *
+     */
+    private void okhttpSend() {
+        try {
+            OkHttpClient client = new OkHttpClient();
+            RequestBody requestBody = new FormBody.Builder().add("data1", "test1")
+                    .add("data2", "test2").build();
+            Request request = new Request.Builder().url("http://10.0.2.2:64475/Test/okhttp").post(requestBody)
+                    .build();
+            Response response = client.newCall(request).execute();
+            if(response.isSuccessful()) {
+                Log.i("OKHttp", "发送成功");
+            } else {
+                Log.e("OKHttp", "Unexpected code " + response);
+                throw new IOException("Unexpected code " + response);
+            }
+        } catch (IOException ex) {
+            //Log.e("OKHttp","Unexpected code" + ex.getStackTrace().toString());
+            ex.getStackTrace();
+        }
+    }
 }
