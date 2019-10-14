@@ -58,7 +58,7 @@ import okhttp3.Response;
  *               获取了定位权限之后，gps无法自动打开，还是必须要用户手动，开启定位
  *      9.16 (1) 完成路线绘制功能，但是实测时发现app退到后台后，定位停止获取
  *      9.17 (1) 完成后台自动定位功能
- *
+ *      10.10 (1) 测试网页打开app成功，还未测试数据发送
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
             drawRoad();
         });
 
-        // 数据发送按钮
+        // 10.11 数据发送按钮
         post.setOnClickListener((View v)->{
             Thread thread = new Thread(new Runnable() {
                 @Override
@@ -187,12 +187,12 @@ public class MainActivity extends AppCompatActivity {
         //drawRoad();
 
         // okhttp数据发送测试,因为android不允许ui线程执行数据发送操作,需要自行写线程执行
-        //Thread thread = new Thread(new Runnable() {
-        //    @Override
-        //    public void run() {
-        //        okhttpSend();
-        //    }
-        //});
+        /*Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                okhttpSend();
+            }
+        });*/
     }
 
     @Override
@@ -373,11 +373,14 @@ public class MainActivity extends AppCompatActivity {
             OkHttpClient client = new OkHttpClient();
             RequestBody requestBody = new FormBody.Builder().add("data1", "test1")
                     .add("data2", "test2").build();
-            Request request = new Request.Builder().url("http://10.0.2.2:64475/Test/okhttp").post(requestBody)
-                    .build();
+            // post方法
+            /*Request request = new Request.Builder().url("http://10.0.2.2:64475/Test/okhttp").post(requestBody)
+                    .build();*/
+            // get方法
+            Request request = new Request.Builder().url("http://www.baidu.com").build();
             Response response = client.newCall(request).execute();
             if(response.isSuccessful()) {
-                Log.i("OKHttp", "发送成功");
+                Log.i("OKHttp", "发送成功,数据" + response.body().string());
             } else {
                 Log.e("OKHttp", "Unexpected code " + response);
                 throw new IOException("Unexpected code " + response);
