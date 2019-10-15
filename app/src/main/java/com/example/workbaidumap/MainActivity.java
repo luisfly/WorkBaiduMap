@@ -152,12 +152,13 @@ public class MainActivity extends AppCompatActivity {
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    okhttpSend();
+                    HttpUtils.okhttpSend();
                 }
             });
             thread.start();
             Toast.makeText(this, "you have click thread!",Toast.LENGTH_SHORT).show();
         });
+
 
         // 7.0测试成功
         //设置后台定位
@@ -366,16 +367,16 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * OKHttp post发送数据测试,测试未成功，因为公司电脑的android模拟器无法访问本机localhost
-     *
+     * 10.15 关于app网路请求方法已经转移到httpUtils
      */
-    private void okhttpSend() {
+    /*private void okhttpSend() {
         try {
             OkHttpClient client = new OkHttpClient();
             RequestBody requestBody = new FormBody.Builder().add("data1", "test1")
                     .add("data2", "test2").build();
             // post方法
-            /*Request request = new Request.Builder().url("http://10.0.2.2:64475/Test/okhttp").post(requestBody)
-                    .build();*/
+            Request request = new Request.Builder().url("http://10.0.2.2:64475/Test/okhttp").post(requestBody)
+                    .build();
             // get方法
             Request request = new Request.Builder().url("http://www.baidu.com").build();
             Response response = client.newCall(request).execute();
@@ -389,5 +390,5 @@ public class MainActivity extends AppCompatActivity {
             //Log.e("OKHttp","Unexpected code" + ex.getStackTrace().toString());
             ex.getStackTrace();
         }
-    }
+    }*/
 }

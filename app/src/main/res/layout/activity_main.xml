@@ -18,7 +18,7 @@
             android:layout_width="100px"
             android:layout_height="100px"
             android:clickable="true"
-            android:background="@mipmap/list"
+            android:background="@mipmap/button_list"
             android:visibility="visible" />
 
         <com.baidu.mapapi.map.MapView
@@ -30,7 +30,7 @@
     </RelativeLayout>
 
     <!-- 9.11 创建侧滑栏 -->
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
@@ -55,6 +55,14 @@
             android:layout_height="wrap_content"
             android:text="post" />
 
-    </LinearLayout>
+    </LinearLayout>-->
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/nav_menu"
+        app:headerLayout="@layout/nav_header" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
