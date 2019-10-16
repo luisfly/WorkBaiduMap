@@ -15,12 +15,13 @@
 
         <Button
             android:id="@+id/button"
-            android:layout_width="100px"
-            android:layout_height="80px"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_margin="8dp"
             android:clickable="true"
+            android:focusable="true"
             android:background="@mipmap/list"
+            android:radius="3dp"
             android:visibility="visible" />
 
         <com.baidu.mapapi.map.MapView

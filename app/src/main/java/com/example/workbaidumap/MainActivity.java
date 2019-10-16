@@ -1,5 +1,6 @@
 package com.example.workbaidumap;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -15,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -38,6 +40,7 @@ import com.baidu.trace.LBSTraceClient;
 import com.baidu.trace.Trace;
 import com.baidu.trace.model.OnTraceListener;
 import com.baidu.trace.model.PushMessage;
+import com.google.android.material.navigation.NavigationView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,10 +75,12 @@ public class MainActivity extends AppCompatActivity {
     private Button slipMenu = null;
     /* 地图上线段绘制控制 */
     private Polyline mPolyline = null;
-    /* 今日行程绘制 */
-    private Button tRoad = null;
-    /* 发送数据 */
-    private Button post = null;
+    /* 侧滑选项布局 */
+    private NavigationView navigationView = null;
+    /* 今日行程绘制 放到nav中 */
+    //private Button tRoad = null;
+    /* 发送数据  放到nav中*/
+    //private Button post = null;
     /* 后台定位 */
     private NotificationUtils mNotificationUtils;
     private Notification notification;
@@ -104,10 +109,14 @@ public class MainActivity extends AppCompatActivity {
         slipMenu = (Button) findViewById(R.id.button);
         // 布局获取
         drawerLayout = (DrawerLayout) findViewById(R.id.home);
-        // 路径绘制
-        tRoad = (Button) findViewById(R.id.tRoad);
+        // 侧滑选项布局获取
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        // 路径绘制 放到了navigation view中
+        // tRoad = (Button) findViewById(R.id.tRoad);
         // okhttp发送数据
-        post = (Button) findViewById(R.id.post) ;
+        // post = (Button) findViewById(R.id.post) ;
+
+
 
         // 显示普通地图
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
@@ -143,21 +152,36 @@ public class MainActivity extends AppCompatActivity {
             drawerLayout.openDrawer(GravityCompat.START);
         });
 
-        /*tRoad.setOnClickListener((View v)->{
-            drawRoad();
-        });
-
-        // 10.11 数据发送按钮
-        post.setOnClickListener((View v)->{
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    HttpUtils.okhttpSend();
+        // 侧滑选项选择监听器
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                // 点击路线绘制按钮
+                switch (item.getItemId()) {
+                    case R.id.tRoad:{
+                        // 路径绘制
+                        drawRoad();
+                    }
+                    break;
+                    case R.id.offMap:{
+                        // 离线地图下载
+                    }
+                    break;
+                    case R.id.post:{
+                        // 数据发送测试
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                HttpUtils.okhttpSend();
+                            }
+                        }).start();
+                    }
+                    break;
+                    default:
                 }
-            });
-            thread.start();
-            Toast.makeText(this, "you have click thread!",Toast.LENGTH_SHORT).show();
-        });*/
+                return false;
+            }
+        });
 
 
         // 7.0测试成功
@@ -187,13 +211,6 @@ public class MainActivity extends AppCompatActivity {
         // 地图上绘制线测试
         //drawRoad();
 
-        // okhttp数据发送测试,因为android不允许ui线程执行数据发送操作,需要自行写线程执行
-        /*Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                okhttpSend();
-            }
-        });*/
     }
 
     @Override
@@ -247,8 +264,10 @@ public class MainActivity extends AppCompatActivity {
             // 将当前位置存储在数组中,当点过多时必定会出现内存溢出情况
             // 必须要有去除无用点的机制
             LatLng now = new LatLng(latitude, longitude);
-            nowLoc.add(now);
-
+            // 初始化失败的点不加入绘制路径的殿中
+            if (latitude != 4.9E-324 && longitude != 4.9E-324) {
+                nowLoc.add(now);
+            }
         }
     }
 
@@ -269,7 +288,10 @@ public class MainActivity extends AppCompatActivity {
             update = MapStatusUpdateFactory.zoomTo(16f);
             /* 非初次定位不会将位置移动到当前位置 */
             mBaiduMap.animateMapStatus(update);
-            isFirstLocate = false;
+            // 当定位位置不为大西洋的时候才算是初始化定位视图成功
+            if (latitude != 4.9E-324 && longitude != 4.9E-324) {
+                isFirstLocate = false;
+            }
         }
 
         count++;
@@ -302,11 +324,14 @@ public class MainActivity extends AppCompatActivity {
         OverlayOptions ooPolyline = new PolylineOptions().width(5).color(0xAAFF0000).dottedLine(true).points(points);
         //添加在地图中
         mPolyline = (Polyline) mBaiduMap.addOverlay(ooPolyline);*/
-
-        // 线的属性定义
-        OverlayOptions ooPolyline = new PolylineOptions().width(5).color(0xAAFF0000).dottedLine(false).points(nowLoc);
-        // 添加在地图中
-        mPolyline = (Polyline) mBaiduMap.addOverlay(ooPolyline);
+        if(nowLoc.size() >= 2) {
+            // 线的属性定义
+            OverlayOptions ooPolyline = new PolylineOptions().width(5).color(0xAAFF0000).dottedLine(false).points(nowLoc);
+            // 添加在地图中
+            mPolyline = (Polyline) mBaiduMap.addOverlay(ooPolyline);
+        } else {
+            Log.e("DrawRoad", "路径绘制的点必须要大于两个");
+        }
     }
 
     /**
