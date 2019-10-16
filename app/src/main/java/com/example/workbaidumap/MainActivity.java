@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
             drawerLayout.openDrawer(GravityCompat.START);
         });
 
-        tRoad.setOnClickListener((View v)->{
+        /*tRoad.setOnClickListener((View v)->{
             drawRoad();
         });
 
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
             });
             thread.start();
             Toast.makeText(this, "you have click thread!",Toast.LENGTH_SHORT).show();
-        });
+        });*/
 
 
         // 7.0测试成功

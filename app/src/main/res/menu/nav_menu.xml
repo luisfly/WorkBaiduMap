@@ -4,12 +4,15 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/tRoad"
+            android:icon="@mipmap/location"
             android:title="tRoad" />
         <item
             android:id="@+id/offMap"
+            android:icon="@mipmap/logistics"
             android:title="offMap" />
         <item
             android:id="@+id/post"
+            android:icon="@mipmap/show"
             android:title="post" />
     </group>
 </menu>
