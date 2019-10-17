@@ -14,9 +14,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="WorkBaiduMap"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@mipmap/package_icon"
+        android:label="定位系统内测版"
+        android:roundIcon="@mipmap/package_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
 
@@ -32,12 +32,11 @@
             android:enabled="true"
             android:process=":remote" />
 
-        <activity android:name=".LoginActivity" ></activity>
-        <activity android:name=".StartPageActivity"></activity>
-
+        <!-- 启动页 -->
         <activity
-            android:name=".MainActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" >
+            android:name=".StartPageActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -57,6 +56,18 @@
                     android:host="127.0.0.1"
                     android:scheme="m" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:launchMode="singleTask">
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:launchMode="singleTask">
         </activity>
     </application>
 

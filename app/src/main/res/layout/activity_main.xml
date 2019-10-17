@@ -5,6 +5,7 @@
     android:id="@+id/home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
     tools:context=".MainActivity">
 
     <!-- 9.11 创建主视图的线性视图
@@ -17,11 +18,12 @@
             android:id="@+id/button"
             android:layout_width="38dp"
             android:layout_height="38dp"
-            android:layout_margin="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="25dp"
             android:clickable="true"
             android:focusable="true"
             android:background="@mipmap/list"
-            android:radius="3dp"
+            android:radius="5dp"
             android:visibility="visible" />
 
         <com.baidu.mapapi.map.MapView
@@ -60,6 +62,7 @@
 
     </LinearLayout>-->
 
+    <!-- 侧滑布局整合到 menu 中 -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="match_parent"

@@ -12,12 +12,15 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -62,6 +65,7 @@ import okhttp3.Response;
  *      9.16 (1) 完成路线绘制功能，但是实测时发现app退到后台后，定位停止获取
  *      9.17 (1) 完成后台自动定位功能
  *      10.10 (1) 测试网页打开app成功，还未测试数据发送
+ *      10.17 (1) 目前问题位置初始化，第一次启动的时候，有时候会失败
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -97,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // 全透明沉浸式状态栏
+        setStatusBarFullTransparent();
+
         /* 百度地图初始化，必须要有 */
         SDKInitializer.initialize(getApplicationContext());
         SDKInitializer.setCoordType(CoordType.BD09LL);
@@ -117,14 +124,10 @@ public class MainActivity extends AppCompatActivity {
         // post = (Button) findViewById(R.id.post) ;
 
 
-
         // 显示普通地图
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         // 开启定位绘制功能
         mBaiduMap.setMyLocationEnabled(true);
-
-        //状态栏自动隐藏,或者使用状态栏透明
-        getWindow().getDecorView().setSystemUiVisibility(View.INVISIBLE);
 
         // 权限询问
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.
@@ -218,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         //在activity执行onResume时必须调用mMapView. onResume ()
         mMapView.onResume();
-        // 9.11 修改在activity创建完成后再执行这个定位功能实现
+        // 9.11 修改在activity创建完成后再执行这个定位功能实现，否则手机启动时，有时候无法执行成功
         initLocationOption();
     }
     @Override
@@ -236,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * 2019.9.10 开启定位功能并在地图上绘制，将绘制功能写在位置监听器中，在获取位置同时定位
-     * 因为android不支持在主线程外对控件进行绘制，所以暂时将监听器作为内部类写在主线程内
+     * 因为 android 不支持在主线程外对控件进行绘制，所以暂时将监听器作为内部类写在主线程内
      */
     public class MyLocationListener extends BDAbstractLocationListener {
         @Override
@@ -273,37 +276,40 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * 将定位信息绘制在地图上，在初次定位时将移动地图并且调整地图缩放
+     * 当初始化获取点出现 4.9E-324 情况时，将不绘制当前位置点
      * @param latitude 纬度信息
      * @param longitude 经度信息
      */
     private void drawThePosition(double latitude ,double longitude) {
-        /* if it is the init move the location */
-        if (isFirstLocate) {
-            /* 获取当前位置赋值latlng对象 */
-            LatLng ll = new LatLng(latitude, longitude);
-            /* 设定新的位置 */
-            MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(ll);
-            /* 移动地图位置以及调整当前缩放 */
-            mBaiduMap.animateMapStatus(update);
-            update = MapStatusUpdateFactory.zoomTo(16f);
-            /* 非初次定位不会将位置移动到当前位置 */
-            mBaiduMap.animateMapStatus(update);
-            // 当定位位置不为大西洋的时候才算是初始化定位视图成功
-            if (latitude != 4.9E-324 && longitude != 4.9E-324) {
+        // 如果获取到的点，是大西洋就不绘制点
+        if (latitude != 4.9E-324 && longitude != 4.9E-324) {
+            /* if it is the init move the location */
+            if (isFirstLocate) {
+                /* 获取当前位置赋值latlng对象 */
+                LatLng ll = new LatLng(latitude, longitude);
+                /* 设定新的位置 */
+                MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(ll);
+                /* 移动地图位置以及调整当前缩放 */
+                mBaiduMap.animateMapStatus(update);
+                update = MapStatusUpdateFactory.zoomTo(16f);
+                /* 非初次定位不会将位置移动到当前位置 */
+                mBaiduMap.animateMapStatus(update);
+                // 当定位位置不为大西洋的时候才算是初始化定位视图成功
                 isFirstLocate = false;
             }
-        }
 
-        count++;
-        //Toast.makeText(this, "纬度：" + latitude + " 经度：" + longitude + " 计数： " + count, Toast.LENGTH_SHORT).show();
-        /* 当前位置显示构造器 */
-        MyLocationData.Builder locationBuilder = new MyLocationData.Builder();
-        /* 设置当前位置 */
-        locationBuilder.latitude(latitude);
-        locationBuilder.longitude(longitude);
-        /* 将当前位置更新到地图上 */
-        MyLocationData locationData = locationBuilder.build();
-        mBaiduMap.setMyLocationData(locationData);
+            // 单纯计数值，到时候应该要删除
+            // count++;
+            //Toast.makeText(this, "纬度：" + latitude + " 经度：" + longitude + " 计数： " + count, Toast.LENGTH_SHORT).show();
+            /* 当前位置显示构造器 */
+            MyLocationData.Builder locationBuilder = new MyLocationData.Builder();
+            /* 设置当前位置 */
+            locationBuilder.latitude(latitude);
+            locationBuilder.longitude(longitude);
+            /* 将当前位置更新到地图上 */
+            MyLocationData locationData = locationBuilder.build();
+            mBaiduMap.setMyLocationData(locationData);
+        }
     }
 
     /**
@@ -386,8 +392,35 @@ public class MainActivity extends AppCompatActivity {
         locationClient.start();
     }
 
-    private void buttonInit() {
+    /**
+     * 控件初始化函数，未来当整个活动布局完成后，所有控件初始化工作放在这里
+     */
+     private void buttonInit() {
 
+    }
+
+    /**
+     * 全透明沉浸式状态栏方法
+     * 注意：方法要放在 super.onCreate 后，还有是 setContentView 前
+     * 并且要在本活动布局文件根布局中增添 android:fitsSystemWindows="false"
+     */
+    private void setStatusBarFullTransparent() {
+        // 21版本 Android 5.0,4.4以下不支持沉浸试共嗯
+        if (Build.VERSION.SDK_INT >= 21){
+            Window window = getWindow();
+            View decorView = window.getDecorView();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            // 注意 SYSTEM_UI_FLAG_LIGHT_STATUS_BAR , SYSTEM_UI_FLAG_LAYOUT_STABLE 影响装填栏字体，stable为浅色 bar 为深色
+            // decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+        } else if (Build.VERSION.SDK_INT >= 19) {
+            //19表示4.4
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //虚拟键盘也透明
+            //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
     }
 
     /**
