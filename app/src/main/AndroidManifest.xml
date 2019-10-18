@@ -61,7 +61,8 @@
         <activity
             android:name=".LoginActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize">
         </activity>
 
         <activity

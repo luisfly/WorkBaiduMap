@@ -27,7 +27,7 @@ public class StartPageActivity extends AppCompatActivity {
         main.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(StartPageActivity.this, MainActivity.class);
+                Intent intent = new Intent(StartPageActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
