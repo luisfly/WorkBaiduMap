@@ -180,6 +180,11 @@ public class MainActivity extends AppCompatActivity {
                         }).start();
                     }
                     break;
+                    case R.id.shop: {
+                        Intent intent = new Intent(MainActivity.this, WebShopActivity.class);
+                        startActivity(intent);
+                    }
+                    break;
                     default:
                 }
                 return false;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.workbaidumap" >
+    package="com.example.workbaidumap">
     <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 这个权限用于访问GPS定位 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
@@ -18,21 +18,16 @@
         android:label="定位系统内测版"
         android:roundIcon="@mipmap/package_icon"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
-
+        android:usesCleartextTraffic="true"
+        android:theme="@style/AppTheme">
         <!-- 百度地图配置 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="8IDrk5N0x2lIuIFLC9cg02I5nUc9hUl0" >
-        </meta-data>
-
-        <!-- 开启百度地图的定位服务 -->
+            android:value="8IDrk5N0x2lIuIFLC9cg02I5nUc9hUl0"></meta-data> <!-- 开启百度地图的定位服务 -->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" />
-
-        <!-- 启动页 -->
+            android:process=":remote" /> <!-- 启动页 -->
         <activity
             android:name=".StartPageActivity"
             android:launchMode="singleTask"
@@ -59,17 +54,21 @@
         </activity>
 
         <activity
-            android:name=".LoginActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:name=".WebShopActivity"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustResize">
-        </activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:windowSoftInputMode="adjustResize"></activity>
+
+        <activity
+            android:name=".LoginActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:windowSoftInputMode="adjustResize"></activity>
 
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:launchMode="singleTask">
-        </activity>
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -14,5 +14,10 @@
             android:id="@+id/post"
             android:icon="@mipmap/show"
             android:title="post" />
+
+        <item
+            android:id="@+id/shop"
+            android:icon="@mipmap/buy"
+            android:title="Shop" />
     </group>
 </menu>

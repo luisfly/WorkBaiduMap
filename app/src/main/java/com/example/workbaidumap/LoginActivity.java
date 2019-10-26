@@ -21,12 +21,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         submit = (Button) findViewById(R.id.submit);
-        webView = (WebView) findViewById(R.id.webshow);
+        //webView = (WebView) findViewById(R.id.webshow);
 
-        webView.loadUrl("www.baidu.com");
+       // webView.loadUrl("http://www.baidu.com/");
 
         submit.setOnClickListener((View v)->{
-            Intent intent = new Intent(LoginActivity.this, StartPageActivity.class);
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         });
     }
