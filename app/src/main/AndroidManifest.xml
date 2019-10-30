@@ -18,12 +18,13 @@
         android:label="定位系统内测版"
         android:roundIcon="@mipmap/package_icon"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".NotAPILocationActivity"></activity>
         <!-- 百度地图配置 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="8IDrk5N0x2lIuIFLC9cg02I5nUc9hUl0"></meta-data> <!-- 开启百度地图的定位服务 -->
+            android:value="8IDrk5N0x2lIuIFLC9cg02I5nUc9hUl0" /> <!-- 开启百度地图的定位服务 -->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
@@ -52,23 +53,20 @@
                     android:scheme="m" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".WebShopActivity"
             android:launchMode="singleTask"
             android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:windowSoftInputMode="adjustResize"></activity>
-
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".LoginActivity"
             android:launchMode="singleTask"
             android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:windowSoftInputMode="adjustResize"></activity>
-
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
     </application>
 
 </manifest>

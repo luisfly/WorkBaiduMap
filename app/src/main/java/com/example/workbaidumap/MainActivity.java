@@ -185,6 +185,11 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                     break;
+                    case R.id.originLoc: {
+                        Intent intent = new Intent(MainActivity.this, NotAPILocationActivity.class);
+                        startActivity(intent);
+                    }
+                    break;
                     default:
                 }
                 return false;
