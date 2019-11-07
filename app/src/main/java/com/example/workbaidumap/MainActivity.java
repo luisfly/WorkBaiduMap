@@ -190,6 +190,16 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                     break;
+                    case R.id.task: {
+                        Intent intent = new Intent(MainActivity.this, TaskActivity.class);
+                        startActivity(intent);
+                    }
+                    break;
+                    case R.id.startTra: {
+                        Intent intent = new Intent(MainActivity.this, StartPageActivity.class);
+                        startActivity(intent);
+                    }
+                    break;
                     default:
                 }
                 return false;

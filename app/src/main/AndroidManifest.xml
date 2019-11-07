@@ -20,8 +20,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".NotAPILocationActivity"></activity>
-        <!-- 百度地图配置 -->
+        <activity android:name=".LoadTrackActivity"></activity>
+        <activity android:name=".TaskActivity" />
+        <activity android:name=".PurchaseActivity" />
+        <activity android:name=".StartTransationActivity" />
+        <activity android:name=".NotAPILocationActivity" /> <!-- 百度地图配置 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="8IDrk5N0x2lIuIFLC9cg02I5nUc9hUl0" /> <!-- 开启百度地图的定位服务 -->

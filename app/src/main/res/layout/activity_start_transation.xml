@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".StartTransationActivity">
+
+    <TextView
+        android:id="@+id/warehouse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="仓库" />
+
+    <EditText
+        android:id="@+id/selectware"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="仓库选择框" />
+
+    <TextView
+        android:id="@+id/unloadNO"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="装载号" />
+
+    <EditText
+        android:id="@+id/sunloadNO"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="装载号输入框" />
+
+    <EditText
+        android:id="@+id/loadtray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="装载明细显示" />
+
+
+    <Button
+        android:id="@+id/loadcommit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发车确认" />
+
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="取消" />
+
+    </LinearLayout>

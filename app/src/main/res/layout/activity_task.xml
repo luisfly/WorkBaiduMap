@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".TaskActivity">
+
+    <TextView
+        android:id="@+id/taskno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="装车单号" />
+
+    <EditText
+        android:id="@+id/input_taskno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="装车单号输入框" />
+
+    <TextView
+        android:id="@+id/loadtray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="装载明细显示" />
+
+
+    <Button
+        android:id="@+id/mission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="任务查询" />
+
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="取消" />
+
+</LinearLayout>

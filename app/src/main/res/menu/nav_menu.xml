@@ -24,5 +24,16 @@
             android:id="@+id/originLoc"
             android:icon="@mipmap/buy"
             android:title="originLoc" />
+
+        <item
+            android:id="@+id/task"
+            android:icon="@mipmap/buy"
+            android:title="nowTask" />
+
+        <item
+            android:id="@+id/startTra"
+            android:icon="@mipmap/buy"
+            android:title="transport" />
+
     </group>
 </menu>
