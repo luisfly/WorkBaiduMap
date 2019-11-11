@@ -55,4 +55,35 @@ public class HttpUtils {
       ex.getStackTrace();
     }
   }
+
+
+  /**
+   * 司机登录验证
+   */
+  public static void DriverIdentifly(Driver driver) {
+    try {
+      OkHttpClient client = new OkHttpClient();
+
+      // 发送自定义对象思路，将对象转化为json,再通过okhttp进行发送
+      Gson gson = new Gson();
+      String Jdriver = gson.toJson(driver);
+      Log.d("Jdriver发送数据", Jdriver);
+      RequestBody requestBody = new FormBody.Builder().add("driver", Jdriver).build();
+
+      // post方法
+      Request request = new Request.Builder().url("http://192.168.0.247:2088/api/GetData").post(requestBody)
+              .build();
+
+      Response response = client.newCall(request).execute();
+      if(response.isSuccessful()) {
+        Log.i("OKHttp", "发送成功,数据" + response.body().string());
+      } else {
+        Log.e("OKHttp", "Unexpected code: " + response);
+        throw new IOException("Unexpected code: " + response);
+      }
+
+    } catch (IOException ex) {
+      ex.getStackTrace();
+    }
+  }
 }
