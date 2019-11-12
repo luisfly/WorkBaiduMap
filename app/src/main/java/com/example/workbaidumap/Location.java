@@ -11,21 +11,27 @@ public class Location {
   // 经度
   private double longitude;
   // 用户id
-  private String userID;
+  private String DriverNO;
   // 定位时间
   private Date locationTime;
+
+  // fit 发送数据时默认必须带的授权信息数据
+  private String UserNO = "90000";
+  private String AuthCode = "AE31GVSE453SEF4561EWES487654EFDS";
+  // 执行的业务过程
+  private String BusinessName = "AddLocation";
 
   /**
    *
    * @param latitude 纬度
    * @param longitude 经度
-   * @param userID 用户id
+   * @param DriverNO 用户id
    * @param locationTime 定位时间
    */
-  public Location(double latitude, double longitude, String userID, Date locationTime) {
+  public Location(double latitude, double longitude, String DriverNO, Date locationTime) {
     this.latitude = latitude;
     this.longitude = longitude;
-    this.userID = userID;
+    this.DriverNO = DriverNO;
     this.locationTime = locationTime;
   }
 
@@ -46,11 +52,11 @@ public class Location {
   }
 
   public String getUserID() {
-    return userID;
+    return DriverNO;
   }
 
   public void setUserID(String userID) {
-    this.userID = userID;
+    this.DriverNO = userID;
   }
 
   public Date getLocationTime() {
@@ -60,4 +66,5 @@ public class Location {
   public void setLocationTime(Date locationTime) {
     this.locationTime = locationTime;
   }
+
 }

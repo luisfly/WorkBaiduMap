@@ -93,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
     /* 地图初始化的时候，判定是否为初次定位，是否需要移动地图 */
     private boolean isFirstLocate = true;
     private int count = 0;
+    // 司机信息
+    private String driverNO = null;
+    private String driverName = null;
 
     /* 当前位置记录 */
     private List<LatLng> nowLoc = new ArrayList<>();
@@ -128,6 +131,9 @@ public class MainActivity extends AppCompatActivity {
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         // 开启定位绘制功能
         mBaiduMap.setMyLocationEnabled(true);
+
+        Driver driver = (Driver) getIntent().getSerializableExtra("Driver");
+        Log.d("司机信息", driver.getDriverName() + " : " + driver.getDriverNO() + " : " + driver.getPassword());
 
         // 权限询问
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.
@@ -279,6 +285,7 @@ public class MainActivity extends AppCompatActivity {
             //获取定位类型、定位错误返回码，具体信息可参照类参考中BDLocation类中的说明
             int errorCode = location.getLocType();
 
+
             // System.out.println("纬度：" + latitude + " 经度：" + longitude + " 错误码：" + errorCode);
 
             // 调用绘制方法
@@ -289,6 +296,9 @@ public class MainActivity extends AppCompatActivity {
             LatLng now = new LatLng(latitude, longitude);
             // 初始化失败的点不加入绘制路径的殿中
             if (latitude != 4.9E-324 && longitude != 4.9E-324) {
+                // 发送定位信息到后台
+                HttpUtils.LocSend(latitude, longitude, driverNO);
+                // 绘制当前位置
                 nowLoc.add(now);
             }
         }

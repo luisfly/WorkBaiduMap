@@ -1,9 +1,11 @@
 package com.example.workbaidumap;
 
+import java.io.Serializable;
+
 /**
  * 司机信息
  */
-public class Driver {
+public class Driver implements Serializable {
     // 司机账号
     private String DriverNO;
     // 司机账号密码
