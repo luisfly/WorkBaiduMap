@@ -24,10 +24,15 @@ public class LoginActivity extends AppCompatActivity {
     private EditText username = null;
     private EditText password = null;
 
+    // message 处理器
     private Handler handler = new Handler() {
 
         public void handleMessage(@NotNull Message msg) {
             switch (msg.what) {
+                case 0:{
+
+                }
+                break;
                 case 1:{
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.putExtra("Driver", (Driver) msg.obj);
@@ -50,13 +55,17 @@ public class LoginActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.password);
 
         submit.setOnClickListener((View v)->{
-            // Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            // startActivity(intent);
             new Thread(()->{
                 Driver driver = HttpUtils.DriverIdentifly(new Driver(username.getText().toString(), password.getText().toString()));
                 Message message = new Message();
-                message.obj = driver;
-                message.what = 1;
+                // 根据返回值来判断登录是否成功
+                if (driver != null) {
+                    message.obj = driver;
+                    message.what = 1;
+                } else {
+                    message.what = 0;
+                }
+
                 handler.sendMessage(message);
             }).start();
         });

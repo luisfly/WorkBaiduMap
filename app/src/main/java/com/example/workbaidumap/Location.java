@@ -13,7 +13,7 @@ public class Location {
   // 用户id
   private String DriverNO;
   // 定位时间
-  private Date locationTime;
+  private String locationTime;
 
   // fit 发送数据时默认必须带的授权信息数据
   private String UserNO = "90000";
@@ -28,7 +28,7 @@ public class Location {
    * @param DriverNO 用户id
    * @param locationTime 定位时间
    */
-  public Location(double latitude, double longitude, String DriverNO, Date locationTime) {
+  public Location(double latitude, double longitude, String DriverNO, String locationTime) {
     this.latitude = latitude;
     this.longitude = longitude;
     this.DriverNO = DriverNO;
@@ -59,11 +59,11 @@ public class Location {
     this.DriverNO = userID;
   }
 
-  public Date getLocationTime() {
+  public String getLocationTime() {
     return locationTime;
   }
 
-  public void setLocationTime(Date locationTime) {
+  public void setLocationTime(String locationTime) {
     this.locationTime = locationTime;
   }
 

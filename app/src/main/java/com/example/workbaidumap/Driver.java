@@ -7,11 +7,11 @@ import java.io.Serializable;
  */
 public class Driver implements Serializable {
     // 司机账号
-    private String DriverNO;
+    private String sDriverNO;
     // 司机账号密码
-    private String Password;
+    private String sPassword;
     // 司机姓名
-    private String DriverName;
+    private String sDriverName;
 
     // 发送数据时默认必须带的授权信息数据
     private String UserNO = "90000";
@@ -20,32 +20,32 @@ public class Driver implements Serializable {
     private String BusinessName = "Login";
 
     public Driver(String driverNO, String password) {
-        DriverNO = driverNO;
-        Password = password;
+        sDriverNO = driverNO;
+        sPassword = password;
     }
 
     public String getDriverNO() {
-        return DriverNO;
+        return sDriverNO;
     }
 
     public void setDriverNO(String driverNO) {
-        DriverNO = driverNO;
+        sDriverNO = driverNO;
     }
 
     public String getPassword() {
-        return Password;
+        return sPassword;
     }
 
     public void setPassword(String password) {
-        Password = password;
+        sPassword = password;
     }
 
     public String getDriverName() {
-        return DriverName;
+        return sDriverName;
     }
 
     public void setDriverName(String driverName) {
-        DriverName = driverName;
+        sDriverName = driverName;
     }
 
     public void setUserNO(String userNO) {

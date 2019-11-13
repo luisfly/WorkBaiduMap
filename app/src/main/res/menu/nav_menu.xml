@@ -5,35 +5,42 @@
         <item
             android:id="@+id/tRoad"
             android:icon="@mipmap/location"
-            android:title="tRoad" />
+            android:title="路线" />
+
         <item
             android:id="@+id/offMap"
             android:icon="@mipmap/logistics"
-            android:title="offMap" />
+            android:title="离线地图" />
+
         <item
             android:id="@+id/post"
             android:icon="@mipmap/show"
-            android:title="post" />
+            android:title="发送测试" />
 
         <item
             android:id="@+id/shop"
             android:icon="@mipmap/buy"
-            android:title="Shop" />
+            android:title="我的商城" />
 
         <item
             android:id="@+id/originLoc"
             android:icon="@mipmap/buy"
-            android:title="originLoc" />
-
-        <item
-            android:id="@+id/task"
-            android:icon="@mipmap/buy"
-            android:title="nowTask" />
+            android:title="原生定位" />
 
         <item
             android:id="@+id/startTra"
             android:icon="@mipmap/buy"
-            android:title="transport" />
+            android:title="发车" />
+
+        <item
+            android:id="@+id/EndTra"
+            android:icon="@mipmap/buy"
+            android:title="交货" />
+
+        <item
+            android:id="@+id/task"
+            android:icon="@mipmap/buy"
+            android:title="我的任务" />
 
     </group>
 </menu>

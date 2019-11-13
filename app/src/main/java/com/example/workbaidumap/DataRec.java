@@ -1,6 +1,8 @@
 package com.example.workbaidumap;
 
 
+import com.google.gson.internal.LinkedTreeMap;
+
 import java.util.List;
 
 /**
@@ -45,17 +47,17 @@ public class DataRec {
     }
 
     /* 内部类 */
-    public class Content{
+    public static class Content{
         private int index;
         private String tableName;
         // 接收实际传输的回传数据
-        private List<Driver> data;
+        private List<LinkedTreeMap> data;
 
         public Content() {
 
         }
 
-        public Content(int index, String tableName, List<Driver> data) {
+        public Content(int index, String tableName, List<LinkedTreeMap> data) {
             this.index = index;
             this.tableName = tableName;
             this.data = data;
@@ -77,11 +79,11 @@ public class DataRec {
             this.tableName = tableName;
         }
 
-        public List<Driver> getData() {
+        public List<LinkedTreeMap> getData() {
             return data;
         }
 
-        public void setData(List<Driver> data) {
+        public void setData(List<LinkedTreeMap> data) {
             this.data = data;
         }
     }

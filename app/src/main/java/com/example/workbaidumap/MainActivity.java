@@ -47,6 +47,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -133,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
         mBaiduMap.setMyLocationEnabled(true);
 
         Driver driver = (Driver) getIntent().getSerializableExtra("Driver");
+        driverNO = driver.getDriverNO();
+        driverName = driver.getDriverName();
         Log.d("司机信息", driver.getDriverName() + " : " + driver.getDriverNO() + " : " + driver.getPassword());
 
         // 权限询问
@@ -182,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 HttpUtils.okhttpSend();
+                                // HttpUtils.LocSend(24.66,25.11, driver.getDriverNO());
                             }
                         }).start();
                     }
@@ -296,8 +300,8 @@ public class MainActivity extends AppCompatActivity {
             LatLng now = new LatLng(latitude, longitude);
             // 初始化失败的点不加入绘制路径的殿中
             if (latitude != 4.9E-324 && longitude != 4.9E-324) {
-                // 发送定位信息到后台
-                HttpUtils.LocSend(latitude, longitude, driverNO);
+                // 发送定位信息到后台,必须新建线程发送
+                new Thread(()->{ HttpUtils.LocSend(latitude, longitude, driverNO);}).start();
                 // 绘制当前位置
                 nowLoc.add(now);
             }
