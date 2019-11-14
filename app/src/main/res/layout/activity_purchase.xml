@@ -7,6 +7,33 @@
     android:orientation="vertical"
     tools:context=".PurchaseActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:orientation="vertical"
+        android:background="#3871DE">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="46dp">
+
+            <LinearLayout
+                android:layout_width="400dp"
+                android:layout_height="28dp"
+                android:background="@drawable/function_selector"
+                android:layout_centerInParent="true">
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/store"
         android:layout_width="wrap_content"

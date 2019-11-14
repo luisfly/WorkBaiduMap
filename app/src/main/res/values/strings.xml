@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WorkBaiduMap</string>
+    <string name="user">用户</string>
+    <string name="password">密码</string>
 </resources>

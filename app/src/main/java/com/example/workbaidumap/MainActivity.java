@@ -288,7 +288,8 @@ public class MainActivity extends AppCompatActivity {
             String coorType = location.getCoorType();
             //获取定位类型、定位错误返回码，具体信息可参照类参考中BDLocation类中的说明
             int errorCode = location.getLocType();
-
+            Log.d("BDLocation时间", location.getTime());
+            Toast.makeText(MainActivity.this, "BDLocation时间" + location.getTime(), Toast.LENGTH_SHORT).show();
 
             // System.out.println("纬度：" + latitude + " 经度：" + longitude + " 错误码：" + errorCode);
 

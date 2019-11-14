@@ -4,15 +4,23 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f6f6f6"
+    android:background="#3C65E5"
     tools:context=".StartPageActivity">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <!--<androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/startpage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/timg"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true" />-->
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/icon_image"
+        android:src="@mipmap/timg"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="100dp"
+        android:layout_centerHorizontal="true"/>
 
     <Button
         android:id="@+id/changeToMain"

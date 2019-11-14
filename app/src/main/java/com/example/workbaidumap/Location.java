@@ -7,13 +7,13 @@ import java.util.Date;
  */
 public class Location {
   // 纬度
-  private double latitude;
+  private double nLatitude;
   // 经度
-  private double longitude;
+  private double nLongitude;
   // 用户id
-  private String DriverNO;
+  private String sDriverNO;
   // 定位时间
-  private String locationTime;
+  private String dLocationTime;
 
   // fit 发送数据时默认必须带的授权信息数据
   private String UserNO = "90000";
@@ -29,42 +29,42 @@ public class Location {
    * @param locationTime 定位时间
    */
   public Location(double latitude, double longitude, String DriverNO, String locationTime) {
-    this.latitude = latitude;
-    this.longitude = longitude;
-    this.DriverNO = DriverNO;
-    this.locationTime = locationTime;
+    this.nLatitude = latitude;
+    this.nLongitude = longitude;
+    this.sDriverNO = DriverNO;
+    this.dLocationTime = locationTime;
   }
 
   public double getLatitude() {
-    return latitude;
+    return nLatitude;
   }
 
   public void setLatitude(double latitude) {
-    this.latitude = latitude;
+    this.nLatitude = latitude;
   }
 
   public double getLongitude() {
-    return longitude;
+    return nLongitude;
   }
 
   public void setLongitude(double longitude) {
-    this.longitude = longitude;
+    this.nLongitude = longitude;
   }
 
   public String getUserID() {
-    return DriverNO;
+    return sDriverNO;
   }
 
   public void setUserID(String userID) {
-    this.DriverNO = userID;
+    this.sDriverNO = userID;
   }
 
   public String getLocationTime() {
-    return locationTime;
+    return dLocationTime;
   }
 
   public void setLocationTime(String locationTime) {
-    this.locationTime = locationTime;
+    this.dLocationTime = locationTime;
   }
 
 }
