@@ -15,66 +15,159 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="20dp"/>
+            android:layout_height="12dp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="46dp">
+            android:layout_height="54dp">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="400dp"
-                android:layout_height="28dp"
+                android:layout_height="40dp"
                 android:background="@drawable/function_selector"
                 android:layout_centerInParent="true">
 
-            </LinearLayout>
+                <Button
+                    android:id="@+id/startTrc"
+                    android:layout_width="96dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:background="#3871DE"
+                    android:textColor="#FFFFFF"
+                    android:text="发车" />
+
+                <Button
+                    android:id="@+id/endTrc"
+                    android:layout_width="96dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_toRightOf="@+id/startTrc"
+                    android:background="#FFFFFF"
+                    android:textColor="#3871DE"
+                    android:layout_weight="1"
+                    android:text="交货" />
+
+                <Button
+                    android:id="@+id/Task"
+                    android:layout_width="96dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_toRightOf="@+id/endTrc"
+                    android:background="#3871DE"
+                    android:textColor="#FFFFFF"
+                    android:layout_weight="1"
+                    android:text="我的任务" />
+
+                <Button
+                    android:id="@+id/LoadFollow"
+                    android:layout_width="97dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_toRightOf="@+id/Task"
+                    android:background="#3871DE"
+                    android:textColor="#FFFFFF"
+                    android:layout_weight="1"
+                    android:text="装载跟踪" />
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/store"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="门店" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="#4D688E">
 
-    <EditText
-        android:id="@+id/select_store"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="门店选择框" />
+        <LinearLayout
+            android:id="@+id/wareSelect_et"
+            android:layout_width="350dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/bg_tran_task" >
 
-    <TextView
-        android:id="@+id/ploadno"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="装载号" />
+            <TextView
+                android:id="@+id/store"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="门店" />
 
-    <EditText
-        android:id="@+id/input_ploadno"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="装载号输入框" />
+            <EditText
+                android:id="@+id/select_store"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FFFFFF"
+                android:text="门店选择框" />
 
-    <EditText
-        android:id="@+id/load_tray_show"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="装载明细显示" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="350dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_tran_task"
+            android:layout_below="@+id/wareSelect_et"
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:id="@+id/ploadno"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="装载号" />
+
+            <EditText
+                android:id="@+id/input_ploadno"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FFFFFF"
+                android:text="装载号输入框" />
+
+        </LinearLayout>
 
 
-    <Button
-        android:id="@+id/purchase_commit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="交货确认" />
+    </RelativeLayout>
 
-    <Button
-        android:id="@+id/cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="取消" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#364A6D">
+
+        <Button
+            android:id="@+id/purchase_commit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="交货确认" />
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="#D8DFE8">
+
+        <EditText
+            android:id="@+id/load_tray_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="装载明细显示" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF">
+
+    </LinearLayout>
 
 </LinearLayout>

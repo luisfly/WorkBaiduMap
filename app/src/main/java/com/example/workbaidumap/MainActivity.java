@@ -210,6 +210,11 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                     break;
+                    case R.id.EndTra: {
+                        Intent intent = new Intent(MainActivity.this, PurchaseActivity.class);
+                        startActivity(intent);
+                    }
+                    break;
                     default:
                 }
                 return false;
