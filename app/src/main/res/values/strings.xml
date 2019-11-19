@@ -2,4 +2,6 @@
     <string name="app_name">WorkBaiduMap</string>
     <string name="user">用户</string>
     <string name="password">密码</string>
+    <string name="qr_code_string">二维码扫描</string>
+    <string name="bar_code_string">条形码扫描</string>
 </resources>
