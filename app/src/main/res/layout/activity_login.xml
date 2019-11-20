@@ -70,6 +70,8 @@
         android:id="@+id/passwordly"
         android:layout_width="350dp"
         android:layout_height="40dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_centerInParent="true"
         android:background="@drawable/bg_login_input">
 
