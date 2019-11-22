@@ -23,6 +23,8 @@ import okhttp3.Response;
 /**
  * 系统中负责网络数据传输的模块，借用okhttp进行实现，并将方法定义为类方法
  * 注意：因为android的官方设定要求，不允许UI线程进行数据传输，所以传输数据的时候必须要新建线程来实现
+ *
+ * 2019.11.22 目标时将所有方法整合到通用方法中，但是还是存在无法解决的问题
  */
 public class HttpUtils {
 
@@ -154,5 +156,103 @@ public class HttpUtils {
            //Log.e("OKHttp","Unexpected code" + ex.getStackTrace().toString());
            ex.getStackTrace();
        }
+    }
+
+
+
+    /**
+     * 2019.11.22
+     * 所有单个数据发送的方法
+     * 本方法对应数据库中的 insert、update、delete 操作，操作正确时数据库并不会返回数据
+     * 利用 api 的 get 方法
+     */
+    public static void PostSingleData(String bussinessName, HttpMessageObject httpObject) {
+        try {
+            OkHttpClient client = new OkHttpClient();
+            HttpMessageObject obj = httpObject;
+            obj.setBusinessName(bussinessName);
+
+
+            // 发送自定义对象思路，将对象转化为json,再通过okhttp进行发送
+            Gson gson = new Gson();
+            String postObject = gson.toJson(obj);
+            RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), postObject);
+
+            // post方法,将数据保存在报文主体
+            Request request = new Request.Builder().url("http://192.168.0.247:2088/api/GetData").post(requestBody)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+
+            if(response.isSuccessful()) {
+                // 返回信息获取
+                String resmessage = response.body().string();
+                Log.d("OKHttp", resmessage);
+            } else {
+                Log.e("OKHttp", "Unexpected code " + response);
+                throw new IOException("Unexpected code " + response);
+            }
+        } catch (IOException ex) {
+            //Log.e("OKHttp","Unexpected code" + ex.getStackTrace().toString());
+            ex.getStackTrace();
+        }
+    }
+
+    /**
+     * 2019.11.22
+     * 所有数据发送的方法
+     * 本方法对应数据库中的 select 操作，数据库会主动返回数据
+     * 利用 api 的 get 方法
+     */
+    public static List<HttpMessageObject> GetData(String bussinessName, HttpMessageObject httpObject) {
+
+        try {
+
+            OkHttpClient client = new OkHttpClient();
+            HttpMessageObject obj = httpObject;
+            obj.setBusinessName(bussinessName);
+
+            // 发送自定义对象思路，将对象转化为json,再通过okhttp进行发送
+            Gson gson = new Gson();
+            String sendJson = gson.toJson(obj);
+            // 注意mediaType.parse为okhttp3.8.1使用的方法，到 okhttp 3.11.1时要使用 mediaType.get 方法
+            RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), sendJson);
+
+            // post方法
+            Request request = new Request.Builder().url("http://192.168.0.247:2088/api/GetData").post(requestBody)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            if(response.isSuccessful()) {
+                String resmessage = response.body().string();
+                // 检测回传数据
+                RecJudge recJudge = gson.fromJson(resmessage, RecJudge.class);
+                // isSuccess 字段为1，即数据查询成功
+                if (recJudge.getIsSuccess() == 1) {
+
+                    // 通用接收类型接收 json 数据
+                    DataRec dataRec = gson.fromJson(resmessage, DataRec.class);
+                    String data = gson.toJson(dataRec.getsContent().get(0).getData().get(0));
+
+
+                    Driver redriver = gson.fromJson(data, Driver.class);
+                    Log.i("OKHttp", "发送成功,数据返回" + resmessage);
+                    Log.i("Driver", dataRec.getsMessage() + " : " + redriver.getDriverNO() + " : " + redriver.getPassword());
+                    return null;
+                } else {
+                    // 否则数据查询失败
+                    Log.i("Okhttp", recJudge.getsMessage());
+                    return null;
+                }
+
+            } else {
+                Log.e("OKHttp", "Unexpected code: " + response);
+                throw new IOException("Unexpected code: " + response);
+            }
+        } catch (IOException ex) {
+            ex.getStackTrace();
+            return null;
+        }
+
     }
 }

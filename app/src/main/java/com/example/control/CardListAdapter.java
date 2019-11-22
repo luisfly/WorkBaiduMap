@@ -30,9 +30,9 @@ public class CardListAdapter extends ArrayAdapter<NerItem> {
         return null;
     }
 
-    public NerItem getItem() {
+    /*public NerItem getItem() {
 
-    }
+    }*/
 
     public void setNerItems(NerItem nerItems) {
 

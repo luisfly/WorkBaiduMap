@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * 关于定位的信息存储发送的类
  */
-public class Location {
+public class Location extends HttpMessageObject {
   // 纬度
   private double nLatitude;
   // 经度
@@ -15,11 +15,6 @@ public class Location {
   // 定位时间
   private String dLocationTime;
 
-  // fit 发送数据时默认必须带的授权信息数据
-  private String UserNO = "90000";
-  private String AuthCode = "AE31GVSE453SEF4561EWES487654EFDS";
-  // 执行的业务过程
-  private String BusinessName = "AddLocation";
 
   /**
    *
