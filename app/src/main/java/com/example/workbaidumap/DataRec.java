@@ -46,7 +46,7 @@ public class DataRec {
         this.sContent = sContent;
     }
 
-    /* 内部类 */
+    /* 内部类,处理后续列表 */
     public static class Content{
         private int index;
         private String tableName;

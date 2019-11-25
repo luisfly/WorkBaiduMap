@@ -13,6 +13,10 @@ public class Driver extends HttpMessageObject implements Serializable {
     // 司机姓名
     private String sDriverName;
 
+    public Driver() {
+
+    }
+
     public Driver(String driverNO, String password) {
         sDriverNO = driverNO;
         sPassword = password;

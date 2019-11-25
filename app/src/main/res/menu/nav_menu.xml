@@ -42,5 +42,10 @@
             android:icon="@mipmap/buy"
             android:title="我的任务" />
 
+        <item
+            android:id="@+id/LoadFollow"
+            android:icon="@mipmap/buy"
+            android:title="任务跟踪" />
+
     </group>
 </menu>

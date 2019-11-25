@@ -28,8 +28,15 @@
             android:launchMode="singleTask"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
-        <activity android:name=".StartTransationActivity" />
-        <activity android:name=".NotAPILocationActivity" />
+        <activity
+            android:name=".StartTransationActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+        <activity
+            android:name=".NotAPILocationActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <!-- 百度地图配置 -->
         <meta-data

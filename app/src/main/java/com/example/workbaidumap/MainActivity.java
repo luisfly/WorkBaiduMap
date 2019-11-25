@@ -200,17 +200,26 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                     break;
+                    // 我的任务
                     case R.id.task: {
                         Intent intent = new Intent(MainActivity.this, TaskActivity.class);
                         startActivity(intent);
                     }
                     break;
+                    // 发车
                     case R.id.startTra: {
-                        Intent intent = new Intent(MainActivity.this, StartPageActivity.class);
+                        Intent intent = new Intent(MainActivity.this, LoadTrackActivity.class);
                         startActivity(intent);
                     }
                     break;
+                    // 交货
                     case R.id.EndTra: {
+                        Intent intent = new Intent(MainActivity.this, PurchaseActivity.class);
+                        startActivity(intent);
+                    }
+                    break;
+                    // 交货
+                    case R.id.LoadFollow: {
                         Intent intent = new Intent(MainActivity.this, PurchaseActivity.class);
                         startActivity(intent);
                     }

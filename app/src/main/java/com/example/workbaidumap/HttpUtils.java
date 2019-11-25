@@ -6,10 +6,14 @@ import android.util.Log;
 
 import com.baidu.location.BDLocation;
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -162,11 +166,13 @@ public class HttpUtils {
 
     /**
      * 2019.11.22
-     * 所有单个数据发送的方法
+     * 面向对象所有单个数据发送的方法
      * 本方法对应数据库中的 insert、update、delete 操作，操作正确时数据库并不会返回数据
      * 利用 api 的 get 方法
+     * @param bussinessName 执行 fit 中的 business 名字
+     * @param httpObject 传入的值
      */
-    public static void PostSingleData(String bussinessName, HttpMessageObject httpObject) {
+    public static void PostSingleData(@NotNull String bussinessName, HttpMessageObject httpObject) {
         try {
             OkHttpClient client = new OkHttpClient();
             HttpMessageObject obj = httpObject;
@@ -199,12 +205,28 @@ public class HttpUtils {
     }
 
     /**
+     * 2019.11.25
+     * 面向对象同时发送多个数据发送的方法，后续完善
+     * 本方法对应数据库中的 insert、update、delete 操作，操作正确时数据库并不会返回数据
+     * 利用 api 的 get 方法
+     * @param bussinessName 执行 fit 中的 business 名字
+     * @param httpObjList 传入的列
+     */
+    public static void PostMulData(@NotNull String bussinessName, List<HttpMessageObject> httpObjList) {
+
+    }
+
+
+    /**
      * 2019.11.22
      * 所有数据发送的方法
      * 本方法对应数据库中的 select 操作，数据库会主动返回数据
      * 利用 api 的 get 方法
+     *  @param bussinessName 执行 fit 中的 business 名字
+     *  @param httpObject 传入值以及返回值的类型
      */
-    public static List<HttpMessageObject> GetData(String bussinessName, HttpMessageObject httpObject) {
+    public static List<HttpMessageObject> GetData(@NotNull String bussinessName, HttpMessageObject httpObject) {
+        List<HttpMessageObject> recObjs = new ArrayList<HttpMessageObject>();
 
         try {
 
@@ -232,21 +254,28 @@ public class HttpUtils {
 
                     // 通用接收类型接收 json 数据
                     DataRec dataRec = gson.fromJson(resmessage, DataRec.class);
-                    String data = gson.toJson(dataRec.getsContent().get(0).getData().get(0));
+                    List<String> data = new ArrayList<String>();
+                    List<DataRec.Content> contents = dataRec.getsContent();
+                    // 解析嵌套 json
+                    for (DataRec.Content content: contents) {
+                        for (LinkedTreeMap map : content.getData()) {
+                            // 先将LinkedTreeMap转回json String
+                            String datas = gson.toJson(map);
+                            // 再将json转到指定对象
+                            recObjs.add(gson.fromJson(datas, httpObject.getClass()));
+                        }
+                    }
 
-
-                    Driver redriver = gson.fromJson(data, Driver.class);
-                    Log.i("OKHttp", "发送成功,数据返回" + resmessage);
-                    Log.i("Driver", dataRec.getsMessage() + " : " + redriver.getDriverNO() + " : " + redriver.getPassword());
-                    return null;
+                    Log.i("GetData", "数据量: " + dataRec.getsContent().size());
+                    return recObjs;
                 } else {
                     // 否则数据查询失败
-                    Log.i("Okhttp", recJudge.getsMessage());
+                    Log.e("GetData", recJudge.getsMessage());
                     return null;
                 }
 
             } else {
-                Log.e("OKHttp", "Unexpected code: " + response);
+                Log.e("GetData", "Unexpected code: " + response);
                 throw new IOException("Unexpected code: " + response);
             }
         } catch (IOException ex) {
@@ -254,5 +283,26 @@ public class HttpUtils {
             return null;
         }
 
+    }
+
+
+    /**
+     * 模仿 rf 基于面向过程的方法思路编写数据接收发送的方法
+     * 本方法设置发送参数
+     * @param Parmname 参数名
+     * @param value 参数值
+     */
+    public void setParm(String Parmname, String value) {
+
+    }
+
+    /**
+     * 模仿 rf 基于面向过程的方法思路编写数据接收发送的方法
+     * 本方法设置接收参数，返回 string 对象
+     * @param Parmname 参数名
+     * @return 参数值
+     */
+    public String getParm(String Parmname) {
+        return null;
     }
 }
