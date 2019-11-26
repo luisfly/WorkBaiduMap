@@ -3,18 +3,62 @@ package com.example.workbaidumap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 司机交货活动
  */
 public class PurchaseActivity extends AppCompatActivity {
+    private Spinner spinner;
+
+    private Handler handler = new Handler() {
+
+        public void handleMessage(@NotNull Message msg) {
+            switch (msg.what) {
+                case 0 :{
+                    // 获取门店实体信息传输
+                    List<String> dcList = (List<String>) msg.obj;
+
+                    // 建立Adapter并且绑定数据源,配置spinner的样式属性
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(PurchaseActivity.this, android.R.layout.simple_spinner_item, dcList);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    // 绑定adapter
+                    spinner.setAdapter(adapter);
+                    // 配置监听器
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view,
+                                                   int pos, long id) {
+                            String stores = dcList.get(pos);
+                            Toast.makeText(PurchaseActivity.this, "你点击的门店是:"+ stores, 2000).show();
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                            // Another interface callback
+                        }
+                    });
+                }break;
+                default:break;
+            }
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,13 +68,35 @@ public class PurchaseActivity extends AppCompatActivity {
         setStatusBarFullTransparent();
 
         setContentView(R.layout.activity_purchase);
+        spinner = (Spinner) findViewById(R.id.select_store);
 
-        // 获取仓库信息
-        List<HttpMessageObject> dcEntities = HttpUtils.GetData("@Get_DC", new DCEntity());
-        for(HttpMessageObject entity : dcEntities) {
-            DCEntity dcEntity = (DCEntity) entity;
+        new Thread(()->{
+            // 获取门店信息
+            List<HttpMessageObject> dcEntities = HttpUtils.GetData("@Get_Store", new Store());
+            // 出错时暂时不进行任何操作
+            if(dcEntities == null) {
 
-        }
+                return ;
+            }
+
+            // List<DCEntity> dcList = new ArrayList<DCEntity>();
+            // dcEntities.addAll(dcList);
+            List<String> store = new ArrayList<String>();
+            Store st;
+
+            for(HttpMessageObject obj : dcEntities) {
+                st = (Store) obj;
+                store.add(st.getsStoreDesc());
+            }
+
+            Message message = new Message();
+            message.obj = store;
+            message.what = 0;
+
+            // 发送消息
+            handler.sendMessage(message);
+
+        }).start();
     }
 
     /**
