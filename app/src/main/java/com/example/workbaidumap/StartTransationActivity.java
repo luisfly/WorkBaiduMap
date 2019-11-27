@@ -3,16 +3,41 @@ package com.example.workbaidumap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 司机货物发车模块
  */
 public class StartTransationActivity extends AppCompatActivity {
+
+    // 全局通用变量
+    private List<DCEntity> loDC = new ArrayList<>();
+    private int selectedDC = 0;
+
+    // 消息处理器
+    private Handler handler = new Handler() {
+
+        public void handleMessage(@NotNull Message msg) {
+            switch (msg.what) {
+                case 0: {
+
+                }break;
+                default:break;
+            }
+        }
+
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +47,41 @@ public class StartTransationActivity extends AppCompatActivity {
         setStatusBarFullTransparent();
 
         setContentView(R.layout.activity_start_transation);
+    }
+
+    /**
+     * 加载仓库信息
+     */
+    private void LoadStore() {
+        // 加载仓库信息
+        new Thread(()->{
+            // 获取仓库信息
+            List<HttpMessageObject> dcEntities = HttpUtils.GetData("@Get_ADC", new DCEntity());
+            // 消息发送
+            Message message = new Message();
+            // 出错时暂时不进行任何操作
+            if(dcEntities == null) {
+
+                return ;
+            }
+
+            List<String> dcList = new ArrayList<String>();
+            DCEntity dc;
+
+            for(HttpMessageObject obj : dcEntities) {
+                dc = (DCEntity) obj;
+                dcList.add(dc.getsDCDesc());
+                loDC.add(dc);
+            }
+
+            message.obj = dcList;
+            message.what = 0;
+
+            // 发送消息
+            handler.sendMessage(message);
+
+        }).start();
+
     }
 
     /**

@@ -208,19 +208,21 @@ public class MainActivity extends AppCompatActivity {
                     break;
                     // 发车
                     case R.id.startTra: {
-                        Intent intent = new Intent(MainActivity.this, LoadTrackActivity.class);
+                        Intent intent = new Intent(MainActivity.this, StartTransationActivity.class);
+                        intent.putExtra("Driver", driver);
                         startActivity(intent);
                     }
                     break;
                     // 交货
                     case R.id.EndTra: {
                         Intent intent = new Intent(MainActivity.this, PurchaseActivity.class);
+                        intent.putExtra("Driver", driver);
                         startActivity(intent);
                     }
                     break;
-                    // 交货
+                    // 跟踪
                     case R.id.LoadFollow: {
-                        Intent intent = new Intent(MainActivity.this, PurchaseActivity.class);
+                        Intent intent = new Intent(MainActivity.this, LoadTrackActivity.class);
                         startActivity(intent);
                     }
                     break;
