@@ -83,12 +83,16 @@ public class LoginActivity extends AppCompatActivity {
                 Driver driver = new Driver(username.getText().toString(), password.getText().toString());
                 Message message = new Message();
                 List<HttpMessageObject> data = HttpUtils.GetData("Login", driver);
-                if (data != null && data.size() != 0) {
+                /*if (data != null && data.size() != 0) {
                     message.obj = (Driver) HttpUtils.GetData("Login", driver).get(0);
                     message.what = 1;
                 } else {
                     message.what = 0;
-                }
+                }*/
+
+                message.obj = new Driver("1000001","11451245","admin");
+                message.what = 1;
+
                 // 发送消息
                 handler.sendMessage(message);
             }).start();

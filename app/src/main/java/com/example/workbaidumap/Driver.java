@@ -22,6 +22,12 @@ public class Driver extends HttpMessageObject implements Serializable {
         sPassword = password;
     }
 
+    public Driver(String sDriverNO, String sPassword, String sDriverName) {
+        this.sDriverNO = sDriverNO;
+        this.sPassword = sPassword;
+        this.sDriverName = sDriverName;
+    }
+
     public String getDriverNO() {
         return sDriverNO;
     }

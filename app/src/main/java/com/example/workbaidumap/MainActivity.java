@@ -1,6 +1,7 @@
 package com.example.workbaidumap;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -10,13 +11,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.Manifest;
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -31,31 +32,23 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.Polyline;
 import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.trace.LBSTraceClient;
-import com.baidu.trace.Trace;
-import com.baidu.trace.model.OnTraceListener;
-import com.baidu.trace.model.PushMessage;
 import com.google.android.material.navigation.NavigationView;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 /**
  * 2019.9.10 (1) 出现问题时绘制百度地图时，地图绘制失败，先是使用旧项目中的 LBS压缩文件以及jniLibs文件
@@ -100,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
 
     /* 当前位置记录 */
     private List<LatLng> nowLoc = new ArrayList<>();
+
+    /* 测试数据 */
+    private boolean clicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,6 +167,8 @@ public class MainActivity extends AppCompatActivity {
                 // 点击路线绘制按钮
                 switch (item.getItemId()) {
                     case R.id.tRoad:{
+                        // 测试数据添加
+                        //testAdd();
                         // 路径绘制
                         drawRoad();
                     }
@@ -188,6 +186,8 @@ public class MainActivity extends AppCompatActivity {
                                 // HttpUtils.LocSend(24.66,25.11, driver.getDriverNO());
                             }
                         }).start();
+                        //mBaiduMap.clear();
+                        //clicked = false;
                     }
                     break;
                     case R.id.shop: {
@@ -257,6 +257,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+
+
         // 地图上绘制线测试
         //drawRoad();
 
@@ -305,7 +307,7 @@ public class MainActivity extends AppCompatActivity {
             //获取定位类型、定位错误返回码，具体信息可参照类参考中BDLocation类中的说明
             int errorCode = location.getLocType();
             Log.d("BDLocation时间", location.getTime());
-            Toast.makeText(MainActivity.this, "BDLocation时间" + location.getTime(), Toast.LENGTH_SHORT).show();
+            // Toast.makeText(MainActivity.this, "BDLocation时间" + location.getTime(), Toast.LENGTH_SHORT).show();
 
             // System.out.println("纬度：" + latitude + " 经度：" + longitude + " 错误码：" + errorCode);
 
@@ -319,8 +321,8 @@ public class MainActivity extends AppCompatActivity {
             if (latitude != 4.9E-324 && longitude != 4.9E-324) {
                 // 发送定位信息到后台,必须新建线程发送
                 new Thread(()->{ HttpUtils.LocSend(latitude, longitude, driverNO);}).start();
-                // 绘制当前位置
-                nowLoc.add(now);
+                // 记录当前位置
+                // nowLoc.add(now);
             }
         }
     }
@@ -381,13 +383,96 @@ public class MainActivity extends AppCompatActivity {
         OverlayOptions ooPolyline = new PolylineOptions().width(5).color(0xAAFF0000).dottedLine(true).points(points);
         //添加在地图中
         mPolyline = (Polyline) mBaiduMap.addOverlay(ooPolyline);*/
-        if(nowLoc.size() >= 2) {
+        // 演示测试区域
+        /*if (!clicked) {
+            //********************************************
+            //构建Marker图标
+            BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.loc_point);
+
+            //构建MarkerOption，用于在地图上添加Marker
+            OverlayOptions startPoint = new MarkerOptions()
+                    .position(nowLoc.get(0))
+                    .icon(bitmap);
+
+            OverlayOptions endPoint = new MarkerOptions()
+                    .position(nowLoc.get(nowLoc.size() - 1))
+                    .icon(bitmap);
+
+            Marker markerStart = (Marker) mBaiduMap.addOverlay(startPoint);
+            Marker markerEnd = (Marker) mBaiduMap.addOverlay(endPoint);
+
+            Bundle sBundle = new Bundle();
+            sBundle.putInt("id", 1);
+            Bundle eBundle = new Bundle();
+            eBundle.putInt("id", 2);
+
+
+            markerEnd.setExtraInfo(eBundle);
+            markerStart.setExtraInfo(sBundle);
+
+            mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    Bundle bundle = marker.getExtraInfo();
+                    int id = bundle.getInt("id");
+
+                    switch (id) {
+                        case 1: {
+                            AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                            dialog.setTitle("锐志诚达电子科技有限公司");
+                            dialog.setMessage("地点:佛山市南海区桂城夏南二银富写字楼203室\n出发时间: 2019.11.28 11:28:07");
+                            dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInner, int which) {
+                                    //dialog.
+                                    dialogInner.dismiss();
+                                }
+                            });
+                            dialog.show();
+                        }
+                        break;
+                        case 2: {
+                            AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                            dialog.setTitle("沙园地铁站口");
+                            dialog.setMessage("地点:广州市海珠区工业大道北\n到达时间: 2019.11.28 12:18:23");
+                            dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInner, int which) {
+                                    //dialog.
+                                    dialogInner.dismiss();
+                                }
+                            });
+                            dialog.show();
+                        }
+                        break;
+                        default:
+                            break;
+                    }
+
+                    return false;
+                }
+            });
+        }*/
+
+
+        // ********************************************
+        if(nowLoc.size() >= 2 && !clicked) {
             // 线的属性定义
-            OverlayOptions ooPolyline = new PolylineOptions().width(5).color(0xAAFF0000).dottedLine(false).points(nowLoc);
+            OverlayOptions ooPolyline = new PolylineOptions().width(10).color(0xAAFF0000).dottedLine(false).points(nowLoc);
             // 添加在地图中
             mPolyline = (Polyline) mBaiduMap.addOverlay(ooPolyline);
+            clicked = true;
+            /* 移动显示位置 */
+            LatLng ll = nowLoc.get(0);
+            /* 设定新的位置 */
+            MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(ll);
+            /* 移动地图位置以及调整当前缩放 */
+            mBaiduMap.animateMapStatus(update);
+            update = MapStatusUpdateFactory.zoomTo(16f);
+            /* 非初次定位不会将位置移动到当前位置 */
+            mBaiduMap.animateMapStatus(update);
         } else {
-            Log.e("DrawRoad", "路径绘制的点必须要大于两个");
+            //Log.e("DrawRoad", "路径绘制的点必须要大于两个");
         }
     }
 
@@ -473,6 +558,35 @@ public class MainActivity extends AppCompatActivity {
             //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
     }
+
+    /*private void testAdd() {
+        nowLoc.add(new LatLng(23.058495,113.183836));
+        nowLoc.add(new LatLng(23.058495,113.178985));
+        nowLoc.add(new LatLng(23.059382,113.173406));
+        nowLoc.add(new LatLng(23.060908,113.166045));
+        nowLoc.add(new LatLng(23.060762,113.162752));
+        nowLoc.add(new LatLng(23.061336,113.161984));
+        nowLoc.add(new LatLng(23.071004,113.161922));
+        nowLoc.add(new LatLng(23.072799,113.164077));
+        nowLoc.add(new LatLng(23.073289,113.166009));
+        nowLoc.add(new LatLng(23.073148,113.17421));
+        nowLoc.add(new LatLng(23.071951,113.189086));
+        nowLoc.add(new LatLng(23.071851,113.199147));
+        nowLoc.add(new LatLng(23.071918,113.219233));
+        nowLoc.add(new LatLng(23.070721,113.230983));
+        nowLoc.add(new LatLng(23.071386,113.238457));
+        nowLoc.add(new LatLng(23.071984,113.240541));
+        nowLoc.add(new LatLng(23.078501,113.246362));
+        nowLoc.add(new LatLng(23.082823,113.251177));
+        nowLoc.add(new LatLng(23.082757,113.251177));
+        nowLoc.add(new LatLng(23.08914,113.253261));
+        nowLoc.add(new LatLng(23.090669,113.25398));
+        nowLoc.add(new LatLng(23.095223,113.260951));
+        nowLoc.add(new LatLng(23.0961,113.262819));
+        nowLoc.add(new LatLng(23.096482,113.264939));
+        nowLoc.add(new LatLng(23.096174,113.265945));
+        nowLoc.add(new LatLng(23.094855,113.267032));
+    }*/
 
     /**
      * OKHttp post发送数据测试,测试未成功，因为公司电脑的android模拟器无法访问本机localhost

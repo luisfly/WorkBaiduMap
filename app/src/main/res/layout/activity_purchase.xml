@@ -152,7 +152,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#FFFFFF"
-                android:text="装载号输入框" />
+                android:textColor="#666666"
+                android:hint="请输入装载号"
+                android:textColorHint="#AAAAAA"/>
 
         </LinearLayout>
 

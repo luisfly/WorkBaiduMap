@@ -94,15 +94,14 @@
             <TextView
                 android:id="@+id/start_DC"
                 android:layout_width="60dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:gravity="center"
                 android:text="仓库" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/start_select_DC"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#FFFFFF" />
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 
@@ -127,7 +126,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#FFFFFF"
-                android:text="装载单号输入框" />
+                android:textColor="#666666"
+                android:hint="请输入装车单号"
+                android:textColorHint="#AAAAAA"/>
 
         </LinearLayout>
 
