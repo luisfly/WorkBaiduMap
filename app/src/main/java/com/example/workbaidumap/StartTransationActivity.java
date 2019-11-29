@@ -10,9 +10,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.FitEntity.UpdateTruckTask;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -24,6 +28,8 @@ import java.util.List;
  */
 public class StartTransationActivity extends AppCompatActivity {
     private Spinner start_DC;
+    private Button start_commit;
+    private EditText start_input_ploadno;
 
 
     // 全局通用变量
@@ -74,8 +80,11 @@ public class StartTransationActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_start_transation);
         start_DC = (Spinner) findViewById(R.id.start_select_DC);
+        start_commit = (Button) findViewById(R.id.start_commit);
+        start_input_ploadno = (EditText) findViewById(R.id.start_input_ploadno);
 
         LoadStore();
+        initController();
     }
 
     /**
@@ -111,6 +120,26 @@ public class StartTransationActivity extends AppCompatActivity {
 
         }).start();
 
+    }
+
+    /**
+     * 初始化控件事件
+     */
+    private void initController() {
+        // 初始化控件
+        start_commit.setOnClickListener((View v)->{
+
+            // 访问 fit
+           new Thread(()->{
+               Driver driver = (Driver) getIntent().getSerializableExtra("Driver");
+
+               UpdateTruckTask updateTruckTask = new UpdateTruckTask();
+               updateTruckTask.setDCNO(loDC.get(selectedDC).getsDCNO());
+               updateTruckTask.setStartDriver(driver.getDriverName());
+               updateTruckTask.setPaperNO(start_input_ploadno.getText().toString());
+               HttpUtils.PostSingleData("@Post_ATruckStart", updateTruckTask);
+           }).start();
+        });
     }
 
     /**

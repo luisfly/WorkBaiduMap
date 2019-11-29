@@ -24,6 +24,10 @@ public class TaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_task);
     }
 
+    private void LoadTruck() {
+        
+    }
+
     /**
      * 全透明沉浸式状态栏方法
      * 注意：方法要放在 super.onCreate 后，还有是 setContentView 前
