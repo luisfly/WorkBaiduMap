@@ -15,6 +15,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.FormBody;
@@ -257,7 +258,7 @@ public class HttpUtils {
                     List<String> data = new ArrayList<String>();
                     List<DataRec.Content> contents = dataRec.getsContent();
                     // 解析嵌套 json
-                    for (DataRec.Content content: contents) {
+                    for (DataRec.Content content : contents) {
                         for (LinkedTreeMap map : content.getData()) {
                             // 先将LinkedTreeMap转回json String
                             String datas = gson.toJson(map);
@@ -288,15 +289,17 @@ public class HttpUtils {
 
     /**
      * 2019.11.27
-     * 所有数据发送的方法
+     * 所有数据发送的方法,本方法暂定用于 fit 中需要返回多个表的情况
      * 本方法对应数据库中的 select 操作，数据库会主动返回数据
      * 利用 api 的 get 方法
      * @param bussinessName 执行 fit 中的 business 名字
      * @param httpObject 传入值以及返回值的类型
-     * @param reClass 返回表数据时接收类的类名
+     * @param reClass 返回表数据时接收类的类名以及对应的表名
      */
-    public static List<HttpMessageObject> GetData(@NotNull String bussinessName, HttpMessageObject httpObject, Class<? extends HttpMessageObject> reClass) {
-        List<HttpMessageObject> recObjs = new ArrayList<HttpMessageObject>();
+    public static HashMap<String, List<HttpMessageObject>> GetData(@NotNull String bussinessName,
+         HttpMessageObject httpObject, HashMap<String, Class<? extends HttpMessageObject>> reClass) {
+        // 返回列表
+        HashMap<String, List<HttpMessageObject>> recAll = new HashMap<String, List<HttpMessageObject>>();
 
         try {
 
@@ -324,20 +327,25 @@ public class HttpUtils {
 
                     // 通用接收类型接收 json 数据
                     DataRec dataRec = gson.fromJson(resmessage, DataRec.class);
-                    List<String> data = new ArrayList<String>();
+                    //List<String> data = new ArrayList<String>();
                     List<DataRec.Content> contents = dataRec.getsContent();
                     // 解析嵌套 json
                     for (DataRec.Content content: contents) {
-                        for (LinkedTreeMap map : content.getData()) {
+                        List<HttpMessageObject> recObjs = new ArrayList<HttpMessageObject>();
+                        List<LinkedTreeMap> datas = content.getData();
+                        for (LinkedTreeMap map : datas) {
                             // 先将LinkedTreeMap转回json String
-                            String datas = gson.toJson(map);
+                            String data = gson.toJson(map);
                             // 再将json转到指定对象
-                            recObjs.add(gson.fromJson(datas, reClass));
+                            recObjs.add(gson.fromJson(data, reClass.get(content.getTableName())));
                         }
+                        // 将 table 数据列表以键值对方式放入 HashMap 中
+                        // 要拿出来的时候就以表名查找
+                        recAll.put(content.getTableName(), recObjs);
                     }
 
                     Log.i("GetData", "数据量: " + dataRec.getsContent().size());
-                    return recObjs;
+                    return recAll;
                 } else {
                     // 否则数据查询失败
                     Log.e("GetData", recJudge.getsMessage());

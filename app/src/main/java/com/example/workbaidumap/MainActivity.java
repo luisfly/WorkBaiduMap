@@ -203,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
                     // 我的任务
                     case R.id.task: {
                         Intent intent = new Intent(MainActivity.this, TaskActivity.class);
+                        intent.putExtra("Driver", driver);
                         startActivity(intent);
                     }
                     break;
@@ -223,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
                     // 跟踪
                     case R.id.LoadFollow: {
                         Intent intent = new Intent(MainActivity.this, LoadTrackActivity.class);
+                        intent.putExtra("Driver", driver);
                         startActivity(intent);
                     }
                     break;
