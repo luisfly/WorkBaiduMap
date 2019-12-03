@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:divider="@drawable/divider"
     tools:context=".TaskActivity">
 
     <LinearLayout
@@ -80,30 +81,23 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="#4D688E">
+        android:layout_height="400dp"
+        android:background="#D8DFE8">
 
-
-
-
-
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="#364A6D">
-
+        <com.baidu.mapapi.map.MapView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp" />
 
 
     </RelativeLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="200dp"
         android:orientation="vertical"
-        android:background="#D8DFE8">
+        android:background="#FFFFFF">
 
         <TextView
             android:id="@+id/load_tray_show"
@@ -119,14 +113,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
-            android:background="#8B98B1" />
+            android:background="#D8DFE8" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:background="#FFFFFF">
+        android:background="#F2F2F2">
 
         <ImageView
             android:layout_width="match_parent"

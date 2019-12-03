@@ -16,6 +16,10 @@ import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.FitEntity.HttpMessageObject;
+import com.example.CommonTools.HttpUtils;
+import com.example.FitEntity.DCEntity;
+import com.example.FitEntity.Driver;
 import com.example.FitEntity.UpdateTruckTask;
 
 import org.jetbrains.annotations.NotNull;

@@ -1,10 +1,12 @@
-package com.example.workbaidumap;
+package com.example.CommonTools;
 
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 
-import com.baidu.location.BDLocation;
+import com.example.FitEntity.DataRec;
+import com.example.FitEntity.Driver;
+import com.example.FitEntity.HttpMessageObject;
+import com.example.FitEntity.Location;
+import com.example.workbaidumap.RecJudge;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 

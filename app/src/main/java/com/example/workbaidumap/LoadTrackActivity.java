@@ -10,6 +10,10 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.FitEntity.HttpMessageObject;
+import com.example.CommonTools.HttpUtils;
+import com.example.FitEntity.DCEntity;
+
 import java.util.ArrayList;
 import java.util.List;
 

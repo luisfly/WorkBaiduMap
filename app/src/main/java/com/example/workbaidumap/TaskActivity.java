@@ -1,6 +1,5 @@
 package com.example.workbaidumap;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,11 +12,17 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.baidu.mapapi.CoordType;
+import com.baidu.mapapi.SDKInitializer;
+import com.example.FitEntity.HttpMessageObject;
+import com.example.CommonTools.HttpUtils;
+import com.example.FitEntity.Driver;
+import com.example.FitEntity.TruckGoods;
+import com.example.FitEntity.TruckTask;
+
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 
 /**
@@ -31,12 +36,7 @@ public class TaskActivity extends AppCompatActivity {
         public void handleMessage(@NotNull Message msg) {
             switch (msg.what) {
                 case 0:{
-                    /*List<HttpMessageObject> truckNO = res.get("tTruckLoadingDriver");
-                    TruckTask truckTask = (TruckTask) truckNO.get(0);
-                    Log.i("tTruckLoadingDriver", truckTask.getTruckPaperNO() + ":" + truckTask.getDriverNO() + ":" +
-                            truckTask.getStartTime() + ":" + truckTask.getEndTime());
 
-                    List<>*/
                 }break;
                 default:break;
             }
@@ -52,8 +52,16 @@ public class TaskActivity extends AppCompatActivity {
         // 全透明沉浸式状态栏
         setStatusBarFullTransparent();
 
+        /* 百度地图初始化，必须要有 */
+        SDKInitializer.initialize(getApplicationContext());
+        SDKInitializer.setCoordType(CoordType.BD09LL);
+
         setContentView(R.layout.activity_task);
+        // 获取当前司机的装载单号详细信息
         LoadTruck();
+
+        // 测试
+        // GoodsDtl();
     }
 
     // 获取当前司机的装载单情况
@@ -100,7 +108,7 @@ public class TaskActivity extends AppCompatActivity {
             handler.sendMessage(message);
 
             // 数据测试
-            List<HttpMessageObject> truckNO = TruckEntity.get("tTruckLoadingDriver");
+            /*List<HttpMessageObject> truckNO = TruckEntity.get("tTruckLoadingDriver");
             TruckTask truckTask1 = (TruckTask) truckNO.get(0);
             Log.i("tTruckLoadingDriver", truckTask1.getTruckPaperNO() + ":" + truckTask1.getDriverNO() + ":" +
                     truckTask1.getStartTime() + ":" + truckTask1.getEndTime());
@@ -110,10 +118,44 @@ public class TaskActivity extends AppCompatActivity {
                 TruckTask LoadNO = (TruckTask) loadNO;
                 Log.i("tTruckTransTask", LoadNO.getTruckPaperNO() + " : " + LoadNO.getTruckLoadNO() + " : " + LoadNO.getDCNO()
                     + " : " + LoadNO.getSiteNO() + " : " + LoadNO.getDriver());
-            }
+            }*/
 
         }).start();
 
+    }
+
+    /**
+     * 获取商品明细,现在未配置参数
+     */
+    private void GoodsDtl() {
+        // 启动线程处理网络任务
+        new Thread(()->{
+            TruckGoods truckGoods = new TruckGoods();
+            // 设置查找参数
+            truckGoods.setTruckPaperNO("");
+            truckGoods.setTruckLoadNO("");
+
+            // 消息发送
+            Message message = new Message();
+
+            List<HttpMessageObject> goods = HttpUtils.GetData("@Get_ATruckLoadDtl", truckGoods);
+            if (goods == null || goods.size() == 0) {
+                return ;
+            }
+
+            for (HttpMessageObject good : goods) {
+                TruckGoods tg = (TruckGoods) good;
+                Log.d("Goods", tg.getDCNO() + " : " + tg.getGoodsNO() + " : " + tg.getTruckLoadNO() + " : " +
+                        tg.getTruckPaperNO());
+            }
+
+            message.obj = truckGoods;
+            message.what = 0;
+
+            // 发送消息
+            handler.sendMessage(message);
+
+        }).start();
     }
 
     /**

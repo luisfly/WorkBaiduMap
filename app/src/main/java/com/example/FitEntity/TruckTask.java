@@ -1,4 +1,4 @@
-package com.example.workbaidumap;
+package com.example.FitEntity;
 
 public class TruckTask extends HttpMessageObject {
     private String TruckPaperNO;

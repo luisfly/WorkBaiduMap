@@ -21,8 +21,15 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <!-- @style/AppTheme -->
-        <activity android:name=".LoadTrackActivity"></activity>
-        <activity android:name=".TaskActivity" />
+        <activity
+            android:name=".LoadTrackActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+
+        <activity
+            android:name=".TaskActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity
             android:name=".PurchaseActivity"
@@ -86,11 +93,6 @@
             android:name=".LoginActivity"
             android:launchMode="singleTask"
             android:theme="@style/Theme.AppCompat.NoActionBar" >
-            <!--<intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
         </activity>
 
         <activity

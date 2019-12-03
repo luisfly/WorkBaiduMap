@@ -1,7 +1,5 @@
 package com.example.FitEntity;
 
-import com.example.workbaidumap.HttpMessageObject;
-
 /**
  * 交货时，使用的传输交货完成的数据实体
  * 判断处 GSON 当选项为 null 时将不发送该项
