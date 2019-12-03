@@ -57,7 +57,7 @@ public class HttpUtils {
 
             // post方法
             Request request = new Request.Builder().url("http://10.0.2.2:8080/Location").post(requestBody)
-                .build();
+                    .build();
 
             // get方法
             //Request request = new Request.Builder().url("http://www.baidu.com").build();
@@ -70,8 +70,8 @@ public class HttpUtils {
                 throw new IOException("Unexpected code " + response);
             }
         } catch (IOException ex) {
-        //Log.e("OKHttp","Unexpected code" + ex.getStackTrace().toString());
-        ex.getStackTrace();
+            //Log.e("OKHttp","Unexpected code" + ex.getStackTrace().toString());
+            ex.getStackTrace();
         }
     }
 
@@ -100,7 +100,7 @@ public class HttpUtils {
 
             // post方法
             Request request = new Request.Builder().url("http://192.168.0.247:2088/api/GetData").post(requestBody)
-                  .build();
+                    .build();
 
             Response response = client.newCall(request).execute();
             if(response.isSuccessful()) {
@@ -118,7 +118,7 @@ public class HttpUtils {
                     Log.i("Driver", dataRec.getsMessage() + " : " + redriver.getDriverNO() + " : " + redriver.getPassword());
                     return redriver;
                 } else {
-                      // 否则数据查询失败
+                    // 否则数据查询失败
                     Log.i("Okhttp", recJudge.getsMessage());
                     return null;
                 }
@@ -137,32 +137,32 @@ public class HttpUtils {
      * OKhttp 发送定位数据
      */
     public static void LocSend(double latitude, double longitude, String driverNO) {
-       try {
-           OkHttpClient client = new OkHttpClient();
-           DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-           Location location = new Location(latitude, longitude, driverNO, format.format(new Date()));
+        try {
+            OkHttpClient client = new OkHttpClient();
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Location location = new Location(latitude, longitude, driverNO, format.format(new Date()));
 
-           // 发送自定义对象思路，将对象转化为json,再通过okhttp进行发送
-           Gson gson = new Gson();
-           String loc = gson.toJson(location);
-           RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), loc);
+            // 发送自定义对象思路，将对象转化为json,再通过okhttp进行发送
+            Gson gson = new Gson();
+            String loc = gson.toJson(location);
+            RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), loc);
 
-           // post方法
-           Request request = new Request.Builder().url("http://192.168.0.247:2088/api/GetData").post(requestBody)
-               .build();
+            // post方法
+            Request request = new Request.Builder().url("http://192.168.0.247:2088/api/GetData").post(requestBody)
+                    .build();
 
 
-           Response response = client.newCall(request).execute();
-           if(response.isSuccessful()) {
-               Log.i("OKHttp", "发送成功,数据" + response.body().string());
-           } else {
-               Log.e("OKHttp", "Unexpected code " + response);
-               throw new IOException("Unexpected code " + response);
-           }
-       } catch (IOException ex) {
-           //Log.e("OKHttp","Unexpected code" + ex.getStackTrace().toString());
-           ex.getStackTrace();
-       }
+            Response response = client.newCall(request).execute();
+            if(response.isSuccessful()) {
+                Log.i("OKHttp", "发送成功,数据" + response.body().string());
+            } else {
+                Log.e("OKHttp", "Unexpected code " + response);
+                throw new IOException("Unexpected code " + response);
+            }
+        } catch (IOException ex) {
+            //Log.e("OKHttp","Unexpected code" + ex.getStackTrace().toString());
+            ex.getStackTrace();
+        }
     }
 
 
@@ -206,7 +206,6 @@ public class HttpUtils {
             ex.getStackTrace();
         }
     }
-
 
     /**
      * 2019.11.25
@@ -289,76 +288,6 @@ public class HttpUtils {
 
     }
 
-    /**
-     * 2019.11.22
-     * 所有数据发送的方法
-     * 本方法对应数据库中的 select 操作，数据库会主动返回数据
-     * 利用 api 的 get 方法
-     *  @param bussinessName 执行 fit 中的 business 名字
-     *  @param httpObject 传入值以及返回值的类型
-     */
-    public static List<HttpMessageObject> GetData(@NotNull String bussinessName, HttpMessageObject httpObject, Class reClass) {
-        List<reClass> recObjs = new ArrayList<reClass>();
-
-        try {
-
-            OkHttpClient client = new OkHttpClient();
-            HttpMessageObject obj = httpObject;
-            obj.setBusinessName(bussinessName);
-
-            // 发送自定义对象思路，将对象转化为json,再通过okhttp进行发送
-            Gson gson = new Gson();
-            String sendJson = gson.toJson(obj);
-            // 注意mediaType.parse为okhttp3.8.1使用的方法，到 okhttp 3.11.1时要使用 mediaType.get 方法
-            RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), sendJson);
-
-            // post方法
-            Request request = new Request.Builder().url("http://192.168.0.247:2088/api/GetData").post(requestBody)
-                    .build();
-
-            Response response = client.newCall(request).execute();
-            if(response.isSuccessful()) {
-                String resmessage = response.body().string();
-                // 检测回传数据
-                RecJudge recJudge = gson.fromJson(resmessage, RecJudge.class);
-                // isSuccess 字段为1，即数据查询成功
-                if (recJudge.getIsSuccess() == 1) {
-
-                    // 通用接收类型接收 json 数据
-                    DataRec dataRec = gson.fromJson(resmessage, DataRec.class);
-                    List<String> data = new ArrayList<String>();
-                    List<DataRec.Content> contents = dataRec.getsContent();
-                    // 解析嵌套 json
-                    for (DataRec.Content content: contents) {
-                        for (LinkedTreeMap map : content.getData()) {
-                            // 先将LinkedTreeMap转回json String
-                            String datas = gson.toJson(map);
-                            // 再将json转到指定对象
-                            // recObjs.add(gson.fromJson(datas, httpObject.getClass()));
-                            recObjs.add(gson.fromJson(datas, reClass));
-                            httpObject.get
-                        }
-                    }
-
-                    Log.i("GetData", "数据量: " + dataRec.getsContent().size());
-                    return recObjs;
-                } else {
-                    // 否则数据查询失败
-                    Log.e("GetData", recJudge.getsMessage());
-                    return null;
-                }
-
-            } else {
-                Log.e("GetData", "Unexpected code: " + response);
-                throw new IOException("Unexpected code: " + response);
-            }
-        } catch (IOException ex) {
-            ex.getStackTrace();
-            return null;
-        }
-
-    }
-
 
     /**
      * 2019.11.27
@@ -370,7 +299,7 @@ public class HttpUtils {
      * @param reClass 返回表数据时接收类的类名以及对应的表名
      */
     public static HashMap<String, List<HttpMessageObject>> GetData(@NotNull String bussinessName,
-         HttpMessageObject httpObject, HashMap<String, Class<? extends HttpMessageObject>> reClass) {
+                                                                   HttpMessageObject httpObject, HashMap<String, Class<? extends HttpMessageObject>> reClass) {
         // 返回列表
         HashMap<String, List<HttpMessageObject>> recAll = new HashMap<String, List<HttpMessageObject>>();
 
