@@ -1,4 +1,4 @@
-package com.example.workbaidumap;
+package com.example.FitEntity;
 
 import java.io.Serializable;
 
@@ -20,6 +20,12 @@ public class Driver extends HttpMessageObject implements Serializable {
     public Driver(String driverNO, String password) {
         sDriverNO = driverNO;
         sPassword = password;
+    }
+
+    public Driver(String sDriverNO, String sPassword, String sDriverName) {
+        this.sDriverNO = sDriverNO;
+        this.sPassword = sPassword;
+        this.sDriverName = sDriverName;
     }
 
     public String getDriverNO() {

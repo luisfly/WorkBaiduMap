@@ -1,6 +1,4 @@
-package com.example.workbaidumap;
-
-import java.util.Date;
+package com.example.FitEntity;
 
 /**
  * 关于定位的信息存储发送的类

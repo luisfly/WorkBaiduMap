@@ -1,4 +1,4 @@
-package com.example.workbaidumap;
+package com.example.FitEntity;
 
 /**
  * 门店数据实体

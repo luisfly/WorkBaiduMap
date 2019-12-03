@@ -5,7 +5,12 @@
         <item
             android:id="@+id/tRoad"
             android:icon="@mipmap/location"
-            android:title="路线" />
+            android:title="今日路线" />
+
+        <!--<item
+            android:id="@+id/post"
+            android:icon="@mipmap/show"
+            android:title="清除路径" />-->
 
         <item
             android:id="@+id/offMap"
@@ -16,6 +21,7 @@
             android:id="@+id/post"
             android:icon="@mipmap/show"
             android:title="发送测试" />
+
 
         <item
             android:id="@+id/shop"

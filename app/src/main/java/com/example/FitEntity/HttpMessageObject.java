@@ -1,4 +1,4 @@
-package com.example.workbaidumap;
+package com.example.FitEntity;
 
 /**
  * 数据发送附带信息统一管理类

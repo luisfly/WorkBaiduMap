@@ -7,12 +7,6 @@
     android:background="#3C65E5"
     tools:context=".StartPageActivity">
 
-    <!--<androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/startpage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/timg"
-        android:layout_centerInParent="true" />-->
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/icon_image"
@@ -27,4 +21,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="main" />
+
+    <!--<TextView
+        android:id="@+id/first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:textSize="60sp"
+        android:layout_centerHorizontal="true"
+        android:text="卓越" />
+
+    <TextView
+        android:id="@+id/second"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:textSize="60sp"
+        android:layout_below="@+id/first"
+        android:layout_centerHorizontal="true"
+        android:text="进取" />
+
+    <TextView
+        android:id="@+id/third"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:textSize="60sp"
+        android:layout_below="@+id/second"
+        android:layout_centerHorizontal="true"
+        android:text="真诚" />
+
+    <TextView
+        android:id="@+id/forth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:textSize="60sp"
+        android:layout_below="@+id/third"
+        android:layout_centerHorizontal="true"
+        android:text="共赢" />-->
 </RelativeLayout>

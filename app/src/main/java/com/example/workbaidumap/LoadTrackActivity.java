@@ -3,11 +3,19 @@ package com.example.workbaidumap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.FitEntity.HttpMessageObject;
+import com.example.CommonTools.HttpUtils;
+import com.example.FitEntity.DCEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 装载跟踪页面
@@ -22,6 +30,38 @@ public class LoadTrackActivity extends AppCompatActivity {
         setStatusBarFullTransparent();
 
         setContentView(R.layout.activity_load_track);
+
+    }
+
+    private void LoadTruck() {
+        //
+        new Thread(()->{
+            // 获取仓库信息
+            List<HttpMessageObject> dcEntities = HttpUtils.GetData("@Get_ADC", new DCEntity());
+            // 消息发送
+            Message message = new Message();
+            // 出错时暂时不进行任何操作
+            if(dcEntities == null) {
+
+                return ;
+            }
+
+            List<String> dcList = new ArrayList<String>();
+            DCEntity dc;
+
+            for(HttpMessageObject obj : dcEntities) {
+                dc = (DCEntity) obj;
+                dcList.add(dc.getsDCDesc());
+                //loDC.add(dc);
+            }
+
+            message.obj = dcList;
+            message.what = 0;
+
+            // 发送消息
+            //handler.sendMessage(message);
+
+        }).start();
 
     }
 

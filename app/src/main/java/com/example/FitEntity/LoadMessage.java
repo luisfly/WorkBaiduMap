@@ -1,4 +1,4 @@
-package com.example.workbaidumap;
+package com.example.FitEntity;
 
 import com.example.control.NerItem;
 
