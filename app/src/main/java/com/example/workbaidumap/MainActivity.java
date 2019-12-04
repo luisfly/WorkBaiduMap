@@ -222,6 +222,13 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                     break;
+                    // 测试
+                    case R.id.controller_test: {
+                        Intent intent = new Intent(MainActivity.this, ControllerTestActivity.class);
+                        intent.putExtra("Driver", driver);
+                        startActivity(intent);
+                    }
+                    break;
                     default:
                 }
                 return false;

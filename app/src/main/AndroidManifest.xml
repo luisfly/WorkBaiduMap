@@ -20,44 +20,35 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ControllerTestActivity"></activity>
         <!-- @style/AppTheme -->
         <activity
             android:name=".LoadTrackActivity"
             android:launchMode="singleTask"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
-
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".TaskActivity"
             android:launchMode="singleTask"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-
         <activity
             android:name=".PurchaseActivity"
             android:launchMode="singleTask"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-
         <activity
             android:name=".StartTransationActivity"
             android:launchMode="singleTask"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-
         <activity
             android:name=".NotAPILocationActivity"
             android:launchMode="singleTask"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-
-        <!-- 百度地图配置 -->
+            android:theme="@style/Theme.AppCompat.NoActionBar" /> <!-- 百度地图配置 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="8IDrk5N0x2lIuIFLC9cg02I5nUc9hUl0" />
-
-        <!-- 开启百度地图的定位服务 -->
+            android:value="8IDrk5N0x2lIuIFLC9cg02I5nUc9hUl0" /> <!-- 开启百度地图的定位服务 -->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" />
-
-        <!-- 启动页 -->
+            android:process=":remote" /> <!-- 启动页 -->
         <activity
             android:name=".StartPageActivity"
             android:launchMode="singleTask"
@@ -77,7 +68,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-
                 <data
                     android:host="127.0.0.1"
                     android:scheme="m" />
@@ -88,13 +78,10 @@
             android:launchMode="singleTask"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".LoginActivity"
             android:launchMode="singleTask"
-            android:theme="@style/Theme.AppCompat.NoActionBar" >
-        </activity>
-
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask"

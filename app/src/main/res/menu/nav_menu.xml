@@ -53,5 +53,10 @@
             android:icon="@mipmap/buy"
             android:title="任务跟踪" />
 
+        <item
+            android:id="@+id/controller_test"
+            android:icon="@mipmap/buy"
+            android:title="控件测试" />
+
     </group>
 </menu>

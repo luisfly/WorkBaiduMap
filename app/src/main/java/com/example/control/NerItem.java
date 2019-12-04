@@ -6,4 +6,15 @@ package com.example.control;
  */
 public interface NerItem {
 
+    /**
+     * 设置标题文本
+     * @return
+     */
+    public String getTitleText();
+
+    /**
+     * 设置明细文本
+     * @return
+     */
+    public String getDetailText();
 }

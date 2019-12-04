@@ -35,5 +35,20 @@ public class HttpMessageObject {
         return BusinessName;
     }
 
+    /**
+     * 设置标题文本
+     * @return
+     */
+    public String getTitleText() {
+        return "";
+    }
+
+    /**
+     * 设置明细文本
+     * @return
+     */
+    public String getDetailText() {
+        return "";
+    }
 
 }
