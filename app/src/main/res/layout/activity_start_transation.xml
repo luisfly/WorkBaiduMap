@@ -122,7 +122,7 @@
                 android:text="装车单号" />
 
             <EditText
-                android:id="@+id/start_input_ploadno"
+                android:id="@+id/start_input_paperno"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#FFFFFF"
@@ -153,6 +153,7 @@
                     android:src="@mipmap/qtcode" />
 
                 <Button
+                    android:id="@+id/qr_st"
                     android:layout_width="120dp"
                     android:layout_height="40dp"
                     android:layout_centerVertical="true"
@@ -160,6 +161,17 @@
                     android:layout_toRightOf="@+id/start_qr_image"
                     android:background="@drawable/bg_login_input"
                     android:text="@string/qr_code_string"
+                    android:textColor="#000000" />
+
+                <Button
+                    android:id="@+id/s_paperdtl_qty"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="50dp"
+                    android:layout_toRightOf="@+id/qr_st"
+                    android:background="@drawable/bg_login_input"
+                    android:text="查询"
                     android:textColor="#000000" />
 
             </RelativeLayout>

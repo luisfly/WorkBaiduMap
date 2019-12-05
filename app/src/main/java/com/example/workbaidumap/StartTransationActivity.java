@@ -20,6 +20,7 @@ import com.example.FitEntity.HttpMessageObject;
 import com.example.CommonTools.HttpUtils;
 import com.example.FitEntity.DCEntity;
 import com.example.FitEntity.Driver;
+import com.example.FitEntity.TruckTask;
 import com.example.FitEntity.UpdateTruckTask;
 
 import org.jetbrains.annotations.NotNull;
@@ -33,7 +34,8 @@ import java.util.List;
 public class StartTransationActivity extends AppCompatActivity {
     private Spinner start_DC;
     private Button start_commit;
-    private EditText start_input_ploadno;
+    private EditText start_input_paperno;
+    private Button paperNO_qry;
 
 
     // 全局通用变量
@@ -85,7 +87,8 @@ public class StartTransationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start_transation);
         start_DC = (Spinner) findViewById(R.id.start_select_DC);
         start_commit = (Button) findViewById(R.id.start_commit);
-        start_input_ploadno = (EditText) findViewById(R.id.start_input_ploadno);
+        start_input_paperno = (EditText) findViewById(R.id.start_input_paperno);
+        paperNO_qry = (Button) findViewById(R.id.s_paperdtl_qty);
 
         LoadStore();
         initController();
@@ -136,13 +139,28 @@ public class StartTransationActivity extends AppCompatActivity {
             // 访问 fit
            new Thread(()->{
                Driver driver = (Driver) getIntent().getSerializableExtra("Driver");
-
+                // 更新参数初始化
                UpdateTruckTask updateTruckTask = new UpdateTruckTask();
                updateTruckTask.setDCNO(loDC.get(selectedDC).getsDCNO());
                updateTruckTask.setStartDriver(driver.getDriverName());
-               updateTruckTask.setPaperNO(start_input_ploadno.getText().toString());
+               updateTruckTask.setDriverNO(driver.getDriverNO());
+               updateTruckTask.setPaperNO(start_input_paperno.getText().toString());
+
                HttpUtils.PostSingleData("@Post_ATruckStart", updateTruckTask);
            }).start();
+        });
+
+        paperNO_qry.setOnClickListener((View v)->{
+            // 获得装载明细
+            new Thread(()->{
+                TruckTask truckTask = new TruckTask();
+                truckTask.setDCNO(loDC.get(selectedDC).getsDCNO());
+                truckTask.setStartDriver(driver.getDriverName());
+                truckTask.setDriverNO(driver.getDriverNO());
+                truckTask.setTruckPaperNO(start_input_paperno.getText().toString());
+
+                HttpUtils.GetData("@Get_AqryPaperNO", truckTask);
+            }).start();
         });
     }
 

@@ -3,7 +3,7 @@ package com.example.FitEntity;
 /**
  * 交货时，使用的传输交货完成的数据实体
  * 判断处 GSON 当选项为 null 时将不发送该项
- * 2019.11.29 存在问题 fit 传输 LastUpdateTime 时报错
+ *
  */
 public class UpdateTruckTask extends HttpMessageObject {
     private String PaperNO;
@@ -12,7 +12,7 @@ public class UpdateTruckTask extends HttpMessageObject {
     private String SignDriver;
     private String DriverNO;
     private String TruckLoadNO;
-    // 不需要传，fit 系统自动生成 LastUpdateTime
+    // 不需要传，fit 系统自动生成 LastUpdateTime,手动上传后会报错
     private String LastUpdateTime;
     private String DCNO;
 

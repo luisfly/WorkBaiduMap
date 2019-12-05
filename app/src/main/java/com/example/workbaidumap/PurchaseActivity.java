@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,11 +22,14 @@ import com.example.CommonTools.HttpUtils;
 import com.example.FitEntity.DCEntity;
 import com.example.FitEntity.Driver;
 import com.example.FitEntity.Store;
+import com.example.FitEntity.TruckTask;
 import com.example.FitEntity.UpdateTruckTask;
+import com.example.control.CustomBottomSheetDialogForWebView;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -36,7 +40,10 @@ public class PurchaseActivity extends AppCompatActivity {
     private Spinner spinner;
     private Spinner wareSelect;
     private Button purchase_commit;
+    private Button paperDtl;
     private EditText input_ploadno;
+    private EditText input_ppapero;
+    private TextView loaddtl_et;
     // 全局通用变量
     private List<Store> loStore = new ArrayList<>();
     private List<DCEntity> loDC = new ArrayList<>();
@@ -94,6 +101,21 @@ public class PurchaseActivity extends AppCompatActivity {
                         }
                     });
                 }break;
+                case 2: {
+                    // 更新明细框，构建点击事件
+                    loaddtl_et.setText("");
+
+                    // 数据初始化
+                    List<HttpMessageObject> truckData = new ArrayList<>();
+
+
+                    // 点击展开，进行多选操作
+                    loaddtl_et.setOnClickListener((View v)->{
+                        CustomBottomSheetDialogForWebView test =
+                                new CustomBottomSheetDialogForWebView(PurchaseActivity.this, truckData);
+                        test.show();
+                    });
+                }break;
                 default:break;
             }
         }
@@ -110,8 +132,11 @@ public class PurchaseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_purchase);
         spinner = (Spinner) findViewById(R.id.select_store_et);
         purchase_commit = (Button) findViewById(R.id.purchase_commit);
-        input_ploadno = (EditText) findViewById(R.id.input_ploadno);
+        //input_ploadno = (EditText) findViewById(R.id.input_ploadno);
         wareSelect = (Spinner) findViewById(R.id.select_ware_et);
+        paperDtl = (Button) findViewById(R.id.p_paperdtl_qty);
+        input_ppapero = (EditText) findViewById(R.id.input_p_paperno);
+        loaddtl_et = (TextView) findViewById(R.id.loaddtl_et);
 
         // 加载门店下拉列表
         LoadStore();
@@ -125,7 +150,36 @@ public class PurchaseActivity extends AppCompatActivity {
      * 初始化控件事件
      */
     private void initController() {
-        // 交货确认按钮事件初始化
+
+        paperDtl.setOnClickListener((View v)->{
+            String PaperNO = input_ppapero.getText().toString();
+            if (PaperNO.equals("")) {
+
+            } else {
+                new Thread(()->{
+                    // 数据查询
+                    TruckTask truckTask = new TruckTask();
+                    truckTask.setDriverNO(PaperNO);
+                    HashMap<String, Class<? extends HttpMessageObject>> parm = new HashMap<>();
+                    parm.put("tTruckLoadingDriver", TruckTask.class);
+                    parm.put("tTruckTransTask", TruckTask.class);
+                    // 返回结构接收
+                    HashMap<String, List<HttpMessageObject>> res
+                            = HttpUtils.GetData("@Get_NowTruckLoading", truckTask, parm);
+
+                    List<HttpMessageObject> paperNO = res.get("tTruckLoadingDriver");
+
+                    Message message = new Message();
+
+                    message.obj = res;
+                    message.what = 2;
+
+                }).start();
+            }
+        });
+
+
+        // 交货确认按钮事件初始化,12.05需要修改
         purchase_commit.setOnClickListener((View v)->{
             // 普通方式创建线程
             new Thread(new Runnable() {
@@ -147,7 +201,7 @@ public class PurchaseActivity extends AppCompatActivity {
     }
 
     /**
-     * 加载门店信息
+     * 下拉菜单选项初始化
      */
     private void LoadStore() {
         // lamda表达式创建线程
