@@ -261,9 +261,13 @@
             android:text="装车明细" />
 
         <TextView
+            android:id="@+id/paper_show_st"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
+            android:ellipsize="end"
+            android:maxLines="5"
+            android:textSize="20sp"
             android:background="#8B98B1" />
 
     </LinearLayout>

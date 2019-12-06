@@ -80,7 +80,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="370dp"
+        android:layout_height="420dp"
         android:background="#4D688E">
 
         <LinearLayout
@@ -158,7 +158,7 @@
 
         </LinearLayout>
 
-        <!--<LinearLayout
+        <LinearLayout
             android:id="@+id/loadno_et"
             android:layout_width="350dp"
             android:layout_height="40dp"
@@ -183,13 +183,13 @@
                 android:hint="请输入装载号"
                 android:textColorHint="#AAAAAA"/>
 
-        </LinearLayout>-->
+        </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/qr_code"
             android:layout_width="match_parent"
             android:layout_height="90dp"
-            android:layout_below="@+id/paperno_et">
+            android:layout_below="@+id/loadno_et">
 
             <RelativeLayout
                 android:layout_width="350dp"
@@ -270,7 +270,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="210dp"
+        android:layout_height="160dp"
         android:orientation="vertical"
         android:background="#D8DFE8">
 

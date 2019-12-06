@@ -42,7 +42,7 @@ public class PurchaseActivity extends AppCompatActivity {
     private Button purchase_commit;
     private Button paperDtl;
     private EditText input_ploadno;
-    private EditText input_ppapero;
+    private EditText input_ppaperno;
     private TextView loaddtl_et;
     // 全局通用变量
     private List<Store> loStore = new ArrayList<>();
@@ -132,10 +132,10 @@ public class PurchaseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_purchase);
         spinner = (Spinner) findViewById(R.id.select_store_et);
         purchase_commit = (Button) findViewById(R.id.purchase_commit);
-        //input_ploadno = (EditText) findViewById(R.id.input_ploadno);
+        input_ploadno = (EditText) findViewById(R.id.input_ploadno);
         wareSelect = (Spinner) findViewById(R.id.select_ware_et);
         paperDtl = (Button) findViewById(R.id.p_paperdtl_qty);
-        input_ppapero = (EditText) findViewById(R.id.input_p_paperno);
+        input_ppaperno = (EditText) findViewById(R.id.input_p_paperno);
         loaddtl_et = (TextView) findViewById(R.id.loaddtl_et);
 
         // 加载门店下拉列表
@@ -152,7 +152,7 @@ public class PurchaseActivity extends AppCompatActivity {
     private void initController() {
 
         paperDtl.setOnClickListener((View v)->{
-            String PaperNO = input_ppapero.getText().toString();
+            String PaperNO = input_ppaperno.getText().toString();
             if (PaperNO.equals("")) {
 
             } else {
@@ -190,6 +190,7 @@ public class PurchaseActivity extends AppCompatActivity {
                     updateTruckTask.setStoreNO(loStore.get(selectedStore).getsStoreNO());
                     updateTruckTask.setDCNO(loDC.get(selectedDC).getsDCNO());
                     updateTruckTask.setTruckLoadNO(input_ploadno.getText().toString());
+                    updateTruckTask.setPaperNO(input_ppaperno.getText().toString());
 
                     Driver driver = (Driver) getIntent().getSerializableExtra("Driver");
                     updateTruckTask.setDriverNO(driver.getDriverNO());

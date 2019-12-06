@@ -24,6 +24,7 @@ public class TruckTask extends HttpMessageObject {
     // 结束时间，对应数据库的changeDate
     private String EndTime;
 
+
     public TruckTask() {
 
     }

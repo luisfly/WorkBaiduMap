@@ -36,6 +36,17 @@ public class TaskActivity extends AppCompatActivity {
         public void handleMessage(@NotNull Message msg) {
             switch (msg.what) {
                 case 0:{
+                    HashMap<String, List<HttpMessageObject>> nowtask =
+                            (HashMap<String, List<HttpMessageObject>>) msg.obj;
+                    List<HttpMessageObject> nowPaperNO = nowtask.get("tTruckLoadingDriver");
+                    List<HttpMessageObject> nowLoadNO = nowtask.get("tTruckTransTask");
+
+                    StringBuffer show = new StringBuffer();
+
+                    for (HttpMessageObject each : nowPaperNO) {
+                        TruckTask ts = (TruckTask) each;
+                        show.append("装载单号：" + ts.getTruckPaperNO() + "\n出发时间：" + ts.getStartTime() + "\n");
+                    }
 
                 }break;
                 default:break;

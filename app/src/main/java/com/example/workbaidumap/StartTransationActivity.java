@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,11 +23,14 @@ import com.example.CommonTools.HttpUtils;
 import com.example.FitEntity.DCEntity;
 import com.example.FitEntity.Driver;
 import com.example.FitEntity.TruckTask;
+import com.example.FitEntity.TruckTaskShow;
 import com.example.FitEntity.UpdateTruckTask;
+import com.example.control.CustomBottomSheetDialogForWebView;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -36,6 +41,7 @@ public class StartTransationActivity extends AppCompatActivity {
     private Button start_commit;
     private EditText start_input_paperno;
     private Button paperNO_qry;
+    private TextView paper_show_st;
 
 
     // 全局通用变量
@@ -71,6 +77,35 @@ public class StartTransationActivity extends AppCompatActivity {
                         }
                     });
                 }break;
+                case 1: {
+                    HashMap<String, List<HttpMessageObject>> res = (HashMap<String, List<HttpMessageObject>>) msg.obj;
+                    TruckTaskShow paperNO = (TruckTaskShow) res.get("tPaperNO").get(0);
+                    List<HttpMessageObject> storeDescs = res.get("tStore");
+                    List<HttpMessageObject> loadNO = res.get("tLoadNO");
+
+                    StringBuffer show
+                            = new StringBuffer().append("当前装车单号： " + paperNO.getTruckPaperNO() +
+                                "\n装载数量：" + paperNO.getLoadNum() + "\n目标门店：");
+
+                    for (HttpMessageObject storeDesc : storeDescs   ) {
+                        TruckTaskShow each = (TruckTaskShow) storeDesc;
+                        show.append(each.getStoreDesc()+":");
+                    }
+
+                    Log.d("Taskshow", show.toString());
+
+                    // 设置装车单号初略描述
+                    paper_show_st.setText(show.toString());
+
+                    // 点击事件配置
+                    paper_show_st.setOnClickListener((View v)->{
+                        // 装载明细点击展开,弹出菜单
+                        CustomBottomSheetDialogForWebView test =
+                                new CustomBottomSheetDialogForWebView(StartTransationActivity.this, loadNO);
+                        test.show();
+                    });
+
+                }break;
                 default:break;
             }
         }
@@ -89,6 +124,7 @@ public class StartTransationActivity extends AppCompatActivity {
         start_commit = (Button) findViewById(R.id.start_commit);
         start_input_paperno = (EditText) findViewById(R.id.start_input_paperno);
         paperNO_qry = (Button) findViewById(R.id.s_paperdtl_qty);
+        paper_show_st = (TextView) findViewById(R.id.paper_show_st);
 
         LoadStore();
         initController();
@@ -155,11 +191,30 @@ public class StartTransationActivity extends AppCompatActivity {
             new Thread(()->{
                 TruckTask truckTask = new TruckTask();
                 truckTask.setDCNO(loDC.get(selectedDC).getsDCNO());
-                truckTask.setStartDriver(driver.getDriverName());
-                truckTask.setDriverNO(driver.getDriverNO());
                 truckTask.setTruckPaperNO(start_input_paperno.getText().toString());
 
-                HttpUtils.GetData("@Get_AqryPaperNO", truckTask);
+                // 各返回值接收
+                HashMap<String, Class<? extends HttpMessageObject>> parm = new HashMap<>();
+                parm.put("tPaperNO", TruckTaskShow.class);
+                parm.put("tStore", TruckTaskShow.class);
+                parm.put("tLoadNO", TruckTaskShow.class);
+
+                // 查询
+                HashMap<String, List<HttpMessageObject>> res =
+                        HttpUtils.GetData("@Get_AqryPaperNO", truckTask, parm);
+
+                Message message = new Message();
+
+                if (res == null) {
+                    Log.d("查询","查询返回值为null");
+                    return ;
+                }
+
+                message.obj = res;
+                message.what = 1;
+
+                // 发送消息
+                handler.sendMessage(message);
             }).start();
         });
     }
