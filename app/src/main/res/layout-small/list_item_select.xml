@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/item_loadNO"
+    android:layout_width="350dp"
+    android:layout_height="100dp"
+    android:background="@drawable/bg_login_input"
+    android:layout_centerVertical="true" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/item_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="#000000"
+            android:textSize="22sp"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="40dp"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/select_loadno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="选择"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/item_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="#000000"
+            android:textSize="22sp"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+
+</LinearLayout>

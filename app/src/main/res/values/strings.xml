@@ -4,4 +4,6 @@
     <string name="password">密码</string>
     <string name="qr_code_string">二维码扫描</string>
     <string name="bar_code_string">条形码扫描</string>
+    <string name="title">锐志启航</string>
+    <string name="subtitle">万里商海与您一同启航</string>
 </resources>

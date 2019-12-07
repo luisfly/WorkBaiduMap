@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:divider="@drawable/divider"
-    tools:context=".TaskActivity">
+    tools:context=".LoadTrackActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -57,9 +56,9 @@
                     android:layout_margin="2dp"
                     android:layout_toRightOf="@+id/start_endTrc"
                     android:layout_weight="1"
-                    android:background="#FFFFFF"
+                    android:background="#3871DE"
                     android:text="我的任务"
-                    android:textColor="#3871DE" />
+                    android:textColor="#FFFFFF" />
 
                 <Button
                     android:id="@+id/start_LoadFollow"
@@ -68,9 +67,9 @@
                     android:layout_margin="2dp"
                     android:layout_toRightOf="@+id/start_Task"
                     android:layout_weight="1"
-                    android:background="#3871DE"
+                    android:background="#FFFFFF"
                     android:text="装载跟踪"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#3871DE" />
 
             </RelativeLayout>
 
@@ -81,24 +80,30 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:background="#D8DFE8">
+        android:layout_height="300dp"
+        android:background="#4D688E">
 
-        <com.baidu.mapapi.map.MapView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp" >
 
-        </com.baidu.mapapi.map.MapView>
+
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#364A6D">
+
 
 
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="220dp"
         android:orientation="vertical"
-        android:background="#FFFFFF">
+        android:background="#D8DFE8">
 
         <TextView
             android:id="@+id/load_tray_show"
@@ -111,18 +116,17 @@
             android:text="装车明细" />
 
         <TextView
-            android:id="@+id/loadtask"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
-            android:background="#D8DFE8" />
+            android:background="#8B98B1" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:background="#F2F2F2">
+        android:background="#FFFFFF">
 
         <ImageView
             android:layout_width="match_parent"
@@ -148,3 +152,37 @@
     </LinearLayout>
 
 </LinearLayout>
+
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".LoadTrackActivity">
+
+    <TextView
+        android:id="@+id/loadno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="装载号" />
+
+    <EditText
+        android:id="@+id/sloadno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="装载号输入框" />
+
+    <EditText
+        android:id="@+id/sloadshow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="装载详情显示框" />
+
+    <Button
+        android:id="@+id/check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="查询" />
+
+</LinearLayout>-->

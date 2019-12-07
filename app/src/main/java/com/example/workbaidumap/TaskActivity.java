@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,6 +20,8 @@ import com.example.CommonTools.HttpUtils;
 import com.example.FitEntity.Driver;
 import com.example.FitEntity.TruckGoods;
 import com.example.FitEntity.TruckTask;
+import com.example.FitEntity.TruckTaskShow;
+import com.example.control.CustomBottomSheetDialogForWebView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -30,6 +33,7 @@ import java.util.List;
  */
 public class TaskActivity extends AppCompatActivity {
     private HashMap<String, List<HttpMessageObject>> res = new HashMap<>();
+    private TextView loadtask;
 
     private Handler handler = new Handler(){
 
@@ -44,9 +48,21 @@ public class TaskActivity extends AppCompatActivity {
                     StringBuffer show = new StringBuffer();
 
                     for (HttpMessageObject each : nowPaperNO) {
-                        TruckTask ts = (TruckTask) each;
+                        TruckTaskShow ts = (TruckTaskShow) each;
                         show.append("装载单号：" + ts.getTruckPaperNO() + "\n出发时间：" + ts.getStartTime() + "\n");
                     }
+
+                    // 显示文本设计
+                    loadtask.setText(show.toString());
+
+                    // 点击事件配置
+                    loadtask.setOnClickListener((View v)->{
+                        // 装载明细点击展开,弹出菜单
+                        CustomBottomSheetDialogForWebView sheet =
+                                new CustomBottomSheetDialogForWebView(TaskActivity.this, nowLoadNO);
+                        sheet.show();
+                    });
+
 
                 }break;
                 default:break;
@@ -68,6 +84,9 @@ public class TaskActivity extends AppCompatActivity {
         SDKInitializer.setCoordType(CoordType.BD09LL);
 
         setContentView(R.layout.activity_task);
+
+        loadtask = (TextView) findViewById(R.id.loadtask);
+
         // 获取当前司机的装载单号详细信息
         LoadTruck();
 
@@ -87,8 +106,8 @@ public class TaskActivity extends AppCompatActivity {
             truckTask.setDriverNO(driver.getDriverNO());
             // 要接收的表以及用于接收的类
             HashMap<String, Class<? extends HttpMessageObject>> parm = new HashMap<>();
-            parm.put("tTruckLoadingDriver", TruckTask.class);
-            parm.put("tTruckTransTask", TruckTask.class);
+            parm.put("tTruckLoadingDriver", TruckTaskShow.class);
+            parm.put("tTruckTransTask", TruckTaskShow.class);
 
 
             // 获取装载单号信息

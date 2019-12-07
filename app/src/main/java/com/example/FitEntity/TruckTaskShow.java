@@ -14,18 +14,21 @@ public class TruckTaskShow extends HttpMessageObject {
     public String StoreDesc;
     // 仓库编码
     public String DCNO;
+    // 出发时间
+    public String StartTime;
 
     public TruckTaskShow() {
 
     }
 
     public TruckTaskShow(String truckPaperNO, String truckLoadNO, int loadNum, String storeDesc,
-            String dcNO) {
+            String dcNO, String startTime) {
         TruckPaperNO = truckPaperNO;
         TruckLoadNO = truckLoadNO;
         LoadNum = loadNum;
         StoreDesc = storeDesc;
         DCNO = dcNO;
+        StartTime = startTime;
     }
 
     public String getTruckPaperNO() {
@@ -66,6 +69,14 @@ public class TruckTaskShow extends HttpMessageObject {
 
     public void setDCNO(String DCNO) {
         this.DCNO = DCNO;
+    }
+
+    public String getStartTime() {
+        return StartTime;
+    }
+
+    public void setStartTime(String startTime) {
+        StartTime = startTime;
     }
 
     @Override

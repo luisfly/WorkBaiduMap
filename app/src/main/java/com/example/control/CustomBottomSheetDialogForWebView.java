@@ -77,7 +77,6 @@ public class CustomBottomSheetDialogForWebView extends BottomSheetDialog {
         this.nerResult = nerItem;
         cardListAdapter = new CardListAdapter(context, R.layout.list_item, nerItem);
         createView();
-        this.state = state;
     }
 
     /**

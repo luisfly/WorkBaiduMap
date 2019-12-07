@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
+    tools:context=".MainActivity">
+
+    <!-- 9.11 创建主视图的线性视图
+         9.16 修改为相对布局       -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="25dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@mipmap/list"
+            android:radius="5dp"
+            android:visibility="visible" />
+
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/bmpView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true" />
+
+    </RelativeLayout>
+
+    <!-- 9.11 创建侧滑栏 -->
+    <!--<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:orientation="vertical"
+        android:background="#FFFFFF">
+
+        <Button
+            android:id="@+id/tRoad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="今日的行程" />
+
+        <Button
+            android:id="@+id/offMap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="离线地图下载" />
+
+        <Button
+            android:id="@+id/post"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="post" />
+
+    </LinearLayout>-->
+
+    <!-- 侧滑布局整合到 menu 中 -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/nav_menu"
+        app:headerLayout="@layout/nav_header" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

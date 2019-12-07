@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".PurchaseActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:background="#3871DE"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="46dp">
+
+            <RelativeLayout
+                android:layout_width="400dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/function_selector">
+
+                <Button
+                    android:id="@+id/startTrc"
+                    android:layout_width="96dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:background="#3871DE"
+                    android:text="发车"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/endTrc"
+                    android:layout_width="96dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_toRightOf="@+id/startTrc"
+                    android:layout_weight="1"
+                    android:background="#FFFFFF"
+                    android:text="交货"
+                    android:textColor="#3871DE" />
+
+                <Button
+                    android:id="@+id/Task"
+                    android:layout_width="96dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_toRightOf="@+id/endTrc"
+                    android:layout_weight="1"
+                    android:background="#3871DE"
+                    android:text="我的任务"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/LoadFollow"
+                    android:layout_width="97dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_toRightOf="@+id/Task"
+                    android:layout_weight="1"
+                    android:background="#3871DE"
+                    android:text="装载跟踪"
+                    android:textColor="#FFFFFF" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="420dp"
+        android:background="#4D688E">
+
+        <LinearLayout
+            android:id="@+id/wareSelect_et"
+            android:layout_width="350dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_tran_task">
+
+            <TextView
+                android:id="@+id/ware_et"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="仓库" />
+
+            <Spinner
+                android:id="@+id/select_ware_et"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                 />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/storeSelect_et"
+            android:layout_width="350dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:layout_below="@+id/wareSelect_et"
+            android:background="@drawable/bg_tran_task">
+
+            <TextView
+                android:id="@+id/store_et"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="门店" />
+
+            <Spinner
+                android:id="@+id/select_store_et"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/paperno_et"
+            android:layout_width="350dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/storeSelect_et"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_tran_task">
+
+            <TextView
+                android:id="@+id/p_paperno"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="装车单号" />
+
+            <EditText
+                android:id="@+id/input_p_paperno"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FFFFFF"
+                android:textColor="#666666"
+                android:hint="请输入装车单号"
+                android:textColorHint="#AAAAAA"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/loadno_et"
+            android:layout_width="350dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/paperno_et"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_tran_task">
+
+            <TextView
+                android:id="@+id/ploadno"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="装载号" />
+
+            <EditText
+                android:id="@+id/input_ploadno"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FFFFFF"
+                android:textColor="#666666"
+                android:hint="请输入装载号"
+                android:textColorHint="#AAAAAA"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/qr_code"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_below="@+id/loadno_et">
+
+            <RelativeLayout
+                android:layout_width="350dp"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true">
+
+                <ImageView
+                    android:id="@+id/qr_image"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/bg_login_input"
+                    android:src="@mipmap/qtcode" />
+
+                <Button
+                    android:id="@+id/qr_et"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@+id/qr_image"
+                    android:background="@drawable/bg_login_input"
+                    android:text="@string/qr_code_string"
+                    android:textColor="#000000" />
+
+                <Button
+                    android:id="@+id/p_paperdtl_qty"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="50dp"
+                    android:layout_toRightOf="@+id/qr_et"
+                    android:background="@drawable/bg_login_input"
+                    android:text="查询"
+                    android:textColor="#000000" />
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_below="@+id/qr_code">
+
+            <RelativeLayout
+                android:layout_width="350dp"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true">
+
+            <ImageView
+                android:id="@+id/bar_code_image"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/bg_login_input"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/barcode" />
+
+            <Button
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@+id/bar_code_image"
+                android:background="@drawable/bg_login_input"
+                android:text="@string/bar_code_string"
+                android:textColor="#000000" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:orientation="vertical"
+        android:background="#D8DFE8">
+
+        <TextView
+            android:id="@+id/load_tray_show"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textColor="#5E779B"
+            android:textSize="24sp"
+            android:text="装载明细" />
+
+        <TextView
+            android:id="@+id/loaddtl_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:textColor="#FFFFFF"
+            android:background="#8B98B1" />
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#364A6D">
+
+        <Button
+            android:id="@+id/purchase_commit"
+            android:layout_width="240dp"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_task_submit"
+            android:text="交货确认" />
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="match_parent"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@+id/purchase_commit"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_task_cancel"
+            android:text="取消" />
+
+    </RelativeLayout>
+
+    <!--<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="#FFFFFF">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:src="@mipmap/first_page" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:src="@mipmap/identifly" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:src="@mipmap/map" />
+
+    </LinearLayout>-->
+
+</LinearLayout>
