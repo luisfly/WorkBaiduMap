@@ -1,5 +1,6 @@
 package com.example.workbaidumap;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,12 +16,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.FitEntity.HttpMessageObject;
 import com.example.CommonTools.HttpUtils;
 import com.example.FitEntity.DCEntity;
 import com.example.FitEntity.Driver;
+import com.example.FitEntity.Rerror;
 import com.example.FitEntity.Store;
 import com.example.FitEntity.TruckTask;
 import com.example.FitEntity.UpdateTruckTask;
@@ -116,6 +119,19 @@ public class PurchaseActivity extends AppCompatActivity {
                         test.show();
                     });
                 }break;
+                case 999: {
+                    // 出错处理
+                    AlertDialog.Builder dialog = new AlertDialog.Builder (PurchaseActivity.this);
+                    dialog.setTitle("错误");
+                    dialog.setMessage((String) msg.obj);
+                    dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+                }break;
                 default:break;
             }
         }
@@ -152,24 +168,35 @@ public class PurchaseActivity extends AppCompatActivity {
     private void initController() {
 
         paperDtl.setOnClickListener((View v)->{
-            String PaperNO = input_ppaperno.getText().toString();
-            if (PaperNO.equals("")) {
+            String paperNO = input_ppaperno.getText().toString();
+            String truckLoadNO = input_ploadno.getText().toString();
+            if (paperNO.equals("")) {
 
             } else {
                 new Thread(()->{
                     // 数据查询
                     TruckTask truckTask = new TruckTask();
-                    truckTask.setDriverNO(PaperNO);
+                    truckTask.setTruckPaperNO(paperNO);
+                    truckTask.setTruckLoadNO(truckLoadNO);
+                    truckTask.setDriverNO(((Driver)getIntent().getSerializableExtra("Driver")).getDriverNO());
+                    //truckTask.set
                     HashMap<String, Class<? extends HttpMessageObject>> parm = new HashMap<>();
                     parm.put("tTruckLoadingDriver", TruckTask.class);
                     parm.put("tTruckTransTask", TruckTask.class);
                     // 返回结构接收
                     HashMap<String, List<HttpMessageObject>> res
-                            = HttpUtils.GetData("@Get_NowTruckLoading", truckTask, parm);
-
-                    List<HttpMessageObject> paperNO = res.get("tTruckLoadingDriver");
-
+                            = HttpUtils.GetData("@Get_ATruckToStore", truckTask, parm);
                     Message message = new Message();
+
+                    // 出错时返回错误信息
+                    if(res.get("error") != null) {
+                        message.what = 999;
+                        message.obj = ((Rerror) res.get("error").get(0)).getError();
+
+                        // 发送消息
+                        handler.sendMessage(message);
+                        return ;
+                    }
 
                     message.obj = res;
                     message.what = 2;

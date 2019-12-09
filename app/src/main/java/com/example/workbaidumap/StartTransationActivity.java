@@ -1,5 +1,8 @@
 package com.example.workbaidumap;
 
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,12 +19,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.FitEntity.HttpMessageObject;
 import com.example.CommonTools.HttpUtils;
 import com.example.FitEntity.DCEntity;
 import com.example.FitEntity.Driver;
+import com.example.FitEntity.Rerror;
 import com.example.FitEntity.TruckTask;
 import com.example.FitEntity.TruckTaskShow;
 import com.example.FitEntity.UpdateTruckTask;
@@ -42,6 +47,10 @@ public class StartTransationActivity extends AppCompatActivity {
     private EditText start_input_paperno;
     private Button paperNO_qry;
     private TextView paper_show_st;
+    private Button start_cancel;
+    private Button start_endTrc;
+    private Button start_Task;
+    private Button start_LoadFollow;
 
 
     // 全局通用变量
@@ -106,6 +115,19 @@ public class StartTransationActivity extends AppCompatActivity {
                     });
 
                 }break;
+                case 999: {
+                    // 出错处理
+                    AlertDialog.Builder dialog = new AlertDialog.Builder (StartTransationActivity.this);
+                    dialog.setTitle("错误");
+                    dialog.setMessage((String) msg.obj);
+                    dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+                }
                 default:break;
             }
         }
@@ -125,6 +147,10 @@ public class StartTransationActivity extends AppCompatActivity {
         start_input_paperno = (EditText) findViewById(R.id.start_input_paperno);
         paperNO_qry = (Button) findViewById(R.id.s_paperdtl_qty);
         paper_show_st = (TextView) findViewById(R.id.paper_show_st);
+        start_cancel = (Button) findViewById(R.id.start_cancel);
+        start_endTrc = (Button) findViewById(R.id.start_endTrc);
+        start_Task = (Button) findViewById(R.id.start_Task);
+        start_LoadFollow = (Button) findViewById(R.id.start_LoadFollow);
 
         LoadStore();
         initController();
@@ -140,9 +166,13 @@ public class StartTransationActivity extends AppCompatActivity {
             List<HttpMessageObject> dcEntities = HttpUtils.GetData("@Get_ADC", new DCEntity());
             // 消息发送
             Message message = new Message();
-            // 出错时暂时不进行任何操作
-            if(dcEntities == null) {
+            // 出错时返回错误信息
+            if(dcEntities.get(0) instanceof Rerror) {
+                message.what = 999;
+                message.obj = ((Rerror) dcEntities.get(0)).getError();
 
+                // 发送消息
+                handler.sendMessage(message);
                 return ;
             }
 
@@ -205,8 +235,13 @@ public class StartTransationActivity extends AppCompatActivity {
 
                 Message message = new Message();
 
-                if (res == null) {
-                    Log.d("查询","查询返回值为null");
+                // 出错时返回错误信息
+                if(res.get("error") != null) {
+                    message.what = 999;
+                    message.obj = ((Rerror) res.get("error").get(0)).getError();
+
+                    // 发送消息
+                    handler.sendMessage(message);
                     return ;
                 }
 
@@ -216,6 +251,30 @@ public class StartTransationActivity extends AppCompatActivity {
                 // 发送消息
                 handler.sendMessage(message);
             }).start();
+        });
+
+        // 返回
+        start_cancel.setOnClickListener((View v)->{
+            StartTransationActivity.this.finish();
+        });
+
+
+        start_endTrc.setOnClickListener((View v)->{
+            Intent intent = new Intent(StartTransationActivity.this, PurchaseActivity.class);
+            intent.putExtra("Driver", (Driver) getIntent().getSerializableExtra("Driver"));
+            startActivity(intent);
+        });
+
+        start_Task.setOnClickListener((View v)->{
+            Intent intent = new Intent(StartTransationActivity.this, TaskActivity.class);
+            intent.putExtra("Driver", (Driver) getIntent().getSerializableExtra("Driver"));
+            startActivity(intent);
+        });
+
+        start_LoadFollow.setOnClickListener((View v)->{
+            Intent intent = new Intent(StartTransationActivity.this, LoadTrackActivity.class);
+            intent.putExtra("Driver", (Driver) getIntent().getSerializableExtra("Driver"));
+            startActivity(intent);
         });
     }
 

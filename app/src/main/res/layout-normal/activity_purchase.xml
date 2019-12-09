@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="46dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="400dp"
                 android:layout_height="40dp"
                 android:layout_marginRight="5dp"
@@ -34,6 +34,7 @@
                     android:layout_width="96dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
+                    android:layout_weight="1"
                     android:background="#3871DE"
                     android:text="发车"
                     android:textColor="#FFFFFF" />
@@ -71,7 +72,7 @@
                     android:text="装载跟踪"
                     android:textColor="#FFFFFF" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </RelativeLayout>
 
@@ -270,56 +271,64 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:orientation="vertical"
-        android:background="#D8DFE8">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/load_tray_show"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:textColor="#5E779B"
-            android:textSize="24sp"
-            android:text="装载明细" />
+            android:layout_height="220dp"
+            android:layout_weight="3"
+            android:orientation="vertical"
+            android:background="#D8DFE8">
 
-        <TextView
-            android:id="@+id/loaddtl_et"
+            <TextView
+                android:id="@+id/load_tray_show"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textColor="#5E779B"
+                android:textSize="24sp"
+                android:text="装载明细" />
+
+            <TextView
+                android:id="@+id/loaddtl_et"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:textColor="#FFFFFF"
+                android:background="#8B98B1" />
+
+        </LinearLayout>
+
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:textColor="#FFFFFF"
-            android:background="#8B98B1" />
+            android:layout_height="80dp"
+            android:background="#364A6D">
+
+            <Button
+                android:id="@+id/purchase_commit"
+                android:layout_width="240dp"
+                android:layout_margin="10dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_task_submit"
+                android:text="交货确认" />
+
+            <Button
+                android:id="@+id/cancel"
+                android:layout_width="match_parent"
+                android:layout_margin="10dp"
+                android:layout_toRightOf="@+id/purchase_commit"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_task_cancel"
+                android:text="取消" />
+
+        </RelativeLayout>
 
     </LinearLayout>
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="#364A6D">
-
-        <Button
-            android:id="@+id/purchase_commit"
-            android:layout_width="240dp"
-            android:layout_margin="10dp"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:background="@drawable/bg_task_submit"
-            android:text="交货确认" />
-
-        <Button
-            android:id="@+id/cancel"
-            android:layout_width="match_parent"
-            android:layout_margin="10dp"
-            android:layout_toRightOf="@+id/purchase_commit"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:background="@drawable/bg_task_cancel"
-            android:text="取消" />
-
-    </RelativeLayout>
 
     <!--<LinearLayout
         android:layout_width="match_parent"

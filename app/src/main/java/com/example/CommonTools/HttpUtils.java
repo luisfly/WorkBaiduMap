@@ -6,6 +6,7 @@ import com.example.FitEntity.DataRec;
 import com.example.FitEntity.Driver;
 import com.example.FitEntity.HttpMessageObject;
 import com.example.FitEntity.Location;
+import com.example.FitEntity.Rerror;
 import com.example.workbaidumap.RecJudge;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
@@ -274,6 +275,7 @@ public class HttpUtils {
                 } else {
                     // 否则数据查询失败
                     Log.e("GetData", recJudge.getsMessage());
+                    recObjs.add(new Rerror(recJudge.getsMessage()));
                     return null;
                 }
 
@@ -420,7 +422,10 @@ public class HttpUtils {
                 } else {
                     // 否则数据查询失败
                     Log.e("GetData", recJudge.getsMessage());
-                    return null;
+                    List<HttpMessageObject> error = new ArrayList<>();
+                    error.add(new Rerror(recJudge.getsMessage()));
+                    recAll.put("error", error);
+                    return recAll;
                 }
 
             } else {
