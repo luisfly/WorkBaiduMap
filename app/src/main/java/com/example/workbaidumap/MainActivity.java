@@ -144,6 +144,16 @@ public class MainActivity extends AppCompatActivity {
             permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
 
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.
+                permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            permissionList.add(Manifest.permission.CAMERA);
+        }
+
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.
+                permission.VIBRATE) != PackageManager.PERMISSION_GRANTED) {
+            permissionList.add(Manifest.permission.VIBRATE);
+        }
+
         if (!permissionList.isEmpty()) {
             String [] permissions = permissionList.toArray(new String[permissionList.size()]);
             ActivityCompat.requestPermissions(MainActivity.this, permissions, 1);

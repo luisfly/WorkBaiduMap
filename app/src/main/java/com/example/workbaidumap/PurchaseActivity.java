@@ -26,6 +26,7 @@ import com.example.FitEntity.Driver;
 import com.example.FitEntity.Rerror;
 import com.example.FitEntity.Store;
 import com.example.FitEntity.TruckTask;
+import com.example.FitEntity.TruckTaskShow;
 import com.example.FitEntity.UpdateTruckTask;
 import com.example.control.CustomBottomSheetDialogForWebView;
 
@@ -105,19 +106,29 @@ public class PurchaseActivity extends AppCompatActivity {
                     });
                 }break;
                 case 2: {
+                    List<HttpMessageObject> res = (List<HttpMessageObject>) msg.obj;
+                    TruckTaskShow show = (TruckTaskShow)(res.get(0));
+
                     // 更新明细框，构建点击事件
-                    loaddtl_et.setText("");
+                    loaddtl_et.setText("装车单号：" + input_ppaperno.getText().toString() + "\n装载号："
+                            + input_ploadno.getText().toString() + "\n商品种类数量：" + show.getGoodsSort()
+                            + "\n出发时间：" + show.getStartTime());
+
+                    loaddtl_et.setOnClickListener((View v)->{
+
+                    });
 
                     // 数据初始化
-                    List<HttpMessageObject> truckData = new ArrayList<>();
+                    // List<HttpMessageObject> truckData = new ArrayList<>();
 
 
                     // 点击展开，进行多选操作
-                    loaddtl_et.setOnClickListener((View v)->{
+                    /*loaddtl_et.setOnClickListener((View v)->{
                         CustomBottomSheetDialogForWebView test =
                                 new CustomBottomSheetDialogForWebView(PurchaseActivity.this, truckData);
                         test.show();
-                    });
+                    });*/
+
                 }break;
                 case 999: {
                     // 出错处理
@@ -176,22 +187,21 @@ public class PurchaseActivity extends AppCompatActivity {
                 new Thread(()->{
                     // 数据查询
                     TruckTask truckTask = new TruckTask();
+                    // fit 配置
                     truckTask.setTruckPaperNO(paperNO);
                     truckTask.setTruckLoadNO(truckLoadNO);
                     truckTask.setDriverNO(((Driver)getIntent().getSerializableExtra("Driver")).getDriverNO());
-                    //truckTask.set
-                    HashMap<String, Class<? extends HttpMessageObject>> parm = new HashMap<>();
-                    parm.put("tTruckLoadingDriver", TruckTask.class);
-                    parm.put("tTruckTransTask", TruckTask.class);
+                    truckTask.setSiteNO(loDC.get(selectedDC).getsDCNO());
+
                     // 返回结构接收
-                    HashMap<String, List<HttpMessageObject>> res
-                            = HttpUtils.GetData("@Get_ATruckToStore", truckTask, parm);
+                    List<HttpMessageObject> res
+                            = HttpUtils.GetData("@Get_ATruckToStore", truckTask, TruckTaskShow.class);
                     Message message = new Message();
 
                     // 出错时返回错误信息
-                    if(res.get("error") != null) {
+                    if(res.get(0) instanceof Rerror) {
                         message.what = 999;
-                        message.obj = ((Rerror) res.get("error").get(0)).getError();
+                        message.obj = ((Rerror) res.get(0)).getError();
 
                         // 发送消息
                         handler.sendMessage(message);

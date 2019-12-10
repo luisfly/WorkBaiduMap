@@ -5,17 +5,19 @@ package com.example.FitEntity;
  */
 public class TruckTaskShow extends HttpMessageObject {
     // 装车单号
-    public String TruckPaperNO;
+    private String TruckPaperNO;
     // 装载号
-    public String TruckLoadNO;
+    private String TruckLoadNO;
     // 装载数量
-    public int LoadNum;
+    private int LoadNum;
     // 门店去向
-    public String StoreDesc;
+    private String StoreDesc;
     // 仓库编码
-    public String DCNO;
+    private String DCNO;
     // 出发时间
-    public String StartTime;
+    private String StartTime;
+    // 商品种类数量
+    private int GoodsSort;
 
     public TruckTaskShow() {
 
@@ -77,6 +79,14 @@ public class TruckTaskShow extends HttpMessageObject {
 
     public void setStartTime(String startTime) {
         StartTime = startTime;
+    }
+
+    public int getGoodsSort() {
+        return GoodsSort;
+    }
+
+    public void setGoodsSort(int goodsSort) {
+        GoodsSort = goodsSort;
     }
 
     @Override

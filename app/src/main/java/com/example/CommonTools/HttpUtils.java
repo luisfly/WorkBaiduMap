@@ -346,7 +346,8 @@ public class HttpUtils {
                 } else {
                     // 否则数据查询失败
                     Log.e("GetData", recJudge.getsMessage());
-                    return null;
+                    recObjs.add(new Rerror(recJudge.getsMessage()));
+                    return recObjs;
                 }
 
             } else {
