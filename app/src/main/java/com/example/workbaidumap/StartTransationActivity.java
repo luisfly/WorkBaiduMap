@@ -115,6 +115,19 @@ public class StartTransationActivity extends AppCompatActivity {
                     });
 
                 }break;
+                case 2: {
+                    // 提示
+                    AlertDialog.Builder dialog = new AlertDialog.Builder (StartTransationActivity.this);
+                    dialog.setTitle("发车");
+                    dialog.setMessage((String) msg.obj);
+                    dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+                }break;
                 case 999: {
                     // 出错处理
                     AlertDialog.Builder dialog = new AlertDialog.Builder (StartTransationActivity.this);
@@ -212,7 +225,15 @@ public class StartTransationActivity extends AppCompatActivity {
                updateTruckTask.setDriverNO(driver.getDriverNO());
                updateTruckTask.setPaperNO(start_input_paperno.getText().toString());
 
-               HttpUtils.PostSingleData("@Post_ATruckStart", updateTruckTask);
+               String res = HttpUtils.PostSingleData("@Post_ATruckStart", updateTruckTask);
+
+               Message message = new Message();
+
+               message.what = 2;
+               message.obj = res;
+
+               handler.sendMessage(message);
+
            }).start();
         });
 

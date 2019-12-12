@@ -176,7 +176,7 @@ public class HttpUtils {
      * @param bussinessName 执行 fit 中的 business 名字
      * @param httpObject 传入的值
      */
-    public static void PostSingleData(@NotNull String bussinessName, @NotNull HttpMessageObject httpObject) {
+    public static String PostSingleData(@NotNull String bussinessName, @NotNull HttpMessageObject httpObject) {
         try {
             OkHttpClient client = new OkHttpClient();
             HttpMessageObject obj = httpObject;
@@ -198,6 +198,15 @@ public class HttpUtils {
                 // 返回信息获取
                 String resmessage = response.body().string();
                 Log.d("OKHttp", resmessage);
+
+                // 检测回传数据
+                RecJudge recJudge = gson.fromJson(resmessage, RecJudge.class);
+                // isSuccess 字段为1，即数据查询成功
+                if (recJudge.getIsSuccess() == 1) {
+                    return "操作成功";
+                } else {
+                    return recJudge.getsMessage();
+                }
             } else {
                 Log.e("OKHttp", "Unexpected code " + response);
                 throw new IOException("Unexpected code " + response);
@@ -205,6 +214,7 @@ public class HttpUtils {
         } catch (IOException ex) {
             //Log.e("OKHttp","Unexpected code" + ex.getStackTrace().toString());
             ex.getStackTrace();
+            return ex.getMessage();
         }
     }
 

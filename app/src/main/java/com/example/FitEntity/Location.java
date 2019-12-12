@@ -13,6 +13,11 @@ public class Location extends HttpMessageObject {
   // 定位时间
   private String dLocationTime;
 
+  public Location(double nLatitude, double nLongitude, String sDriverNO) {
+    this.nLatitude = nLatitude;
+    this.nLongitude = nLongitude;
+    this.sDriverNO = sDriverNO;
+  }
 
   /**
    *

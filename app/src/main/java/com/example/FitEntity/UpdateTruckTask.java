@@ -16,6 +16,12 @@ public class UpdateTruckTask extends HttpMessageObject {
     private String LastUpdateTime;
     private String DCNO;
 
+    // 当前位置信息，在交货时需要验证，判断位置是否正确
+    // 纬度
+    private double Latitude;
+    // 经度
+    private double Longitude;
+
     public UpdateTruckTask() {
 
     }
@@ -92,5 +98,21 @@ public class UpdateTruckTask extends HttpMessageObject {
 
     public void setStartDriver(String startDriver) {
         StartDriver = startDriver;
+    }
+
+    public double getLatitude() {
+        return Latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        Latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return Longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        Longitude = longitude;
     }
 }

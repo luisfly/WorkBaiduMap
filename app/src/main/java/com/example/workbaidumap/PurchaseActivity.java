@@ -19,6 +19,11 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.example.FitEntity.HttpMessageObject;
 import com.example.CommonTools.HttpUtils;
 import com.example.FitEntity.DCEntity;
@@ -130,6 +135,18 @@ public class PurchaseActivity extends AppCompatActivity {
                     });*/
 
                 }break;
+                case 3: {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder (PurchaseActivity.this);
+                    dialog.setTitle("交货");
+                    dialog.setMessage((String) msg.obj);
+                    dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+                }break;
                 case 999: {
                     // 出错处理
                     AlertDialog.Builder dialog = new AlertDialog.Builder (PurchaseActivity.this);
@@ -218,8 +235,8 @@ public class PurchaseActivity extends AppCompatActivity {
 
         // 交货确认按钮事件初始化,12.05需要修改
         purchase_commit.setOnClickListener((View v)->{
-            // 普通方式创建线程
-            new Thread(new Runnable() {
+            // 普通方式创建线程,将线程启动转移到locationlistener中
+            /*new Thread(new Runnable() {
                 @Override
                 public void run() {
                     // 传送对象初始化
@@ -233,8 +250,12 @@ public class PurchaseActivity extends AppCompatActivity {
                     updateTruckTask.setDriverNO(driver.getDriverNO());
                     updateTruckTask.setSignDriver(driver.getDriverName());
                     HttpUtils.PostSingleData("@Post_ATruckToStore", updateTruckTask);
+
+                    // 验证当前位置
+
                 }
-            }).start();
+            }).start();*/
+            initLocationOption();
         });
     }
 
@@ -324,5 +345,94 @@ public class PurchaseActivity extends AppCompatActivity {
             //虚拟键盘也透明
             //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
+    }
+
+    /**
+     * 定位监听器
+     */
+    private class PurchaseLoactionListener extends BDAbstractLocationListener {
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            //获取纬度信息
+            double latitude = location.getLatitude();
+            //获取经度信息
+            double longitude = location.getLongitude();
+
+            if (latitude != 4.94065645841247E-324 && longitude != 4.94065645841247E-324) {
+
+                // 上传当前位置还有单号信息进行验证
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 传送对象初始化
+                        UpdateTruckTask updateTruckTask = new UpdateTruckTask();
+                        updateTruckTask.setStoreNO(loStore.get(selectedStore).getsStoreNO());
+                        updateTruckTask.setDCNO(loDC.get(selectedDC).getsDCNO());
+                        updateTruckTask.setTruckLoadNO(input_ploadno.getText().toString());
+                        updateTruckTask.setPaperNO(input_ppaperno.getText().toString());
+
+                        Driver driver = (Driver) getIntent().getSerializableExtra("Driver");
+                        updateTruckTask.setDriverNO(driver.getDriverNO());
+                        updateTruckTask.setSignDriver(driver.getDriverName());
+
+                        // 添加当前位置信息，同时上传验证
+                        updateTruckTask.setLatitude(latitude);
+                        updateTruckTask.setLongitude(longitude);
+
+                        // 传输成功或者失败, 返回信息
+                        String res = HttpUtils.PostSingleData("@Post_ATruckToStore", updateTruckTask);
+                        Message message = new Message();
+
+                        message.what = 3;
+                        message.obj = res;
+
+                        handler.sendMessage(message);
+                    }
+                }).start();
+            } else {
+                Message message = new Message();
+
+                message.what = 3;
+                message.obj = "定位失败，请打开GPS";
+
+                handler.sendMessage(message);
+            }
+        }
+    }
+
+    /**
+     * 2019.9.10 连续定位功能测试，定位功能设置
+     *      9.11 发现若开启autoNotifyMode将会屏蔽掉自动扫描功能，只有当位置发生变化才会执行回调函数
+     */
+    private void initLocationOption() {
+        //定位服务的客户端。宿主程序在客户端声明此类，并调用，目前只支持在主线程中启动
+        LocationClient locationClient = new LocationClient(getApplicationContext());
+        //声明LocationClient类实例并配置定位参数
+        LocationClientOption locationOption = new LocationClientOption();
+        PurchaseActivity.PurchaseLoactionListener myLocationListener = new PurchaseActivity.PurchaseLoactionListener();
+        //注册监听函数
+        locationClient.registerLocationListener(myLocationListener);
+        //可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
+        locationOption.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+        //可选，默认gcj02，设置返回的定位结果坐标系，如果配合百度地图使用，建议设置为bd09ll;
+        locationOption.setCoorType("bd09ll");
+        //可选，默认0，即仅定位一次，设置发起连续定位请求的间隔需要大于等于1000ms才是有效的
+        locationOption.setScanSpan(0);
+        //可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
+        locationOption.setIgnoreKillProcess(true);
+        //可选，默认false，设置是否开启Gps定位
+        locationOption.setOpenGps(true);
+
+        /* 9.11 标注开启下面的自动回调模式之后定时扫描位置功能关闭，只有当位置发生变化是才会执行listener中的回调函数 */
+        //设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者，该模式下开发者无需再关心定位间隔是多少，定位SDK本身发现位置变化就会及时回调给开发者
+        //locationOption.setOpenAutoNotifyMode();
+        //设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者
+        //locationOption.setOpenAutoNotifyMode(3000,3, LocationClientOption.LOC_SENSITIVITY_HIGHT);
+
+
+        //需将配置好的LocationClientOption对象，通过setLocOption方法传递给LocationClient对象使用
+        locationClient.setLocOption(locationOption);
+        //开始定位
+        locationClient.start();
     }
 }

@@ -39,6 +39,7 @@ import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.example.CommonTools.HttpUtils;
 import com.example.FitEntity.Driver;
+import com.example.FitEntity.Location;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -333,7 +334,10 @@ public class MainActivity extends AppCompatActivity {
             // 初始化失败的点不加入绘制路径的殿中
             if (latitude != 4.9E-324 && longitude != 4.9E-324) {
                 // 发送定位信息到后台,必须新建线程发送
-                new Thread(()->{ HttpUtils.LocSend(latitude, longitude, driverNO);}).start();
+                //new Thread(()->{ HttpUtils.LocSend(latitude, longitude, driverNO);}).start();
+                new Thread(()->{
+                    HttpUtils.PostSingleData("AddLocation", new Location(latitude, longitude, driverNO));
+                }).start();
                 // 记录当前位置
                 // nowLoc.add(now);
             }
