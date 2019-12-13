@@ -81,7 +81,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="220dp"
-        android:background="#4D688E">
+        android:background="#5D82CA">
 
         <LinearLayout
             android:id="@+id/wareSelect_lt"
@@ -99,7 +99,7 @@
                 android:text="仓库" />
 
             <Spinner
-                android:id="@+id/select_ware_et"
+                android:id="@+id/select_ware_lt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 />
@@ -125,7 +125,7 @@
                 android:text="装车单号" />
 
             <EditText
-                android:id="@+id/input_p_paperno"
+                android:id="@+id/input_lt_paperno"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#FFFFFF"
@@ -152,7 +152,7 @@
                 android:src="@mipmap/qtcode" />
 
             <Button
-                android:id="@+id/qr_st"
+                android:id="@+id/qr_lt"
                 android:layout_width="120dp"
                 android:layout_height="40dp"
                 android:layout_centerVertical="true"
@@ -160,6 +160,17 @@
                 android:layout_toRightOf="@+id/start_qr_image"
                 android:background="@drawable/bg_login_input"
                 android:text="@string/qr_code_string"
+                android:textColor="#000000" />
+
+            <Button
+                android:id="@+id/lt_paperdtl_qty"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@+id/qr_lt"
+                android:background="@drawable/bg_login_input"
+                android:text="查询"
                 android:textColor="#000000" />
 
 
@@ -204,45 +215,18 @@
             android:layout_weight="1" >
 
             <Button
-                android:id="@+id/load_track_commit"
+                android:id="@+id/road_track_commit"
                 android:layout_width="350dp"
                 android:layout_margin="10dp"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:background="@drawable/bg_task_submit"
-                android:text="查询"
+                android:text="行驶路线"
                 android:textColor="#FFFFFF" />
+
 
         </RelativeLayout>
 
     </LinearLayout>
-
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="#FFFFFF">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:src="@mipmap/first_page" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:src="@mipmap/identifly" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:src="@mipmap/map" />
-
-    </LinearLayout>-->
 
 </LinearLayout>

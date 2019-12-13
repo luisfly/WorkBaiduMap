@@ -82,7 +82,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="#4D688E">
+        android:background="#5D82CA">
 
         <LinearLayout
             android:id="@+id/start_wareSelect_et"
@@ -94,7 +94,7 @@
 
             <TextView
                 android:id="@+id/start_DC"
-                android:layout_width="60dp"
+                android:layout_width="80dp"
                 android:layout_height="40dp"
                 android:gravity="center"
                 android:text="仓库" />
@@ -117,19 +117,19 @@
 
             <TextView
                 android:id="@+id/start_ploadno"
-                android:layout_width="60dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="装车单号" />
 
-            <EditText
-                android:id="@+id/start_input_paperno"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#FFFFFF"
-                android:textColor="#666666"
-                android:hint="请输入装车单号"
-                android:textColorHint="#AAAAAA"/>
+                <EditText
+                    android:id="@+id/start_input_paperno"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#FFFFFF"
+                    android:textColor="#666666"
+                    android:hint="请输入装车单号"
+                    android:textColorHint="#AAAAAA"/>
 
         </LinearLayout>
 
@@ -255,7 +255,7 @@
             android:layout_height="match_parent"
             android:layout_weight="4"
             android:orientation="vertical"
-            android:background="#D8DFE8">
+            android:background="#FFFFFF">
 
             <TextView
                 android:id="@+id/load_tray_show"
@@ -263,7 +263,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:textColor="#5E779B"
+                android:textColor="#000000"
                 android:textSize="24sp"
                 android:text="装车明细" />
 
@@ -275,7 +275,7 @@
                 android:ellipsize="end"
                 android:maxLines="5"
                 android:textSize="20sp"
-                android:background="#8B98B1" />
+                android:background="#668B98B1" />
 
         </LinearLayout>
 

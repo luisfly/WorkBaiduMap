@@ -82,7 +82,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="420dp"
-        android:background="#4D688E">
+        android:background="#5D82CA">
 
         <LinearLayout
             android:id="@+id/wareSelect_et"

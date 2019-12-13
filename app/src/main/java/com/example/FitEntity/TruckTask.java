@@ -2,11 +2,13 @@ package com.example.FitEntity;
 
 import com.example.control.NerItem;
 
+import java.io.Serializable;
+
 /**
  * 装载号数据接收类
  * 需要实现getTitleText以及getDetailText的方法
  */
-public class TruckTask extends HttpMessageObject {
+public class TruckTask extends HttpMessageObject implements Serializable {
     // 装载单号
     private String TruckPaperNO;
     // 装载号

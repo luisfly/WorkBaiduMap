@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:padding="10dp"
-    android:background="#3c65e5">
+    android:background="#1E88E5">
     
     <!-- 侧滑头像框 -->
     <!-- 头像圆形绘图调整内部图像不使用background属性，否则会导致圆形绘制失败 -->

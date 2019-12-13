@@ -3,8 +3,10 @@
     android:orientation="vertical"
     android:id="@+id/item_loadNO"
     android:layout_width="350dp"
-    android:layout_height="100dp"
+    android:layout_height="150dp"
     android:background="@drawable/bg_login_input"
+    android:divider="#000000"
+    android:showDividers="middle"
     android:layout_centerVertical="true" >
 
     <LinearLayout
@@ -24,7 +26,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="match_parent"
         android:orientation="horizontal">
 
         <TextView

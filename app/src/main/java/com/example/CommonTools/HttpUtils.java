@@ -7,7 +7,7 @@ import com.example.FitEntity.Driver;
 import com.example.FitEntity.HttpMessageObject;
 import com.example.FitEntity.Location;
 import com.example.FitEntity.Rerror;
-import com.example.workbaidumap.RecJudge;
+import com.example.FitEntity.RecJudge;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 

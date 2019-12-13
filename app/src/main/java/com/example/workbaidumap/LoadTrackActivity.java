@@ -1,18 +1,28 @@
 package com.example.workbaidumap;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.FitEntity.Driver;
 import com.example.FitEntity.HttpMessageObject;
 import com.example.CommonTools.HttpUtils;
 import com.example.FitEntity.DCEntity;
+import com.example.FitEntity.TruckTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +31,47 @@ import java.util.List;
  * 装载跟踪页面
  */
 public class LoadTrackActivity extends AppCompatActivity {
+    private Button road_track;
+    private Spinner select_ware;
+    private EditText input_paperno;
+    private Button paperdtl_qty;
+
+    private int selectedDC;
+    private List<DCEntity> loDC = new ArrayList<>();
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0: {
+                    // 获取门店实体信息传输
+                    List<String> dcList = (List<String>) msg.obj;
+
+                    // 建立Adapter并且绑定数据源,配置spinner的样式属性
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(LoadTrackActivity.this, android.R.layout.simple_spinner_item, dcList);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    // 绑定adapter
+                    select_ware.setAdapter(adapter);
+                    // 配置监听器
+                    select_ware.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view,
+                                                   int pos, long id) {
+                            String stores = dcList.get(pos);
+                            selectedDC = pos;
+                            //Toast.makeText(PurchaseActivity.this, "你点击的仓库是:"+ stores, 2000).show();
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                            // Another interface callback
+                        }
+                    });
+                }break;
+                default:break;
+            }
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +82,16 @@ public class LoadTrackActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_load_track);
 
+        road_track = (Button) findViewById(R.id.road_track_commit);
+        select_ware = (Spinner) findViewById(R.id.select_ware_lt);
+        paperdtl_qty = (Button) findViewById(R.id.lt_paperdtl_qty);
+        input_paperno = (EditText) findViewById(R.id.input_lt_paperno);
+
+        // 仓库信息获取
+        LoadTruck();
+
+        // 控件事件初始化
+        initController();
     }
 
     private void LoadTruck() {
@@ -52,17 +113,33 @@ public class LoadTrackActivity extends AppCompatActivity {
             for(HttpMessageObject obj : dcEntities) {
                 dc = (DCEntity) obj;
                 dcList.add(dc.getsDCDesc());
-                //loDC.add(dc);
+                loDC.add(dc);
             }
 
             message.obj = dcList;
             message.what = 0;
 
             // 发送消息
-            //handler.sendMessage(message);
+            handler.sendMessage(message);
 
         }).start();
 
+    }
+
+    private void initController() {
+        road_track.setOnClickListener((View v)->{
+            Intent intent = new Intent(LoadTrackActivity.this, LocationActivity.class);
+            TruckTask truckTask = new TruckTask();
+            truckTask.setSiteNO(loDC.get(selectedDC).getsDCNO());
+            truckTask.setDriverNO(((Driver) getIntent().getSerializableExtra("Driver")).getDriverNO());
+            truckTask.setTruckPaperNO(input_paperno.getText().toString());
+            intent.putExtra("PaperNO", truckTask);
+            startActivity(intent);
+        });
+
+        paperdtl_qty.setOnClickListener((View v)->{
+
+        });
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.example.workbaidumap;
+package com.example.FitEntity;
 
 /**
  * 在正式接收数据前，预接收数据，判断 fit 数据获取是否成功

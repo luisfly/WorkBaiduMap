@@ -5,18 +5,18 @@ package com.example.FitEntity;
  */
 public class Location extends HttpMessageObject {
   // 纬度
-  private double nLatitude;
+  private double Latitude;
   // 经度
-  private double nLongitude;
+  private double Longitude;
   // 用户id
-  private String sDriverNO;
+  private String DriverNO;
   // 定位时间
-  private String dLocationTime;
+  private String LocationTime;
 
   public Location(double nLatitude, double nLongitude, String sDriverNO) {
-    this.nLatitude = nLatitude;
-    this.nLongitude = nLongitude;
-    this.sDriverNO = sDriverNO;
+    this.Latitude = nLatitude;
+    this.Longitude = nLongitude;
+    this.DriverNO = sDriverNO;
   }
 
   /**
@@ -27,42 +27,42 @@ public class Location extends HttpMessageObject {
    * @param locationTime 定位时间
    */
   public Location(double latitude, double longitude, String DriverNO, String locationTime) {
-    this.nLatitude = latitude;
-    this.nLongitude = longitude;
-    this.sDriverNO = DriverNO;
-    this.dLocationTime = locationTime;
+    this.Latitude = latitude;
+    this.Longitude = longitude;
+    this.DriverNO = DriverNO;
+    this.LocationTime = locationTime;
   }
 
   public double getLatitude() {
-    return nLatitude;
+    return Latitude;
   }
 
   public void setLatitude(double latitude) {
-    this.nLatitude = latitude;
+    this.Latitude = latitude;
   }
 
   public double getLongitude() {
-    return nLongitude;
+    return Longitude;
   }
 
   public void setLongitude(double longitude) {
-    this.nLongitude = longitude;
+    this.Longitude = longitude;
   }
 
   public String getUserID() {
-    return sDriverNO;
+    return DriverNO;
   }
 
   public void setUserID(String userID) {
-    this.sDriverNO = userID;
+    this.DriverNO = userID;
   }
 
   public String getLocationTime() {
-    return dLocationTime;
+    return LocationTime;
   }
 
   public void setLocationTime(String locationTime) {
-    this.dLocationTime = locationTime;
+    this.LocationTime = locationTime;
   }
 
 }
