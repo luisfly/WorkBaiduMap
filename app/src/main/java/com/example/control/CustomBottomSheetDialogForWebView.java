@@ -11,6 +11,8 @@ import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.CommonTools.HttpUtils;
 import com.example.FitEntity.DCEntity;
@@ -29,6 +31,7 @@ import java.util.List;
 public class CustomBottomSheetDialogForWebView extends BottomSheetDialog {
     // 活动
     private Context context;
+    private FragmentActivity activity;
     private NestViewEmbeddedListView listView;
     // 传入的数据列表
     private List<? extends HttpMessageObject> nerResult;
@@ -50,7 +53,7 @@ public class CustomBottomSheetDialogForWebView extends BottomSheetDialog {
                     // 展示字符串
                     String goodsDtl = (String) msg.obj;
 
-                    AlertDialog.Builder dialog = new AlertDialog.Builder (context);
+                    /*AlertDialog.Builder dialog = new AlertDialog.Builder (context);
                     dialog.setTitle("装载商品明细");
                     dialog.setMessage(goodsDtl);
                     dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -59,7 +62,23 @@ public class CustomBottomSheetDialogForWebView extends BottomSheetDialog {
                             dialog.dismiss();
                         }
                     });
+                    dialog.show();*/
+
+                    // 改为自定义界面
+                    // CardDialogFragment cardDialog = CardDialogFragment.newInstance("装载商品明细", goodsDtl);
+                    // cardDialog.show(activity.getSupportFragmentManager(), "edit");
+
+                    CardDialog.Builder dialog = new CardDialog.Builder (context);
+                    dialog.setTitle("装载商品明细");
+                    dialog.setMessage(goodsDtl);
+                    /*dialog.("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });*/
                     dialog.show();
+
                 }break;
                 default:break;
             }
@@ -76,6 +95,7 @@ public class CustomBottomSheetDialogForWebView extends BottomSheetDialog {
         this.context = context;
         this.nerResult = nerItem;
         cardListAdapter = new CardListAdapter(context, R.layout.list_item, nerItem);
+        // activity = (FragmentActivity) getOwnerActivity();
         createView();
     }
 

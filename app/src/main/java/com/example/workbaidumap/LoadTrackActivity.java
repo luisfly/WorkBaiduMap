@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -22,9 +23,13 @@ import com.example.FitEntity.Driver;
 import com.example.FitEntity.HttpMessageObject;
 import com.example.CommonTools.HttpUtils;
 import com.example.FitEntity.DCEntity;
+import com.example.FitEntity.Rerror;
 import com.example.FitEntity.TruckTask;
+import com.example.FitEntity.TruckTaskShow;
+import com.example.control.CustomBottomSheetDialogForWebView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -35,6 +40,8 @@ public class LoadTrackActivity extends AppCompatActivity {
     private Spinner select_ware;
     private EditText input_paperno;
     private Button paperdtl_qty;
+    private TextView paper_show;
+    private Button qr_scan;
 
     private int selectedDC;
     private List<DCEntity> loDC = new ArrayList<>();
@@ -67,6 +74,34 @@ public class LoadTrackActivity extends AppCompatActivity {
                         }
                     });
                 }break;
+                case 1: {
+                    HashMap<String, List<HttpMessageObject>> res = (HashMap<String, List<HttpMessageObject>>) msg.obj;
+                    TruckTaskShow paperNO = (TruckTaskShow) res.get("tPaperNO").get(0);
+                    List<HttpMessageObject> storeDescs = res.get("tStore");
+                    List<HttpMessageObject> loadNO = res.get("tLoadNO");
+
+                    StringBuffer show
+                            = new StringBuffer().append("当前装车单号： " + paperNO.getTruckPaperNO() +
+                            "\n装载数量：" + paperNO.getLoadNum() + "\n目标门店：");
+
+                    for (HttpMessageObject storeDesc : storeDescs   ) {
+                        TruckTaskShow each = (TruckTaskShow) storeDesc;
+                        show.append(each.getStoreDesc()+":");
+                    }
+
+                    Log.d("Taskshow", show.toString());
+
+                    // 设置装车单号初略描述
+                    paper_show.setText(show.toString());
+
+                    // 点击事件配置
+                    paper_show.setOnClickListener((View v)->{
+                        // 装载明细点击展开,弹出菜单
+                        CustomBottomSheetDialogForWebView dialog =
+                                new CustomBottomSheetDialogForWebView(LoadTrackActivity.this, loadNO);
+                        dialog.show();
+                    });
+                }break;
                 default:break;
             }
         }
@@ -86,6 +121,9 @@ public class LoadTrackActivity extends AppCompatActivity {
         select_ware = (Spinner) findViewById(R.id.select_ware_lt);
         paperdtl_qty = (Button) findViewById(R.id.lt_paperdtl_qty);
         input_paperno = (EditText) findViewById(R.id.input_lt_paperno);
+        paper_show = (TextView) findViewById(R.id.paper_show_lt);
+        qr_scan = (Button) findViewById(R.id.qr_lt);
+
 
         // 仓库信息获取
         LoadTruck();
@@ -137,7 +175,44 @@ public class LoadTrackActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        // 查询装载单号信息
         paperdtl_qty.setOnClickListener((View v)->{
+            new Thread(()->{
+                TruckTask truckTask = new TruckTask();
+                truckTask.setDCNO(loDC.get(selectedDC).getsDCNO());
+                truckTask.setTruckPaperNO(input_paperno.getText().toString());
+
+                // 各返回值接收
+                HashMap<String, Class<? extends HttpMessageObject>> parm = new HashMap<>();
+                parm.put("tPaperNO", TruckTaskShow.class);
+                parm.put("tStore", TruckTaskShow.class);
+                parm.put("tLoadNO", TruckTaskShow.class);
+
+                // 查询
+                HashMap<String, List<HttpMessageObject>> res =
+                        HttpUtils.GetData("@Get_AqryPaperNO", truckTask, parm);
+
+                Message message = new Message();
+
+                // 出错时返回错误信息
+                if(res.get("error") != null) {
+                    message.what = 999;
+                    message.obj = ((Rerror) res.get("error").get(0)).getError();
+
+                    // 发送消息
+                    handler.sendMessage(message);
+                    return ;
+                }
+
+                message.obj = res;
+                message.what = 1;
+
+                // 发送消息
+                handler.sendMessage(message);
+            }).start();
+        });
+
+        qr_scan.setOnClickListener((View v)->{
 
         });
     }

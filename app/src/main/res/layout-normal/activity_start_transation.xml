@@ -129,7 +129,8 @@
                     android:background="#FFFFFF"
                     android:textColor="#666666"
                     android:hint="请输入装车单号"
-                    android:textColorHint="#AAAAAA"/>
+                    android:textColorHint="#AAAAAA"
+                    android:maxLines="1" />
 
         </LinearLayout>
 
@@ -263,7 +264,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:textColor="#000000"
+                android:textColor="#AA000000"
                 android:textSize="24sp"
                 android:text="装车明细" />
 

@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import com.example.FitEntity.HttpMessageObject;
 import com.example.CommonTools.HttpUtils;
@@ -41,7 +42,7 @@ import java.util.List;
 /**
  * 司机货物发车模块
  */
-public class StartTransationActivity extends AppCompatActivity {
+public class StartTransationActivity extends FragmentActivity {
     private Spinner start_DC;
     private Button start_commit;
     private EditText start_input_paperno;
@@ -51,6 +52,7 @@ public class StartTransationActivity extends AppCompatActivity {
     private Button start_endTrc;
     private Button start_Task;
     private Button start_LoadFollow;
+    private Button qr_scan;
 
 
     // 全局通用变量
@@ -109,9 +111,9 @@ public class StartTransationActivity extends AppCompatActivity {
                     // 点击事件配置
                     paper_show_st.setOnClickListener((View v)->{
                         // 装载明细点击展开,弹出菜单
-                        CustomBottomSheetDialogForWebView test =
+                        CustomBottomSheetDialogForWebView dialog =
                                 new CustomBottomSheetDialogForWebView(StartTransationActivity.this, loadNO);
-                        test.show();
+                        dialog.show();
                     });
 
                 }break;
@@ -164,6 +166,7 @@ public class StartTransationActivity extends AppCompatActivity {
         start_endTrc = (Button) findViewById(R.id.start_endTrc);
         start_Task = (Button) findViewById(R.id.start_Task);
         start_LoadFollow = (Button) findViewById(R.id.start_LoadFollow);
+        qr_scan = (Button) findViewById(R.id.qr_st);
 
         LoadStore();
         initController();
@@ -297,6 +300,27 @@ public class StartTransationActivity extends AppCompatActivity {
             intent.putExtra("Driver", (Driver) getIntent().getSerializableExtra("Driver"));
             startActivity(intent);
         });
+
+        // 二维码扫描
+        qr_scan.setOnClickListener((View v)->{
+            Intent intent = new Intent(StartTransationActivity.this, QrScanActivity.class);
+            startActivityForResult(intent, 1);
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1:{
+                if (resultCode == RESULT_OK) {
+                    String resultdata = data.getStringExtra("data_return");
+                    start_input_paperno.setText(resultdata);
+                }
+                break;
+            }
+            default:break;
+        }
     }
 
     /**
