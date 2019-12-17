@@ -81,7 +81,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         android:background="#5D82CA">
 
         <LinearLayout
@@ -181,7 +181,7 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
+        <!--<RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="90dp"
             android:layout_below="@+id/qr_code">
@@ -212,7 +212,7 @@
 
             </RelativeLayout>
 
-        </RelativeLayout>
+        </RelativeLayout>-->
 
 
     </RelativeLayout>
@@ -264,7 +264,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:textColor="#AA000000"
+                android:textColor="#5E779B"
                 android:textSize="24sp"
                 android:text="装车明细" />
 
@@ -276,7 +276,8 @@
                 android:ellipsize="end"
                 android:maxLines="5"
                 android:textSize="20sp"
-                android:background="#668B98B1" />
+                android:textColor="#000000"
+                android:background="@drawable/bg_dtl" />
 
         </LinearLayout>
 

@@ -213,8 +213,25 @@ public class LoadTrackActivity extends AppCompatActivity {
         });
 
         qr_scan.setOnClickListener((View v)->{
-
+            Intent intent = new Intent(LoadTrackActivity.this, QrScanActivity.class);
+            startActivityForResult(intent, 1);
         });
+    }
+
+    // 扫描后返回信息
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1:{
+                if (resultCode == RESULT_OK) {
+                    String resultdata = data.getStringExtra("data_return");
+                    input_paperno.setText(resultdata);
+                }
+                break;
+            }
+            default:break;
+        }
     }
 
     /**

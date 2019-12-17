@@ -81,7 +81,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="420dp"
+        android:layout_height="wrap_content"
         android:background="#5D82CA">
 
         <LinearLayout
@@ -132,38 +132,54 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/paperno_et"
-            android:layout_width="350dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/storeSelect_et"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
-            android:background="@drawable/bg_tran_task">
+        <RelativeLayout
+            android:id="@+id/paperno_ly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/storeSelect_et" >
 
-            <TextView
-                android:id="@+id/p_paperno"
-                android:layout_width="60dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="装车单号" />
+            <LinearLayout
+                android:id="@+id/paperno_et"
+                android:layout_width="350dp"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dp"
+                android:background="@drawable/bg_tran_task">
 
-            <EditText
-                android:id="@+id/input_p_paperno"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#FFFFFF"
-                android:textColor="#666666"
-                android:hint="请输入装车单号"
-                android:textColorHint="#AAAAAA"/>
+                <TextView
+                    android:id="@+id/p_paperno"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="装车单号" />
 
-        </LinearLayout>
+                <EditText
+                    android:id="@+id/input_p_paperno"
+                    android:layout_width="240dp"
+                    android:layout_height="match_parent"
+                    android:background="#FFFFFF"
+                    android:textColor="#666666"
+                    android:hint="请输入装车单号"
+                    android:maxLines="1"
+                    android:textColorHint="#AAAAAA"/>
+
+                <ImageButton
+                    android:id="@+id/paperno_qr_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="3dp"
+                    android:background="@drawable/bg_login_input"
+                    android:src="@mipmap/qtcode"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/loadno_et"
             android:layout_width="350dp"
             android:layout_height="40dp"
-            android:layout_below="@+id/paperno_et"
+            android:layout_below="@+id/paperno_ly"
             android:layout_centerHorizontal="true"
             android:layout_margin="10dp"
             android:background="@drawable/bg_tran_task">
@@ -182,6 +198,7 @@
                 android:background="#FFFFFF"
                 android:textColor="#666666"
                 android:hint="请输入装载号"
+                android:maxLines="1"
                 android:textColorHint="#AAAAAA"/>
 
         </LinearLayout>
@@ -233,7 +250,7 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
+        <!-- <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="90dp"
             android:layout_below="@+id/qr_code">
@@ -264,7 +281,7 @@
 
             </RelativeLayout>
 
-        </RelativeLayout>
+        </RelativeLayout>-->
 
 
     </RelativeLayout>
@@ -297,7 +314,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:textColor="#FFFFFF"
-                android:background="#8B98B1" />
+                android:background="@drawable/bg_dtl" />
 
         </LinearLayout>
 

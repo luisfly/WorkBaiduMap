@@ -156,8 +156,9 @@ public class TaskActivity extends AppCompatActivity {
 
     /**
      * 获取商品明细,现在未配置参数
+     * 现在废弃
      */
-    private void GoodsDtl() {
+    /*private void GoodsDtl() {
         // 启动线程处理网络任务
         new Thread(()->{
             TruckGoods truckGoods = new TruckGoods();
@@ -186,7 +187,7 @@ public class TaskActivity extends AppCompatActivity {
             handler.sendMessage(message);
 
         }).start();
-    }
+    }*/
 
     /**
      * 全透明沉浸式状态栏方法

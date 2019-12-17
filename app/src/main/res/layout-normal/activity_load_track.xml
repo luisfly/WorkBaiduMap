@@ -131,6 +131,7 @@
                 android:background="#FFFFFF"
                 android:textColor="#666666"
                 android:hint="请输入装车单号"
+                android:maxLines="1"
                 android:textColorHint="#AAAAAA"/>
 
         </LinearLayout>

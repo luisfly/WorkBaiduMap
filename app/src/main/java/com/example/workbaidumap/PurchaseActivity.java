@@ -1,6 +1,7 @@
 package com.example.workbaidumap;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -53,6 +55,7 @@ public class PurchaseActivity extends AppCompatActivity {
     private EditText input_ploadno;
     private EditText input_ppaperno;
     private TextView loaddtl_et;
+    private ImageButton paperno_qr_et;
     // 全局通用变量
     private List<Store> loStore = new ArrayList<>();
     private List<DCEntity> loDC = new ArrayList<>();
@@ -181,6 +184,7 @@ public class PurchaseActivity extends AppCompatActivity {
         paperDtl = (Button) findViewById(R.id.p_paperdtl_qty);
         input_ppaperno = (EditText) findViewById(R.id.input_p_paperno);
         loaddtl_et = (TextView) findViewById(R.id.loaddtl_et);
+        paperno_qr_et = (ImageButton) findViewById(R.id.paperno_qr_et);
 
         // 加载门店下拉列表
         LoadStore();
@@ -235,27 +239,12 @@ public class PurchaseActivity extends AppCompatActivity {
 
         // 交货确认按钮事件初始化,12.05需要修改
         purchase_commit.setOnClickListener((View v)->{
-            // 普通方式创建线程,将线程启动转移到locationlistener中
-            /*new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    // 传送对象初始化
-                    UpdateTruckTask updateTruckTask = new UpdateTruckTask();
-                    updateTruckTask.setStoreNO(loStore.get(selectedStore).getsStoreNO());
-                    updateTruckTask.setDCNO(loDC.get(selectedDC).getsDCNO());
-                    updateTruckTask.setTruckLoadNO(input_ploadno.getText().toString());
-                    updateTruckTask.setPaperNO(input_ppaperno.getText().toString());
-
-                    Driver driver = (Driver) getIntent().getSerializableExtra("Driver");
-                    updateTruckTask.setDriverNO(driver.getDriverNO());
-                    updateTruckTask.setSignDriver(driver.getDriverName());
-                    HttpUtils.PostSingleData("@Post_ATruckToStore", updateTruckTask);
-
-                    // 验证当前位置
-
-                }
-            }).start();*/
             initLocationOption();
+        });
+
+        paperno_qr_et.setOnClickListener((View v)->{
+            Intent intent = new Intent(PurchaseActivity.this, QrScanActivity.class);
+            startActivityForResult(intent, 1);
         });
     }
 
@@ -321,6 +310,21 @@ public class PurchaseActivity extends AppCompatActivity {
 
         }).start();
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1:{
+                if (resultCode == RESULT_OK) {
+                    String resultdata = data.getStringExtra("data_return");
+                    input_ppaperno.setText(resultdata);
+                }
+                break;
+            }
+            default:break;
+        }
     }
 
     /**
