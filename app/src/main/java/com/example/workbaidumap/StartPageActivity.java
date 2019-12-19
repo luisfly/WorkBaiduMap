@@ -44,6 +44,7 @@ public class StartPageActivity extends AppCompatActivity {
         public void run() {
             Intent intent = new Intent(StartPageActivity.this, LoginActivity.class);
             startActivity(intent);
+            finish();
         }
     };
 
@@ -89,6 +90,11 @@ public class StartPageActivity extends AppCompatActivity {
 
         // 状态栏自动隐藏
         getWindow().getDecorView().setSystemUiVisibility(View.INVISIBLE);
+
+        if((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0){
+            finish();
+            return;
+        }
     }
 
     /**
@@ -97,7 +103,7 @@ public class StartPageActivity extends AppCompatActivity {
     private void delay() {
         // 使用 handler 延时展示
         handler.postDelayed(task, 2000);
-        handler.postDelayed(subtask, 4000);
+        handler.postDelayed(subtask, 2000);
         handler.postDelayed(nextPage, 6000);
     }
 }

@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="46dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="400dp"
                 android:layout_height="40dp"
                 android:layout_marginRight="5dp"
@@ -30,16 +30,17 @@
                 android:background="@drawable/function_selector">
 
                 <Button
-                    android:id="@+id/start_startTrc"
+                    android:id="@+id/lt_startTrc"
                     android:layout_width="96dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
                     android:background="#3871DE"
+                    android:layout_weight="1"
                     android:text="发车"
                     android:textColor="#FFFFFF" />
 
                 <Button
-                    android:id="@+id/start_endTrc"
+                    android:id="@+id/lt_endTrc"
                     android:layout_width="96dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
@@ -50,7 +51,7 @@
                     android:textColor="#FFFFFF" />
 
                 <Button
-                    android:id="@+id/start_Task"
+                    android:id="@+id/lt_Task"
                     android:layout_width="96dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
@@ -61,7 +62,7 @@
                     android:textColor="#FFFFFF" />
 
                 <Button
-                    android:id="@+id/start_LoadFollow"
+                    android:id="@+id/lt_LoadFollow"
                     android:layout_width="97dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
@@ -71,7 +72,7 @@
                     android:text="装载跟踪"
                     android:textColor="#3871DE" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </RelativeLayout>
 
@@ -128,7 +129,7 @@
                 android:id="@+id/input_lt_paperno"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#FFFFFF"
+                android:background="@drawable/bg_rhalf_input"
                 android:textColor="#666666"
                 android:hint="请输入装车单号"
                 android:maxLines="1"
@@ -189,7 +190,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_weight="3"
-            android:background="#D8DFE8">
+            android:background="#FFF">
 
             <TextView
                 android:id="@+id/load_tray_show"
@@ -201,12 +202,25 @@
                 android:textSize="24sp"
                 android:text="装车明细" />
 
-            <TextView
-                android:id="@+id/paper_show_lt"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:background="#8B98B1" />
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/bg_dtl">
+
+                <TextView
+                    android:id="@+id/paper_show_lt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:scrollbars="vertical"
+                    android:textSize="20sp"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/bg_dtl" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -100,7 +100,7 @@ public class HttpUtils {
             //RequestBody requestBody = new FormBody.Builder().add("driver", Jdriver).build();
 
             // post方法
-            Request request = new Request.Builder().url("http://192.168.0.247:2088/api/GetData").post(requestBody)
+            Request request = new Request.Builder().url("http://pygo.vicp.net:2088/api/GetData").post(requestBody)
                     .build();
 
             Response response = client.newCall(request).execute();
@@ -149,7 +149,7 @@ public class HttpUtils {
             RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), loc);
 
             // post方法
-            Request request = new Request.Builder().url("http://192.168.0.247:2088/api/GetData").post(requestBody)
+            Request request = new Request.Builder().url("http://pygo.vicp.net:2088/api/GetData").post(requestBody)
                     .build();
 
 
@@ -189,7 +189,7 @@ public class HttpUtils {
             RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), postObject);
 
             // post方法,将数据保存在报文主体
-            Request request = new Request.Builder().url("http://192.168.0.247:2088/api/GetData").post(requestBody)
+            Request request = new Request.Builder().url("http://pygo.vicp.net:2088/api/GetData").post(requestBody)
                     .build();
 
             Response response = client.newCall(request).execute();
@@ -255,7 +255,7 @@ public class HttpUtils {
             RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), sendJson);
 
             // post方法
-            Request request = new Request.Builder().url("http://192.168.0.247:2088/api/GetData").post(requestBody)
+            Request request = new Request.Builder().url("http://pygo.vicp.net:2088/api/GetData").post(requestBody)
                     .build();
 
             Response response = client.newCall(request).execute();
@@ -326,7 +326,7 @@ public class HttpUtils {
             RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), sendJson);
 
             // post方法
-            Request request = new Request.Builder().url("http://192.168.0.247:2088/api/GetData").post(requestBody)
+            Request request = new Request.Builder().url("http://pygo.vicp.net:2088/api/GetData").post(requestBody)
                     .build();
 
             Response response = client.newCall(request).execute();
@@ -398,7 +398,7 @@ public class HttpUtils {
             RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), sendJson);
 
             // post方法
-            Request request = new Request.Builder().url("http://192.168.0.247:2088/api/GetData").post(requestBody)
+            Request request = new Request.Builder().url("http://pygo.vicp.net:2088/api/GetData").post(requestBody)
                     .build();
 
             Response response = client.newCall(request).execute();

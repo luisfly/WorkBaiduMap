@@ -27,6 +27,8 @@ public class QrScanActivity extends AppCompatActivity {
     public void onCreate(Bundle state) {
         super.onCreate(state);
         activity = this;
+
+        setStatusBarFullTransparent();
         setContentView(R.layout.activity_qr_scan);
 
         mQRCodeView = (ZXingView) findViewById(R.id.zxingview);

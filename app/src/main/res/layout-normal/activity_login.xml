@@ -9,8 +9,8 @@
     tools:context=".LoginActivity">
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="75dp"
+        android:layout_height="80dp"
         android:layout_above="@+id/name"
         android:layout_centerHorizontal="true"
         android:src="@mipmap/rzcd"/>
@@ -22,6 +22,7 @@
         android:layout_above="@+id/userly"
         android:layout_centerHorizontal="true"
         android:text="锐志诚达"
+        android:layout_marginBottom="15dp"
         android:textColor="#FFFFFF"
         android:textSize="24sp" />
 
@@ -30,7 +31,7 @@
         android:layout_width="350dp"
         android:layout_height="40dp"
         android:layout_above="@+id/passwordly"
-        android:layout_margin="30dp"
+        android:layout_marginBottom="30dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/bg_login_input" >
 
@@ -61,9 +62,8 @@
         android:id="@+id/passwordly"
         android:layout_width="350dp"
         android:layout_height="40dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
         android:layout_centerInParent="true"
+        android:layout_above="@+id/submit"
         android:background="@drawable/bg_login_input">
 
         <ImageView
@@ -93,8 +93,7 @@
         android:id="@+id/submit"
         android:layout_width="350dp"
         android:layout_height="40dp"
-        android:layout_below="@+id/passwordly"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:layout_margin="40dp"
         android:background="@drawable/bg_login_submit"
         android:textColor="#FFFFFF"

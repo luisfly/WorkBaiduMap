@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -178,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
                         drawRoad();
                     }
                     break;
-                    case R.id.offMap:{
+                    /*case R.id.offMap:{
                         // 离线地图下载
                     }
                     break;
@@ -194,17 +195,17 @@ public class MainActivity extends AppCompatActivity {
                         //mBaiduMap.clear();
                         //clicked = false;
                     }
-                    break;
+                    break;*/
                     case R.id.shop: {
                         Intent intent = new Intent(MainActivity.this, WebShopActivity.class);
                         startActivity(intent);
                     }
                     break;
-                    case R.id.originLoc: {
+                    /*case R.id.originLoc: {
                         Intent intent = new Intent(MainActivity.this, NotAPILocationActivity.class);
                         startActivity(intent);
                     }
-                    break;
+                    break;*/
                     // 我的任务
                     case R.id.task: {
                         Intent intent = new Intent(MainActivity.this, TaskActivity.class);
@@ -234,12 +235,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
                     // 测试
-                    case R.id.controller_test: {
+                    /*case R.id.controller_test: {
                         Intent intent = new Intent(MainActivity.this, ControllerTestActivity.class);
                         intent.putExtra("Driver", driver);
                         startActivity(intent);
                     }
-                    break;
+                    break;*/
                     default:
                 }
                 return false;
@@ -331,12 +332,14 @@ public class MainActivity extends AppCompatActivity {
             // 将当前位置存储在数组中,当点过多时必定会出现内存溢出情况
             // 必须要有去除无用点的机制
             LatLng now = new LatLng(latitude, longitude);
+
+
             // 初始化失败的点不加入绘制路径的殿中
             if (latitude != 4.9E-324 && longitude != 4.9E-324) {
                 // 发送定位信息到后台,必须新建线程发送
                 //new Thread(()->{ HttpUtils.LocSend(latitude, longitude, driverNO);}).start();
                 new Thread(()->{
-                    HttpUtils.PostSingleData("AddLocation", new Location(latitude, longitude, driverNO));
+                    HttpUtils.PostSingleData("AddLocation", new Location(latitude, longitude, driverNO, location.getTime()));
                 }).start();
                 // 记录当前位置
                 // nowLoc.add(now);
@@ -370,7 +373,7 @@ public class MainActivity extends AppCompatActivity {
 
             // 单纯计数值，到时候应该要删除
             // count++;
-            //Toast.makeText(this, "纬度：" + latitude + " 经度：" + longitude + " 计数： " + count, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "纬度：" + latitude + " 经度：" + longitude + " 计数： " + count, Toast.LENGTH_SHORT).show();
             /* 当前位置显示构造器 */
             MyLocationData.Builder locationBuilder = new MyLocationData.Builder();
             /* 设置当前位置 */
@@ -510,7 +513,7 @@ public class MainActivity extends AppCompatActivity {
         //可选，默认gcj02，设置返回的定位结果坐标系，如果配合百度地图使用，建议设置为bd09ll;
         locationOption.setCoorType("bd09ll");
         //可选，默认0，即仅定位一次，设置发起连续定位请求的间隔需要大于等于1000ms才是有效的
-        locationOption.setScanSpan(8000);
+        locationOption.setScanSpan(30000);
         //可选，设置是否需要地址信息，默认不需要
         locationOption.setIsNeedAddress(true);
         //可选，设置是否需要地址描述
@@ -534,9 +537,9 @@ public class MainActivity extends AppCompatActivity {
 
         /* 9.11 标注开启下面的自动回调模式之后定时扫描位置功能关闭，只有当位置发生变化是才会执行listener中的回调函数 */
         //设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者，该模式下开发者无需再关心定位间隔是多少，定位SDK本身发现位置变化就会及时回调给开发者
-        locationOption.setOpenAutoNotifyMode();
+        //locationOption.setOpenAutoNotifyMode();
         //设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者
-        locationOption.setOpenAutoNotifyMode(3000,3, LocationClientOption.LOC_SENSITIVITY_HIGHT);
+        //locationOption.setOpenAutoNotifyMode(3000,3, LocationClientOption.LOC_SENSITIVITY_HIGHT);
 
 
         //需将配置好的LocationClientOption对象，通过setLocOption方法传递给LocationClient对象使用

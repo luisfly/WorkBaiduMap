@@ -1,14 +1,17 @@
 package com.example.workbaidumap;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +37,9 @@ import java.util.List;
 public class TaskActivity extends AppCompatActivity {
     private HashMap<String, List<HttpMessageObject>> res = new HashMap<>();
     private TextView loadtask;
+    private Button task_startTrc;
+    private Button task_endTrc;
+    private Button task_LoadFollow;
 
     private Handler handler = new Handler(){
 
@@ -86,12 +92,47 @@ public class TaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_task);
 
         loadtask = (TextView) findViewById(R.id.loadtask);
+        task_startTrc = (Button) findViewById(R.id.task_startTrc);
+        task_endTrc = (Button) findViewById(R.id.task_endTrc);
+        task_LoadFollow = (Button) findViewById(R.id.task_LoadFollow);
 
         // 获取当前司机的装载单号详细信息
         LoadTruck();
 
         // 测试
         // GoodsDtl();
+
+        // 控件初始化
+        initController();
+    }
+
+    /**
+     * 按钮事件初始化
+     */
+    private void initController() {
+        task_startTrc.setOnClickListener((View v)->{
+            Intent intent = new Intent(TaskActivity.this, StartTransationActivity.class);
+            intent.putExtra("Driver", (Driver) getIntent().getSerializableExtra("Driver"));
+            startActivity(intent);
+            finish();
+        });
+
+        task_endTrc.setOnClickListener((View v)->{
+            Intent intent = new Intent(TaskActivity.this, PurchaseActivity.class);
+            intent.putExtra("Driver", (Driver) getIntent().getSerializableExtra("Driver"));
+            startActivity(intent);
+            finish();
+        });
+
+        task_LoadFollow.setOnClickListener((View v)->{
+            Intent intent = new Intent(TaskActivity.this, LoadTrackActivity.class);
+            intent.putExtra("Driver", (Driver) getIntent().getSerializableExtra("Driver"));
+            startActivity(intent);
+            finish();
+        });
+
+        // textview 滚动设置
+        loadtask.setMovementMethod(ScrollingMovementMethod.getInstance());
     }
 
     // 获取当前司机的装载单情况

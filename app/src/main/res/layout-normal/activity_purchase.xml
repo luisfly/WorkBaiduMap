@@ -30,7 +30,7 @@
                 android:background="@drawable/function_selector">
 
                 <Button
-                    android:id="@+id/startTrc"
+                    android:id="@+id/pur_startTrc"
                     android:layout_width="96dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
@@ -51,7 +51,7 @@
                     android:textColor="#3871DE" />
 
                 <Button
-                    android:id="@+id/Task"
+                    android:id="@+id/pur_task"
                     android:layout_width="96dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
@@ -62,7 +62,7 @@
                     android:textColor="#FFFFFF" />
 
                 <Button
-                    android:id="@+id/LoadFollow"
+                    android:id="@+id/pur_loadfollow"
                     android:layout_width="97dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
@@ -167,8 +167,7 @@
                     android:id="@+id/paperno_qr_et"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="3dp"
-                    android:background="@drawable/bg_login_input"
+                    android:background="@drawable/bg_rhalf_input"
                     android:src="@mipmap/qtcode"/>
 
             </LinearLayout>
@@ -195,7 +194,7 @@
                 android:id="@+id/input_ploadno"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#FFFFFF"
+                android:background="@drawable/bg_rhalf_input"
                 android:textColor="#666666"
                 android:hint="请输入装载号"
                 android:maxLines="1"
@@ -296,7 +295,7 @@
             android:layout_height="220dp"
             android:layout_weight="3"
             android:orientation="vertical"
-            android:background="#D8DFE8">
+            android:background="#FFFFFF">
 
             <TextView
                 android:id="@+id/load_tray_show"
@@ -308,13 +307,25 @@
                 android:textSize="24sp"
                 android:text="装载明细" />
 
-            <TextView
-                android:id="@+id/loaddtl_et"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:textColor="#FFFFFF"
-                android:background="@drawable/bg_dtl" />
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/bg_dtl">
+
+                <TextView
+                    android:id="@+id/loaddtl_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:textSize="20sp"
+                    android:textColor="#000000"
+                    android:scrollbars="vertical"
+                    android:background="@drawable/bg_dtl" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -334,14 +345,14 @@
                 android:text="交货确认" />
 
             <Button
-                android:id="@+id/cancel"
+                android:id="@+id/pur_cancel"
                 android:layout_width="match_parent"
                 android:layout_margin="10dp"
                 android:layout_toRightOf="@+id/purchase_commit"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:background="@drawable/bg_task_cancel"
-                android:text="取消" />
+                android:text="返回" />
 
         </RelativeLayout>
 

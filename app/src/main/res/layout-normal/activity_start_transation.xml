@@ -94,7 +94,7 @@
 
             <TextView
                 android:id="@+id/start_DC"
-                android:layout_width="80dp"
+                android:layout_width="60dp"
                 android:layout_height="40dp"
                 android:gravity="center"
                 android:text="仓库" />
@@ -117,7 +117,7 @@
 
             <TextView
                 android:id="@+id/start_ploadno"
-                android:layout_width="80dp"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="装车单号" />
@@ -126,7 +126,7 @@
                     android:id="@+id/start_input_paperno"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#FFFFFF"
+                    android:background="@drawable/bg_rhalf_input"
                     android:textColor="#666666"
                     android:hint="请输入装车单号"
                     android:textColorHint="#AAAAAA"
@@ -268,16 +268,26 @@
                 android:textSize="24sp"
                 android:text="装车明细" />
 
-            <TextView
-                android:id="@+id/paper_show_st"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:ellipsize="end"
-                android:maxLines="5"
-                android:textSize="20sp"
-                android:textColor="#000000"
-                android:background="@drawable/bg_dtl" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_dtl" >
+
+                <TextView
+                    android:id="@+id/paper_show_st"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:ellipsize="end"
+                    android:textSize="20sp"
+                    android:scrollbars="vertical"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/bg_dtl" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -95,12 +96,12 @@ public class StartTransationActivity extends FragmentActivity {
                     List<HttpMessageObject> loadNO = res.get("tLoadNO");
 
                     StringBuffer show
-                            = new StringBuffer().append("当前装车单号： " + paperNO.getTruckPaperNO() +
-                                "\n装载数量：" + paperNO.getLoadNum() + "\n目标门店：");
+                            = new StringBuffer().append("当前装车单号：\n " + paperNO.getTruckPaperNO() +
+                                "\n装载数量：" + paperNO.getLoadNum() + "\n目标门店：\n");
 
                     for (HttpMessageObject storeDesc : storeDescs   ) {
                         TruckTaskShow each = (TruckTaskShow) storeDesc;
-                        show.append(each.getStoreDesc()+":");
+                        show.append(each.getStoreDesc()+"\n");
                     }
 
                     Log.d("Taskshow", show.toString());
@@ -287,18 +288,21 @@ public class StartTransationActivity extends FragmentActivity {
             Intent intent = new Intent(StartTransationActivity.this, PurchaseActivity.class);
             intent.putExtra("Driver", (Driver) getIntent().getSerializableExtra("Driver"));
             startActivity(intent);
+            finish();
         });
 
         start_Task.setOnClickListener((View v)->{
             Intent intent = new Intent(StartTransationActivity.this, TaskActivity.class);
             intent.putExtra("Driver", (Driver) getIntent().getSerializableExtra("Driver"));
             startActivity(intent);
+            finish();
         });
 
         start_LoadFollow.setOnClickListener((View v)->{
             Intent intent = new Intent(StartTransationActivity.this, LoadTrackActivity.class);
             intent.putExtra("Driver", (Driver) getIntent().getSerializableExtra("Driver"));
             startActivity(intent);
+            finish();
         });
 
         // 二维码扫描
@@ -306,8 +310,17 @@ public class StartTransationActivity extends FragmentActivity {
             Intent intent = new Intent(StartTransationActivity.this, QrScanActivity.class);
             startActivityForResult(intent, 1);
         });
+
+        // textview 滚动设置
+        paper_show_st.setMovementMethod(ScrollingMovementMethod.getInstance());
     }
 
+    /**
+     * 扫码返回装载单号
+     * @param requestCode 请求码
+     * @param resultCode 查询结果码
+     * @param data 数据
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

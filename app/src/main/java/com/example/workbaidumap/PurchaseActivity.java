@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -51,6 +52,10 @@ public class PurchaseActivity extends AppCompatActivity {
     private Spinner spinner;
     private Spinner wareSelect;
     private Button purchase_commit;
+    private Button pur_cancel;
+    private Button pur_task;
+    private Button pur_loadfollow;
+    private Button pur_startTrc;
     private Button paperDtl;
     private EditText input_ploadno;
     private EditText input_ppaperno;
@@ -185,6 +190,11 @@ public class PurchaseActivity extends AppCompatActivity {
         input_ppaperno = (EditText) findViewById(R.id.input_p_paperno);
         loaddtl_et = (TextView) findViewById(R.id.loaddtl_et);
         paperno_qr_et = (ImageButton) findViewById(R.id.paperno_qr_et);
+        pur_cancel = (Button) findViewById(R.id.pur_cancel);
+        pur_loadfollow = (Button) findViewById(R.id.pur_loadfollow);
+        pur_startTrc = (Button) findViewById(R.id.pur_startTrc);
+        pur_task = (Button) findViewById(R.id.pur_task);
+
 
         // 加载门店下拉列表
         LoadStore();
@@ -246,6 +256,36 @@ public class PurchaseActivity extends AppCompatActivity {
             Intent intent = new Intent(PurchaseActivity.this, QrScanActivity.class);
             startActivityForResult(intent, 1);
         });
+
+        // 返回
+        pur_cancel.setOnClickListener((View v)->{
+            PurchaseActivity.this.finish();
+        });
+
+        // 上侧控件初始化
+        pur_startTrc.setOnClickListener((View v)->{
+            Intent intent = new Intent(PurchaseActivity.this, StartTransationActivity.class);
+            intent.putExtra("Driver", (Driver) getIntent().getSerializableExtra("Driver"));
+            startActivity(intent);
+            finish();
+        });
+
+        pur_task.setOnClickListener((View v)->{
+            Intent intent = new Intent(PurchaseActivity.this, TaskActivity.class);
+            intent.putExtra("Driver", (Driver) getIntent().getSerializableExtra("Driver"));
+            startActivity(intent);
+            finish();
+        });
+
+        pur_loadfollow.setOnClickListener((View v)->{
+            Intent intent = new Intent(PurchaseActivity.this, LoadTrackActivity.class);
+            intent.putExtra("Driver", (Driver) getIntent().getSerializableExtra("Driver"));
+            startActivity(intent);
+            finish();
+        });
+
+        // textview 滚动设置
+        loaddtl_et.setMovementMethod(ScrollingMovementMethod.getInstance());
     }
 
     /**
@@ -312,6 +352,12 @@ public class PurchaseActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * 扫码返回值
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

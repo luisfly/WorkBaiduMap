@@ -91,11 +91,11 @@ public class TruckTaskShow extends HttpMessageObject {
 
     @Override
     public String getTitleText() {
-        return "装载号：" + TruckLoadNO;
+        return "装载号 " + TruckLoadNO;
     }
 
     @Override
     public String getDetailText() {
-        return "目标门店：" + StoreDesc + "\n";
+        return "目标门店 \n" + StoreDesc + "\n";
     }
 }

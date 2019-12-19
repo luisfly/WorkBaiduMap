@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -42,6 +43,9 @@ public class LoadTrackActivity extends AppCompatActivity {
     private Button paperdtl_qty;
     private TextView paper_show;
     private Button qr_scan;
+    private Button lt_startTrc;
+    private Button lt_endTrc;
+    private Button lt_task;
 
     private int selectedDC;
     private List<DCEntity> loDC = new ArrayList<>();
@@ -123,6 +127,9 @@ public class LoadTrackActivity extends AppCompatActivity {
         input_paperno = (EditText) findViewById(R.id.input_lt_paperno);
         paper_show = (TextView) findViewById(R.id.paper_show_lt);
         qr_scan = (Button) findViewById(R.id.qr_lt);
+        lt_startTrc = (Button) findViewById(R.id.lt_startTrc);
+        lt_endTrc = (Button) findViewById(R.id.lt_endTrc);
+        lt_task = (Button) findViewById(R.id.lt_Task);
 
 
         // 仓库信息获取
@@ -216,9 +223,39 @@ public class LoadTrackActivity extends AppCompatActivity {
             Intent intent = new Intent(LoadTrackActivity.this, QrScanActivity.class);
             startActivityForResult(intent, 1);
         });
+
+        // 上次按钮初始化
+        lt_startTrc.setOnClickListener((View v)->{
+            Intent intent = new Intent(LoadTrackActivity.this, StartTransationActivity.class);
+            intent.putExtra("Driver", (Driver) getIntent().getSerializableExtra("Driver"));
+            startActivity(intent);
+            finish();
+        });
+
+        lt_endTrc.setOnClickListener((View v)->{
+            Intent intent = new Intent(LoadTrackActivity.this, PurchaseActivity.class);
+            intent.putExtra("Driver", (Driver) getIntent().getSerializableExtra("Driver"));
+            startActivity(intent);
+            finish();
+        });
+
+        lt_task.setOnClickListener((View v)->{
+            Intent intent = new Intent(LoadTrackActivity.this, TaskActivity.class);
+            intent.putExtra("Driver", (Driver) getIntent().getSerializableExtra("Driver"));
+            startActivity(intent);
+            finish();
+        });
+
+        // textview 滚动设置
+        paper_show.setMovementMethod(ScrollingMovementMethod.getInstance());
     }
 
-    // 扫描后返回信息
+    /**
+     * 扫码返回装载单号
+     * @param requestCode 请求码
+     * @param resultCode 查询结果码
+     * @param data 数据
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

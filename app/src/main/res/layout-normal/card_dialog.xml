@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_login_input" >
+
+    <TextView
+        android:id="@+id/card_title"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:background="@drawable/bg_goods"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/card_message"
+        android:layout_width="400dp"
+        android:layout_height="540dp"
+        android:textSize="18sp"
+        android:textColor="#000000" />
+
+    <LinearLayout
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_goods"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/return_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="确定"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -12,7 +12,7 @@
             android:icon="@mipmap/show"
             android:title="清除路径" />-->
 
-        <item
+        <!--<item
             android:id="@+id/offMap"
             android:icon="@mipmap/logistics"
             android:title="离线地图" />
@@ -20,7 +20,7 @@
         <item
             android:id="@+id/post"
             android:icon="@mipmap/show"
-            android:title="发送测试" />
+            android:title="发送测试" />-->
 
 
         <item
@@ -28,35 +28,35 @@
             android:icon="@mipmap/buy"
             android:title="我的商城" />
 
-        <item
+        <!--<item
             android:id="@+id/originLoc"
             android:icon="@mipmap/buy"
-            android:title="原生定位" />
+            android:title="原生定位" />-->
 
         <item
             android:id="@+id/startTra"
-            android:icon="@mipmap/buy"
+            android:icon="@mipmap/transation"
             android:title="发车" />
 
         <item
             android:id="@+id/EndTra"
-            android:icon="@mipmap/buy"
+            android:icon="@mipmap/purchase"
             android:title="交货" />
 
         <item
             android:id="@+id/task"
-            android:icon="@mipmap/buy"
+            android:icon="@mipmap/task"
             android:title="我的任务" />
 
         <item
             android:id="@+id/LoadFollow"
-            android:icon="@mipmap/buy"
+            android:icon="@mipmap/logistics"
             android:title="任务跟踪" />
 
-        <item
+        <!--<item
             android:id="@+id/controller_test"
             android:icon="@mipmap/buy"
-            android:title="控件测试" />
+            android:title="控件测试" />-->
 
     </group>
 </menu>
